@@ -844,23 +844,31 @@ function compareCrawls(oldJson, newJson) {
     };
   }
 
-  // Redirection: redirection is "true" or final host is different registrable domain
-  const isRedir = String(newRec.redirection || '').toLowerCase() === 'true';
-  const newHostDomain = newRec.url ? getDomain(newRec.url) : null;
-  const oldHostDomain = oldNormDomain ? getDomain(oldNormDomain) : (oldRec.url ? getDomain(oldRec.url) : null);
-  const domainChanged = Boolean(newHostDomain && oldHostDomain && newHostDomain !== oldHostDomain);
+  // Redirection: domain_redirect may ONLY fire when the FINAL host's registrable domain (via tldts)
+  // differs from the target domain AND differs from the old snapshot's final host.
+  // Apex to www, http to https, trailing-slash/path redirects and subdomain redirects within the same
+  // registrable domain are NOT redirects: continue with the full field comparison.
+  const targetRegistrableDomain = getDomain(domain) || domain;
+  const newFinalHostDomain = newRec.url ? getDomain(newRec.url) : targetRegistrableDomain;
+  const oldFinalHostDomain = oldRec.url ? getDomain(oldRec.url) : (oldNormDomain ? getDomain(oldNormDomain) : targetRegistrableDomain);
 
-  if (isRedir || domainChanged) {
+  const isExternalRedirect = Boolean(
+    newFinalHostDomain &&
+    newFinalHostDomain !== targetRegistrableDomain &&
+    newFinalHostDomain !== oldFinalHostDomain
+  );
+
+  if (isExternalRedirect) {
     const alertChange = {
       field: 'redirection',
       change_type: 'domain_redirect',
       old_value: oldRec.url || oldNormDomain || domain,
       new_value: newRec.url || newNormDomain,
-      description: `Domain redirected from ${oldRec.url || oldNormDomain} to ${newRec.url || newNormDomain}.`,
+      description: `Domain redirected from ${oldRec.url || oldNormDomain || domain} to ${newRec.url || newNormDomain}.`,
       tier: 'alert',
       needs_confirmation: false,
       confidence: 1.0,
-      evidence: isRedir ? 'Crawler reported redirection=true' : `New domain ${newHostDomain} differs from ${oldHostDomain}`,
+      evidence: `Final registrable domain ${newFinalHostDomain} differs from target ${targetRegistrableDomain} and baseline ${oldFinalHostDomain}`,
       change_id: hashChange(domain, 'redirection', newRec.url || newNormDomain)
     };
     return {
@@ -1916,6 +1924,65 @@ function runSelfTest() {
         newC.crawl_data.data[0].homeLinks = ['https://infynd.com/about', 'https://infynd.com/pricing'];
         const res = compareCrawls(oldC, newC);
         return !res.changes.some(c => c.field === 'homeLinks');
+      }
+    },
+    {
+      id: 17,
+      name: 'redirect: apex to www does normal comparison; external domain alerts and skips fields',
+      fn: () => {
+        // Part A: whitesbodyworks.com -> www.whitesbodyworks.com (same registrable domain)
+        const oldA = {
+          data: [{
+            normalizedDomain: 'whitesbodyworks.com',
+            url: 'https://whitesbodyworks.com/',
+            responseCode: '200',
+            domainStatus: 'Valid',
+            title: 'White Bodyworks',
+            homeContent: 'Welcome to White Bodyworks automobile repair services. '.repeat(5)
+          }]
+        };
+        const newA = {
+          data: [{
+            normalizedDomain: 'whitesbodyworks.com',
+            url: 'https://www.whitesbodyworks.com/',
+            redirection: 'true',
+            responseCode: '200',
+            domainStatus: 'Valid',
+            title: 'White Bodyworks',
+            homeContent: 'Welcome to White Bodyworks automobile repair services. '.repeat(5)
+          }]
+        };
+        const resA = compareCrawls(oldA, newA);
+        const hasRedirA = resA.changes.some(c => c.field === 'redirection');
+        const normalCompRan = resA.unchanged_fields.includes('title');
+
+        // Part B: example.com -> otherbrand.com (different registrable domain)
+        const oldB = {
+          data: [{
+            normalizedDomain: 'example.com',
+            url: 'https://example.com/',
+            responseCode: '200',
+            domainStatus: 'Valid',
+            title: 'Example',
+            homeContent: 'Example content. '.repeat(5)
+          }]
+        };
+        const newB = {
+          data: [{
+            normalizedDomain: 'example.com',
+            url: 'https://otherbrand.com/',
+            redirection: 'true',
+            responseCode: '200',
+            domainStatus: 'Valid',
+            title: 'Other Brand',
+            homeContent: 'Other brand content. '.repeat(5)
+          }]
+        };
+        const resB = compareCrawls(oldB, newB);
+        const redirChangeB = resB.changes.find(c => c.field === 'redirection');
+        const passB = redirChangeB && redirChangeB.tier === 'alert' && redirChangeB.change_type === 'domain_redirect';
+
+        return !hasRedirA && normalCompRan && passB;
       }
     }
   ];
