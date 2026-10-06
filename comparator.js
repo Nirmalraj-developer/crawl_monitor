@@ -573,6 +573,33 @@ function extractAllEmails(rec) {
 }
 
 /**
+ * Gathers all raw URLs from every link-bearing field of a record.
+ */
+function getRawLinkPool(rec) {
+  if (!rec) return [];
+  return extractUrls([
+    rec.homeLinks,
+    rec.home_alllinks,
+    rec.contactLinksAll,
+    rec.privacyLinksAll,
+    rec.aboutLinksAll,
+    rec.termsLinksAll,
+    rec.about_alllinks,
+    rec.contact_alllinks,
+    rec.privacy_alllinks,
+    rec.terms_alllinks,
+    rec.productLinks,
+    rec.ecommerceLinks,
+    rec.serviceLinks,
+    rec.contactLinks,
+    rec.privacyLinks,
+    rec.aboutLinks,
+    rec.termsLinks,
+    rec.otherLinks
+  ]);
+}
+
+/**
  * Normalizes social links and extracts handles
  */
 function extractSocialFootprint(rec) {
@@ -593,11 +620,12 @@ function extractSocialFootprint(rec) {
       else if (host.includes('github.com')) platform = 'github';
 
       if (platform) {
-        let handle = parsed.pathname.replace(/^\/+|\/+$/g, '');
-        if (platform === 'twitter' || platform === 'x') {
-          handle = handle.split('/')[0];
+        let parts = parsed.pathname.replace(/^\/+|\/+$/g, '').split('/');
+        let handle = parts[0];
+        if (platform === 'linkedin' && (parts[0] === 'company' || parts[0] === 'in') && parts[1]) {
+          handle = parts[1];
         }
-        if (handle) {
+        if (handle && !platforms[platform]) {
           platforms[platform] = handle;
         }
       }
@@ -615,9 +643,9 @@ function extractSocialFootprint(rec) {
     }
   }
 
-  // 2. homeLinks fallback
-  const homeLinks = parseLinkField(rec.homeLinks);
-  for (const link of homeLinks) {
+  // 2. All links in raw pool
+  const pool = getRawLinkPool(rec);
+  for (const link of pool) {
     addLink(link);
   }
 
@@ -748,17 +776,7 @@ function getRouteFamily(route) {
  */
 function getUniqueLinksInPool(rec) {
   const pool = new Set();
-  const rawList = [
-    ...parseLinkField(rec.homeLinks),
-    ...parseLinkField(rec.contactLinksAll),
-    ...parseLinkField(rec.privacyLinksAll),
-    ...parseLinkField(rec.aboutLinksAll),
-    ...parseLinkField(rec.termsLinksAll),
-    ...parseLinkField(rec.productLinks),
-    ...parseLinkField(rec.ecommerceLinks),
-    ...parseLinkField(rec.serviceLinks),
-    ...Object.values(rec.otherLinks || {})
-  ];
+  const rawList = getRawLinkPool(rec);
   for (const l of rawList) {
     const norm = normalizeUrl(l);
     if (norm) pool.add(norm);
@@ -769,27 +787,56 @@ function getUniqueLinksInPool(rec) {
 /**
  * Categorizes link lists into catalog routes and content routes
  */
-function extractCatalogAndContentRoutes(rec) {
+function extractCatalogAndContentRoutes(rec, targetDomain) {
   const catalogRoutes = new Set();
   const contentRoutes = new Set();
+  const baseDomain = targetDomain ? (getDomain(targetDomain) || targetDomain) : (rec?.normalizedDomain ? (getDomain(rec.normalizedDomain) || rec.normalizedDomain) : null);
 
-  const allLinks = [
-    ...parseLinkField(rec.productLinks),
-    ...parseLinkField(rec.ecommerceLinks),
-    ...parseLinkField(rec.serviceLinks)
+  const rawList = getRawLinkPool(rec);
+
+  const nonCommercialPrefixes = [
+    '/privacy', '/terms', '/cookie', '/contact', '/about', '/gdpr',
+    '/do-not-sell', '/login', '/auth', '/signup', '/signin', '/register'
   ];
 
-  for (const raw of allLinks) {
-    const normalized = normalizeUrl(raw);
-    if (!normalized) continue;
-    const isContent = CONFIG.CONTENT_ROUTE_PREFIXES.some(prefix =>
-      normalized.includes(prefix)
-    );
-    if (isContent) {
-      contentRoutes.add(normalized);
-    } else {
-      catalogRoutes.add(normalized);
-    }
+  for (const raw of rawList) {
+    try {
+      const u = new URL(raw.startsWith('http') ? raw : `https://${raw}`);
+      const host = u.hostname.toLowerCase();
+      if (baseDomain && getDomain(host) !== baseDomain) continue;
+
+      const path = u.pathname.toLowerCase().replace(/\/+$/, '');
+      const full = host.replace(/^www\./, '') + path;
+
+      if (!path || path === '') {
+        if (host.startsWith('product.') || host.startsWith('store.') || host.startsWith('shop.')) {
+          catalogRoutes.add(full);
+        }
+        continue;
+      }
+
+      const isContent = CONFIG.CONTENT_ROUTE_PREFIXES.some(prefix => path.includes(prefix));
+      if (isContent) {
+        contentRoutes.add(full);
+        continue;
+      }
+
+      if (nonCommercialPrefixes.some(p => path.includes(p))) {
+        continue;
+      }
+
+      const isClassified = [
+        ...extractUrls(rec.productLinks),
+        ...extractUrls(rec.ecommerceLinks),
+        ...extractUrls(rec.serviceLinks)
+      ].some(l => l.toLowerCase().includes(path));
+
+      const hasCommKeyword = CONFIG.COMMERCIAL_KEYWORDS.some(k => (host + path).includes(k));
+
+      if (isClassified || hasCommKeyword) {
+        catalogRoutes.add(full);
+      }
+    } catch {}
   }
 
   return { catalogRoutes, contentRoutes };
@@ -803,14 +850,7 @@ function extractSubdomains(rec, targetDomain) {
   const baseDomain = targetDomain ? getDomain(targetDomain) : null;
   if (!baseDomain) return subdomains;
 
-  const linkPool = [
-    ...parseLinkField(rec.homeLinks),
-    ...parseLinkField(rec.contactLinksAll),
-    ...parseLinkField(rec.privacyLinksAll),
-    ...parseLinkField(rec.aboutLinksAll),
-    ...parseLinkField(rec.termsLinksAll),
-    ...Object.values(rec.otherLinks || {})
-  ];
+  const linkPool = getRawLinkPool(rec);
 
   for (const link of linkPool) {
     if (!link || typeof link !== 'string') continue;
@@ -844,6 +884,27 @@ function classifyCareerLink(url) {
     if (clean.includes(ats)) return ats;
   }
   return 'internal';
+}
+
+/**
+ * Extracts candidate career URL from otherLinks or raw link pool.
+ */
+function extractCareerLink(rec) {
+  if (rec.otherLinks?.career) return rec.otherLinks.career;
+  const pool = getRawLinkPool(rec);
+  for (const l of pool) {
+    const ats = classifyCareerLink(l);
+    if (ats && ats !== 'internal') {
+      return l;
+    }
+  }
+  for (const l of pool) {
+    const low = l.toLowerCase();
+    if (low.includes('/career') || low.includes('/jobs') || low.includes('/join-us') || low.includes('/work-with-us')) {
+      return l;
+    }
+  }
+  return null;
 }
 
 /**
@@ -1389,8 +1450,8 @@ function compareCrawls(oldJson, newJson, options = {}) {
   }
 
   // 4. CATALOG & SERVICE ROUTES
-  const oldCatalog = extractCatalogAndContentRoutes(oldRec);
-  const newCatalog = extractCatalogAndContentRoutes(newRec);
+  const oldCatalog = extractCatalogAndContentRoutes(oldRec, domain);
+  const newCatalog = extractCatalogAndContentRoutes(newRec, domain);
 
   const oldFamilies = new Set(Array.from(oldCatalog.catalogRoutes).map(getRouteFamily));
   const newFamilies = new Set(Array.from(newCatalog.catalogRoutes).map(getRouteFamily));
@@ -1738,8 +1799,8 @@ function compareCrawls(oldJson, newJson, options = {}) {
   }
 
   // 9. SPECIAL LINKS & CAREERS
-  const oldCareer = oldRec.otherLinks?.career;
-  const newCareer = newRec.otherLinks?.career;
+  const oldCareer = extractCareerLink(oldRec);
+  const newCareer = extractCareerLink(newRec);
 
   if (oldCareer && newCareer) {
     const oldATS = classifyCareerLink(oldCareer);
@@ -2072,6 +2133,7 @@ function confirmChanges(firstResult, confirmationResult) {
   if (!firstResult?.changes || !confirmationResult?.changes) return [];
   const confirmed = [];
   for (const c1 of firstResult.changes) {
+    if (c1.tier !== 'alert_if_confirmed' && !c1.needs_confirmation) continue;
     const match = confirmationResult.changes.find(
       c2 => c2.field === c1.field &&
             c2.change_type === c1.change_type &&
@@ -2879,6 +2941,32 @@ function runSelfTest() {
                hasPhoneGap &&
                noAlerts;
       }
+    },
+    {
+      id: 28,
+      name: 'derive from raw sources: derives catalog, subdomains, social, and career symmetrically from raw link pool',
+      fn: () => {
+        const oldJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'old.json'), 'utf8'));
+        const newJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'new.json'), 'utf8'));
+        const oldRec = oldJson.data[0];
+        const newRec = newJson.data[0];
+
+        const oldCatalog = extractCatalogAndContentRoutes(oldRec, 'infynd.com');
+        const oldSubs = extractSubdomains(oldRec, 'infynd.com');
+        const newSubs = extractSubdomains(newRec, 'infynd.com');
+        const oldSocial = extractSocialFootprint(oldRec);
+        const newSocial = extractSocialFootprint(newRec);
+
+        const res = compareCrawls(oldJson, newJson);
+
+        const oldHasCatalog = oldCatalog.catalogRoutes.size > 0;
+        const appInBoth = oldSubs.has('app') && newSubs.has('app');
+        const noAppSubChange = !res.changes.some(c => c.field === 'subdomain' && String(c.new_value).includes('app.infynd.com'));
+        const twitterInBoth = oldSocial.twitter === 'infynd_data' && newSocial.twitter === 'infynd_data';
+        const noTwitterChange = !res.changes.some(c => c.field === 'social_twitter');
+
+        return oldHasCatalog && appInBoth && noAppSubChange && twitterInBoth && noTwitterChange;
+      }
     }
   ];
 
@@ -3394,6 +3482,11 @@ module.exports = {
   classifyErrorReason,
   extractUrls,
   evaluateBaselineQuality,
+  getRawLinkPool,
+  extractCatalogAndContentRoutes,
+  extractSubdomains,
+  extractSocialFootprint,
+  extractCareerLink,
   loadSentChangeIds,
   markChangeIdsReported,
   CONFIG
