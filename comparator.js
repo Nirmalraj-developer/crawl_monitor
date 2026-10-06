@@ -1924,6 +1924,54 @@ function evaluateStability(crawl1, crawl2) {
   };
 }
 
+/**
+ * Classifies error into standardized reason slugs.
+ * (timeout, http_<code>, dns_error, invalid_json, empty_crawl_data)
+ * @param {Error|string} err
+ * @returns {string} reason slug
+ */
+function classifyErrorReason(err) {
+  if (!err) return 'unknown_error';
+  const msg = (typeof err === 'string' ? err : err.message || '').toLowerCase();
+
+  if (msg.includes('time') && (msg.includes('out') || msg.includes('etimedout') || msg.includes('timeout'))) {
+    return 'timeout';
+  }
+  const httpMatch = msg.match(/(?:http|status|code)\s*[:=]?\s*([45]\d{2})/i) || msg.match(/\b([45]\d{2})\b/);
+  if (httpMatch) {
+    return `http_${httpMatch[1]}`;
+  }
+  if (msg.includes('enotfound') || msg.includes('eai_again') || msg.includes('dns') || msg.includes('getaddrinfo')) {
+    return 'dns_error';
+  }
+  if (msg.includes('json') || msg.includes('syntaxerror') || msg.includes('unexpected token')) {
+    return 'invalid_json';
+  }
+  if (msg.includes('empty') || msg.includes('no crawl records')) {
+    return 'empty_crawl_data';
+  }
+  return 'crawl_failed';
+}
+
+/**
+ * Retries timeouts once with 1.5x timeout.
+ */
+async function fetchCrawlWithRetry(domain, baseTimeoutMs = 120000) {
+  try {
+    return await crawlerService.crawlDomain(domain, { timeoutMs: baseTimeoutMs });
+  } catch (err) {
+    const reason = classifyErrorReason(err);
+    if (reason === 'timeout') {
+      const retryTimeoutMs = Math.round(baseTimeoutMs * 1.5);
+      console.log(`[CrawlerService] ${domain} timed out after ${baseTimeoutMs}ms. Retrying once with 1.5x timeout (${retryTimeoutMs}ms)...`);
+      return await crawlerService.crawlDomain(domain, { timeoutMs: retryTimeoutMs });
+    }
+    console.log(`[CrawlerService] ${domain} failed (${reason}). Retrying once...`);
+    await new Promise(r => setTimeout(r, 1500));
+    return await crawlerService.crawlDomain(domain, { timeoutMs: baseTimeoutMs });
+  }
+}
+
 const STATE_DIR = path.resolve(process.cwd(), 'data', 'state');
 const SENT_STATE_FILE = path.join(STATE_DIR, 'sent_change_ids.json');
 
@@ -2567,6 +2615,23 @@ function runSelfTest() {
 
         return hasPhone && hasSub;
       }
+    },
+    {
+      id: 24,
+      name: 'error handling: classifyErrorReason correctly categorizes timeout, http_code, dns_error, invalid_json, empty_crawl_data',
+      fn: () => {
+        const t1 = classifyErrorReason(new Error('Crawler API request timed out after 120000ms'));
+        const t2 = classifyErrorReason(new Error('Server responded with 503 Service Unavailable'));
+        const t3 = classifyErrorReason(new Error('getaddrinfo ENOTFOUND target.domain'));
+        const t4 = classifyErrorReason(new Error('Unexpected token < in JSON at position 0'));
+        const t5 = classifyErrorReason(new Error('empty crawl data returned from crawler'));
+
+        return t1 === 'timeout' &&
+               t2 === 'http_503' &&
+               t3 === 'dns_error' &&
+               t4 === 'invalid_json' &&
+               t5 === 'empty_crawl_data';
+      }
     }
   ];
 
@@ -2855,7 +2920,7 @@ async function main() {
     const newPath = path.resolve(process.cwd(), 'data', 'new', `${targetDomain}.json`);
 
     try {
-      const liveCrawl = await crawlerService.crawlDomain(targetDomain);
+      const liveCrawl = await fetchCrawlWithRetry(targetDomain);
       atomicWriteJson(newPath, liveCrawl);
 
       if (!fs.existsSync(oldPath)) {
@@ -2866,6 +2931,7 @@ async function main() {
           compared_at: new Date().toISOString(),
           status: 'baseline_created',
           has_meaningful_change: false,
+          has_pending_confirmation: false,
           summary: `Baseline crawl snapshot created for ${targetDomain}.`,
           changes: [],
           noise_detected: [],
@@ -2877,24 +2943,31 @@ async function main() {
         return;
       }
 
+      const sentState = loadSentChangeIds();
       const oldJson = readOldJsonFile(oldPath);
-      const result = compareCrawls(oldJson, liveCrawl);
+      const result = compareCrawls(oldJson, liveCrawl, { sentChangeIds: sentState });
 
       if (saveBaseline) {
         console.log(`[Comparator] Overwriting baseline snapshot for ${targetDomain}`);
         atomicWriteJson(oldPath, liveCrawl);
       }
 
+      if (result.changes?.length > 0) {
+        markChangeIdsReported(result.changes, targetDomain);
+      }
+
       recordResult(result);
       console.log(JSON.stringify(result, null, 2));
     } catch (err) {
-      console.error(`[Comparator Error] Failed to process ${targetDomain}: ${err.message}`);
+      const reason = classifyErrorReason(err);
+      console.error(`[Comparator Error] Failed to process ${targetDomain} (${reason}): ${err.message}`);
       const errEntry = {
         domain: targetDomain,
         compared_at: new Date().toISOString(),
         status: 'error',
-        reason: err.message,
+        reason,
         has_meaningful_change: false,
+        has_pending_confirmation: false,
         summary: `Error crawling or comparing ${targetDomain}: ${err.message}`,
         changes: [],
         noise_detected: [],
@@ -2907,7 +2980,7 @@ async function main() {
     return;
   }
 
-  // Mode: --batch <domains.txt>
+  // Mode: --batch <domains.txt> [--concurrency <num>] [--save-baseline] (Item 8)
   const batchIdx = args.indexOf('--batch');
   if (batchIdx !== -1 && args[batchIdx + 1]) {
     const batchFile = path.resolve(process.cwd(), args[batchIdx + 1].trim());
@@ -2918,13 +2991,23 @@ async function main() {
 
     if (!crawlerService) crawlerService = require('./crawler_service');
 
+    const concIdx = args.indexOf('--concurrency');
+    const requestedConc = concIdx !== -1 && args[concIdx + 1] ? parseInt(args[concIdx + 1], 10) : 3;
+    const concurrency = Math.max(1, isNaN(requestedConc) ? 3 : requestedConc);
+
     const lines = fs.readFileSync(batchFile, 'utf8')
       .split('\n')
       .map(l => l.trim())
       .filter(l => l && !l.startsWith('#'));
 
-    console.log(`[Comparator Batch] Processing ${lines.length} domains with concurrency 3...`);
+    console.log(`[Comparator Batch] Processing ${lines.length} domains with concurrency ${concurrency}...`);
 
+    const reasonCounts = {};
+    function recordOutcome(key) {
+      reasonCounts[key] = (reasonCounts[key] || 0) + 1;
+    }
+
+    const sentState = loadSentChangeIds();
     let index = 0;
     async function worker() {
       while (index < lines.length) {
@@ -2933,47 +3016,42 @@ async function main() {
         const oldPath = path.resolve(process.cwd(), 'data', 'old', `${domain}.json`);
         const newPath = path.resolve(process.cwd(), 'data', 'new', `${domain}.json`);
 
-        // 1 retry on failure
         let liveCrawl = null;
-        for (let attempt = 1; attempt <= 2; attempt++) {
-          try {
-            liveCrawl = await crawlerService.crawlDomain(domain);
-            break;
-          } catch (err) {
-            if (attempt === 2) {
-              console.error(`[Batch Error] Domain ${domain} failed after 2 attempts: ${err.message}`);
-              const errEntry = {
-                domain,
-                compared_at: new Date().toISOString(),
-                status: 'error',
-                reason: err.message,
-                has_meaningful_change: false,
-                summary: `Crawl error on ${domain}: ${err.message}`,
-                changes: [],
-                noise_detected: [],
-                unchanged_fields: [],
-                not_found_fields: []
-              };
-              recordResult(errEntry);
-            } else {
-              console.log(`[Batch Retry] Retrying domain ${domain}...`);
-              await new Promise(r => setTimeout(r, 1500));
-            }
-          }
+        try {
+          liveCrawl = await fetchCrawlWithRetry(domain);
+        } catch (err) {
+          const reason = classifyErrorReason(err);
+          console.error(`[Batch Error] Domain ${domain} failed (${reason}): ${err.message}`);
+          recordOutcome(reason);
+          const errEntry = {
+            domain,
+            compared_at: new Date().toISOString(),
+            status: 'error',
+            reason,
+            has_meaningful_change: false,
+            has_pending_confirmation: false,
+            summary: `Crawl error on ${domain}: ${err.message}`,
+            changes: [],
+            noise_detected: [],
+            unchanged_fields: [],
+            not_found_fields: []
+          };
+          recordResult(errEntry);
+          continue;
         }
-
-        if (!liveCrawl) continue;
 
         try {
           atomicWriteJson(newPath, liveCrawl);
           if (!fs.existsSync(oldPath)) {
             console.log(`[Batch] Created baseline for ${domain}`);
             atomicWriteJson(oldPath, liveCrawl);
+            recordOutcome('baseline_created');
             recordResult({
               domain,
               compared_at: new Date().toISOString(),
               status: 'baseline_created',
               has_meaningful_change: false,
+              has_pending_confirmation: false,
               summary: `Baseline snapshot established for ${domain}.`,
               changes: [],
               noise_detected: [],
@@ -2982,21 +3060,29 @@ async function main() {
             });
           } else {
             const oldJson = readOldJsonFile(oldPath);
-            const res = compareCrawls(oldJson, liveCrawl);
+            const res = compareCrawls(oldJson, liveCrawl, { sentChangeIds: sentState });
             if (saveBaseline) {
               atomicWriteJson(oldPath, liveCrawl);
             }
+            if (res.changes?.length > 0) {
+              markChangeIdsReported(res.changes, domain);
+            }
             recordResult(res);
+            const outcomeKey = res.reason || (res.status === 'ok' ? (res.has_meaningful_change ? 'ok_meaningful_change' : 'ok_no_change') : res.status);
+            recordOutcome(outcomeKey);
             console.log(`[Batch Done] ${domain}: status=${res.status}, meaningful_change=${res.has_meaningful_change}`);
           }
         } catch (procErr) {
+          const reason = classifyErrorReason(procErr);
           console.error(`[Batch Process Error] ${domain}: ${procErr.message}`);
+          recordOutcome(reason);
           recordResult({
             domain,
             compared_at: new Date().toISOString(),
             status: 'error',
-            reason: procErr.message,
+            reason,
             has_meaningful_change: false,
+            has_pending_confirmation: false,
             summary: `Comparison processing error on ${domain}: ${procErr.message}`,
             changes: [],
             noise_detected: [],
@@ -3007,11 +3093,19 @@ async function main() {
       }
     }
 
-    const concurrency = Math.min(3, lines.length);
-    const workers = Array.from({ length: concurrency }, () => worker());
+    const actualWorkers = Math.min(concurrency, lines.length);
+    const workers = Array.from({ length: actualWorkers }, () => worker());
     await Promise.all(workers);
 
-    console.log('[Comparator Batch] All domains processed.');
+    console.log(`\n======================================================`);
+    console.log(`BATCH EXECUTION SUMMARY`);
+    console.log(`======================================================`);
+    console.log(`Total domains processed: ${lines.length}`);
+    console.log(`Summary counts by outcome/reason:`);
+    for (const [r, count] of Object.entries(reasonCounts)) {
+      console.log(`  - ${r.padEnd(25, ' ')} : ${count}`);
+    }
+    console.log(`======================================================\n`);
     return;
   }
 
@@ -3037,7 +3131,7 @@ Usage:
   node comparator.js --selftest
   node comparator.js <old.json> <new.json>
   node comparator.js --domain <domain> [--save-baseline]
-  node comparator.js --batch <domains.txt> [--save-baseline]
+  node comparator.js --batch <domains.txt> [--concurrency <num>] [--save-baseline]
   node comparator.js --confirm [--confirm-delay <sec>] [--domain <domain>]
   node comparator.js --accept <domain>
   node comparator.js --stability <domains.txt> [--gap <sec>]
@@ -3048,6 +3142,7 @@ module.exports = {
   compareCrawls,
   confirmChanges,
   evaluateStability,
+  classifyErrorReason,
   loadSentChangeIds,
   markChangeIdsReported,
   CONFIG
