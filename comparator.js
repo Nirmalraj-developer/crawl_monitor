@@ -864,7 +864,7 @@ function extractBaselineTimestamp(oldInput, oldRec) {
  * @param {object} newJson
  * @returns {object} result entry
  */
-function compareCrawls(oldJson, newJson) {
+function compareCrawls(oldJson, newJson, options = {}) {
   const oldExtracted = unwrapEnvelope(oldJson);
   const newExtracted = unwrapEnvelope(newJson);
 
@@ -1812,6 +1812,30 @@ function compareCrawls(oldJson, newJson) {
   }
 
   // --------------------------------------------------------------------------
+  // STATE TRACKING FILTER (Item 6)
+  // --------------------------------------------------------------------------
+  const sentChangeIds = options.sentChangeIds instanceof Set
+    ? options.sentChangeIds
+    : new Set(
+        Array.isArray(options.sentChangeIds)
+          ? options.sentChangeIds
+          : (options.sentChangeIds ? Object.keys(options.sentChangeIds) : [])
+      );
+
+  if (sentChangeIds.size > 0) {
+    for (const c of changes) {
+      if (sentChangeIds.has(c.change_id)) {
+        c.already_reported = true;
+        if (c.tier === 'alert' || c.tier === 'alert_if_confirmed') {
+          c.tier = 'log_only';
+          c.needs_confirmation = false;
+          c.evidence = `${c.evidence || ''} (already reported previously)`.trim();
+        }
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
   // SUMMARY & METRICS
   // --------------------------------------------------------------------------
   const hasAlert = changes.some(c => c.tier === 'alert');
@@ -1847,6 +1871,69 @@ function compareCrawls(oldJson, newJson) {
     unchanged_fields: Array.from(new Set(unchangedFields)),
     not_found_fields: Array.from(new Set(notFoundFields))
   };
+}
+
+/**
+ * Pure helper returning changes that reproduce across two crawl results.
+ * @param {object} firstResult
+ * @param {object} confirmationResult
+ * @returns {Array<object>} array of confirmed change objects
+ */
+function confirmChanges(firstResult, confirmationResult) {
+  if (!firstResult?.changes || !confirmationResult?.changes) return [];
+  const confirmed = [];
+  for (const c1 of firstResult.changes) {
+    const match = confirmationResult.changes.find(
+      c2 => c2.field === c1.field &&
+            c2.change_type === c1.change_type &&
+            c2.change_id === c1.change_id
+    );
+    if (match) {
+      confirmed.push({
+        ...c1,
+        tier: 'alert',
+        needs_confirmation: false,
+        confirmed: true,
+        confirmed_at: new Date().toISOString()
+      });
+    }
+  }
+  return confirmed;
+}
+
+const STATE_DIR = path.resolve(process.cwd(), 'data', 'state');
+const SENT_STATE_FILE = path.join(STATE_DIR, 'sent_change_ids.json');
+
+function loadSentChangeIds() {
+  if (fs.existsSync(SENT_STATE_FILE)) {
+    try {
+      const raw = fs.readFileSync(SENT_STATE_FILE, 'utf8');
+      const data = JSON.parse(raw);
+      if (typeof data === 'object' && data !== null) return data;
+    } catch {}
+  }
+  return {};
+}
+
+function markChangeIdsReported(changes, domain) {
+  const state = loadSentChangeIds();
+  let modified = false;
+  for (const c of changes) {
+    if (c.change_id && (c.tier === 'alert' || c.confirmed)) {
+      if (!state[c.change_id]) {
+        state[c.change_id] = {
+          domain,
+          field: c.field,
+          change_type: c.change_type,
+          reported_at: new Date().toISOString()
+        };
+        modified = true;
+      }
+    }
+  }
+  if (modified) {
+    atomicWriteJson(SENT_STATE_FILE, state);
+  }
 }
 
 // ============================================================================
@@ -2397,6 +2484,37 @@ function runSelfTest() {
 
         return true;
       }
+    },
+    {
+      id: 22,
+      name: 'confirmation & state tracking: confirmChanges reproduces changes, sentChangeIds marks already_reported',
+      fn: () => {
+        const oldC = clone(baseJson);
+        const new1 = clone(baseJson);
+        new1.crawl_data.data[0].homeLinks = ['https://portal.infynd.com/login'];
+
+        const res1 = compareCrawls(oldC, new1);
+        const pendingChange = res1.changes.find(c => c.field === 'subdomain');
+        if (!pendingChange || pendingChange.tier !== 'alert_if_confirmed') return false;
+
+        // Confirmation crawl also sees portal.infynd.com
+        const confCrawl = clone(new1);
+        const resConf = compareCrawls(oldC, confCrawl);
+
+        const confirmed = confirmChanges(res1, resConf);
+        if (confirmed.length !== 1) return false;
+        if (confirmed[0].change_id !== pendingChange.change_id) return false;
+        if (confirmed[0].tier !== 'alert' || confirmed[0].needs_confirmation !== false) return false;
+
+        // State tracking: when change_id is in sentChangeIds, it is marked already_reported and downgraded
+        const resReported = compareCrawls(oldC, new1, { sentChangeIds: [pendingChange.change_id] });
+        const changeReported = resReported.changes.find(c => c.change_id === pendingChange.change_id);
+        if (!changeReported || !changeReported.already_reported) return false;
+        if (changeReported.tier !== 'log_only') return false;
+        if (resReported.has_meaningful_change || resReported.has_pending_confirmation) return false;
+
+        return true;
+      }
     }
   ];
 
@@ -2432,6 +2550,105 @@ async function main() {
   }
 
   const saveBaseline = args.includes('--save-baseline');
+
+  // Mode: --accept <domain> (Item 6)
+  const acceptIdx = args.indexOf('--accept');
+  if (acceptIdx !== -1 && args[acceptIdx + 1]) {
+    const targetDomain = args[acceptIdx + 1].trim();
+    const newPath = path.resolve(process.cwd(), 'data', 'new', `${targetDomain}.json`);
+    const oldPath = path.resolve(process.cwd(), 'data', 'old', `${targetDomain}.json`);
+
+    if (!fs.existsSync(newPath)) {
+      console.error(`[Comparator Error] New snapshot data/new/${targetDomain}.json does not exist to accept.`);
+      process.exit(1);
+    }
+
+    const newData = JSON.parse(fs.readFileSync(newPath, 'utf8'));
+    atomicWriteJson(oldPath, newData);
+    console.log(`[Comparator] Successfully promoted data/new/${targetDomain}.json to baseline data/old/${targetDomain}.json`);
+    return;
+  }
+
+  // Mode: --confirm [--confirm-delay <sec>] [--domain <domain>] (Item 6)
+  if (args.includes('--confirm')) {
+    if (!crawlerService) crawlerService = require('./crawler_service');
+    const delayIdx = args.indexOf('--confirm-delay');
+    const delaySec = delayIdx !== -1 && args[delayIdx + 1] ? parseInt(args[delayIdx + 1], 10) : 300;
+
+    const domainIdx = args.indexOf('--domain');
+    const specificDomain = domainIdx !== -1 && args[domainIdx + 1] ? args[domainIdx + 1].trim() : null;
+
+    const resultsPath = path.resolve(process.cwd(), 'results', 'comparison_results.json');
+    if (!fs.existsSync(resultsPath)) {
+      console.log('[Confirm] No results/comparison_results.json found.');
+      return;
+    }
+
+    let results = [];
+    try {
+      results = JSON.parse(fs.readFileSync(resultsPath, 'utf8'));
+    } catch {
+      results = [];
+    }
+
+    const pendingEntries = results.filter(r =>
+      r.has_pending_confirmation && (!specificDomain || r.domain === specificDomain)
+    );
+
+    if (pendingEntries.length === 0) {
+      console.log('[Confirm] No domains pending confirmation.');
+      return;
+    }
+
+    console.log(`[Confirm] Found ${pendingEntries.length} domain(s) pending confirmation.`);
+    if (delaySec > 0) {
+      console.log(`[Confirm] Waiting confirm delay: ${delaySec}s...`);
+      await new Promise(r => setTimeout(r, delaySec * 1000));
+    }
+
+    const sentState = loadSentChangeIds();
+    for (const entry of pendingEntries) {
+      const d = entry.domain;
+      console.log(`[Confirm] Re-crawling domain: ${d}...`);
+      const oldPath = path.resolve(process.cwd(), 'data', 'old', `${d}.json`);
+      if (!fs.existsSync(oldPath)) {
+        console.warn(`[Confirm] Baseline not found for ${d}, skipping.`);
+        continue;
+      }
+
+      try {
+        const confCrawl = await crawlerService.crawlDomain(d);
+        const oldJson = readOldJsonFile(oldPath);
+        const confResult = compareCrawls(oldJson, confCrawl, { sentChangeIds: sentState });
+        const confirmedChanges = confirmChanges(entry, confResult);
+
+        if (confirmedChanges.length > 0) {
+          console.log(`[Confirm] Domain ${d}: confirmed ${confirmedChanges.length} changes!`);
+          for (const conf of confirmedChanges) {
+            const idx = entry.changes.findIndex(c => c.change_id === conf.change_id);
+            if (idx >= 0) {
+              entry.changes[idx] = conf;
+            }
+          }
+          entry.has_meaningful_change = true;
+          entry.has_pending_confirmation = entry.changes.some(c => c.tier === 'alert_if_confirmed');
+          entry.confirmed_at = new Date().toISOString();
+          entry.summary = `Confirmed business changes: ${confirmedChanges.map(c => c.field).join(', ')}.`;
+          markChangeIdsReported(confirmedChanges, d);
+        } else {
+          console.log(`[Confirm] Domain ${d}: 0 pending changes reproduced (noise dismissed).`);
+          entry.has_pending_confirmation = false;
+        }
+
+        recordResult(entry);
+      } catch (err) {
+        console.error(`[Confirm Error] Domain ${d}: ${err.message}`);
+      }
+    }
+
+    console.log('[Confirm] Completed confirmation flow.');
+    return;
+  }
 
   // Mode: --domain <domain>
   const domainIdx = args.indexOf('--domain');
@@ -2627,11 +2844,16 @@ Usage:
   node comparator.js <old.json> <new.json>
   node comparator.js --domain <domain> [--save-baseline]
   node comparator.js --batch <domains.txt> [--save-baseline]
+  node comparator.js --confirm [--confirm-delay <sec>] [--domain <domain>]
+  node comparator.js --accept <domain>
   `);
 }
 
 module.exports = {
   compareCrawls,
+  confirmChanges,
+  loadSentChangeIds,
+  markChangeIdsReported,
   CONFIG
 };
 
