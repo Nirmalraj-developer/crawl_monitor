@@ -872,7 +872,13 @@ function getRouteFamily(route) {
  */
 function getUniqueLinksInPool(rec) {
   const pool = new Set();
-  const rawList = getRawLinkPool(rec);
+  const rawList = [
+    ...extractUrls(rec.homeLinks),
+    ...extractUrls(rec.home_alllinks)
+  ];
+  if (rawList.length === 0) {
+    rawList.push(...getRawLinkPool(rec));
+  }
   for (const l of rawList) {
     const norm = normalizeUrl(l);
     if (norm) pool.add(norm);
@@ -1573,6 +1579,7 @@ function compareCrawls(oldJson, newJson, options = {}) {
       evidence: isCoverageImbalanced
         ? `Added families: ${addedCatalogFamilies.slice(0, 5).join(', ')} (downgraded due to coverage_difference: ratio ${coverageRatio})`
         : `Added route families: ${addedCatalogFamilies.slice(0, 5).join(', ')}`,
+      ...(isCoverageImbalanced ? { reason: 'coverage_difference' } : {}),
       change_id: hashChange(domain, 'catalog', addedCatalogFamilies.join(','))
     });
   }
@@ -1590,6 +1597,7 @@ function compareCrawls(oldJson, newJson, options = {}) {
       evidence: isCoverageImbalanced
         ? `Removed families: ${removedCatalogFamilies.slice(0, 5).join(', ')} (coverage_difference: ratio ${coverageRatio})`
         : `Removed families: ${removedCatalogFamilies.slice(0, 5).join(', ')}`,
+      ...(isCoverageImbalanced ? { reason: 'coverage_difference' } : {}),
       change_id: hashChange(domain, 'catalog_removed', removedCatalogFamilies.join(','))
     });
   }
@@ -1960,6 +1968,7 @@ function compareCrawls(oldJson, newJson, options = {}) {
       evidence: isCoverageImbalanced
         ? `Discovered new active host ${sub}.${domain} (downgraded due to coverage_difference: ratio ${coverageRatio})`
         : `Discovered new active host ${sub}.${domain}`,
+      ...(isCoverageImbalanced ? { reason: 'coverage_difference' } : {}),
       change_id: hashChange(domain, 'subdomain', `${sub}.${domain}`)
     });
   }
@@ -1977,6 +1986,7 @@ function compareCrawls(oldJson, newJson, options = {}) {
       evidence: isCoverageImbalanced
         ? `Subdomain disappeared from link pool (coverage_difference: ratio ${coverageRatio})`
         : `Subdomain disappeared from link pool`,
+      ...(isCoverageImbalanced ? { reason: 'coverage_difference' } : {}),
       change_id: hashChange(domain, 'subdomain_removed', `${sub}.${domain}`)
     });
   }
@@ -2612,7 +2622,12 @@ function runSelfTest() {
       fn: () => {
         const oldC = clone(baseJson);
         const newC = clone(baseJson);
-        newC.crawl_data.data[0].homeLinks = '[https://portal.infynd.com/login, https://cdn.infynd.com/bundle.js, https://app.otherdomain.com/dashboard]';
+        newC.crawl_data.data[0].homeLinks = [
+          ...extractUrls(oldC.crawl_data.data[0].homeLinks),
+          'https://portal.infynd.com/login',
+          'https://cdn.infynd.com/bundle.js',
+          'https://app.otherdomain.com/dashboard'
+        ];
         const res = compareCrawls(oldC, newC);
         const subChanges = res.changes.filter(c => c.field === 'subdomain');
         const hasPortal = subChanges.some(c => c.new_value === 'portal.infynd.com' && c.tier === 'alert_if_confirmed');
@@ -2891,7 +2906,10 @@ function runSelfTest() {
         const new1 = clone(baseJson);
 
         // Subdomain portal.infynd.com only -> alert_if_confirmed
-        new1.crawl_data.data[0].homeLinks = ['https://portal.infynd.com/login'];
+        new1.crawl_data.data[0].homeLinks = [
+          ...extractUrls(oldC.crawl_data.data[0].homeLinks),
+          'https://portal.infynd.com/login'
+        ];
         const res1 = compareCrawls(oldC, new1);
         if (res1.has_meaningful_change !== false) return false;
         if (res1.has_pending_confirmation !== true) return false;
@@ -2920,7 +2938,10 @@ function runSelfTest() {
       fn: () => {
         const oldC = clone(baseJson);
         const new1 = clone(baseJson);
-        new1.crawl_data.data[0].homeLinks = ['https://portal.infynd.com/login'];
+        new1.crawl_data.data[0].homeLinks = [
+          ...extractUrls(oldC.crawl_data.data[0].homeLinks),
+          'https://portal.infynd.com/login'
+        ];
 
         const res1 = compareCrawls(oldC, new1);
         const pendingChange = res1.changes.find(c => c.field === 'subdomain');
@@ -2963,7 +2984,10 @@ function runSelfTest() {
         c3.crawl_data.data[0].phoneFormatted = '+44 113 496 0000';
         c3.crawl_data.data[0].aboutPage = '';
         c3.crawl_data.data[0].contactPage = 'Call us at +44 113 496 0000.';
-        c3.crawl_data.data[0].homeLinks = ['https://portal.infynd.com/login'];
+        c3.crawl_data.data[0].homeLinks = [
+          ...extractUrls(c1.crawl_data.data[0].homeLinks),
+          'https://portal.infynd.com/login'
+        ];
 
         const unstableEval = evaluateStability(c1, c3);
         if (unstableEval.is_stable) return false;
@@ -3125,6 +3149,24 @@ function runSelfTest() {
                titleChange &&
                titleChange.tier === 'log_only' &&
                titleChange.reason === 'baseline_stale_meta';
+      }
+    },
+    {
+      id: 32,
+      name: 'coverage guard: downgrades catalog and subdomains to log_only with reason coverage_difference',
+      fn: () => {
+        const oldJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'old.json'), 'utf8'));
+        const newJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'new.json'), 'utf8'));
+        const res = compareCrawls(oldJson, newJson);
+
+        const prodSub = res.changes.find(c => c.field === 'subdomain' && c.new_value === 'product.infynd.com');
+        const sentSub = res.changes.find(c => c.field === 'subdomain' && c.new_value === 'sentinel.infynd.com');
+        const catExp = res.changes.find(c => c.field === 'catalog' && c.change_type === 'catalog_expanded');
+
+        return res.coverage && (res.coverage.ratio < 0.5 || res.coverage.ratio > 2.0) &&
+               prodSub && prodSub.tier === 'log_only' && prodSub.reason === 'coverage_difference' &&
+               sentSub && sentSub.tier === 'log_only' && sentSub.reason === 'coverage_difference' &&
+               catExp && catExp.tier === 'log_only' && catExp.reason === 'coverage_difference';
       }
     }
   ];
