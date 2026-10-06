@@ -273,12 +273,51 @@ function tokenJaccard(str1, str2) {
 }
 
 /**
+ * Selects the best title segment based on token overlap with domain and known brand names
+ */
+function selectBestTitleSegment(title, context = {}) {
+  if (!title || typeof title !== 'string') return '';
+  const segments = title.split(/[|\-–—]/).map(s => s.trim()).filter(Boolean);
+  if (segments.length <= 1) return segments[0] || '';
+
+  // Extract domain tokens
+  const domain = context.domain || '';
+  const domainLabel = domain.split('.')[0].toLowerCase().replace(/[^a-z0-9]/g, ' ');
+  const domainTokens = new Set(cleanTokens(domainLabel));
+
+  // Extract known brand tokens
+  const knownTokens = new Set();
+  const knownList = context.knownNames || [];
+  for (const n of knownList) {
+    for (const t of cleanTokens(n)) knownTokens.add(t);
+  }
+
+  let bestSegment = segments[0];
+  let bestScore = 0;
+
+  for (const seg of segments) {
+    const segTokens = cleanTokens(seg);
+    let score = 0;
+    for (const t of segTokens) {
+      if (knownTokens.has(t)) score += 2;
+      if (domainTokens.has(t) || domainLabel.includes(t)) score += 1;
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      bestSegment = seg;
+    }
+  }
+
+  return bestScore > 0 ? bestSegment : segments[0];
+}
+
+/**
  * Normalizes brand name stem according to specification
  */
-function normalizeBrandStem(name) {
+function normalizeBrandStem(name, context = {}) {
   if (!name || typeof name !== 'string') return '';
   let clean = name.trim();
-  clean = clean.split(/[|\-–—]/)[0].trim();
+  clean = selectBestTitleSegment(clean, context);
   clean = clean.toLowerCase();
   clean = clean.replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').trim();
   const original = clean;
@@ -939,6 +978,14 @@ function compareCrawls(oldJson, newJson) {
   const brandStemsNew = {};
   const changedBrandSources = [];
 
+  const brandContext = {
+    domain,
+    knownNames: [
+      oldRec.companyName, oldRec.name, oldRec.clearbitName,
+      newRec.companyName, newRec.name, newRec.clearbitName
+    ].filter(Boolean)
+  };
+
   for (const src of brandSources) {
     const oVal = oldRec[src];
     const nVal = newRec[src];
@@ -960,8 +1007,8 @@ function compareCrawls(oldJson, newJson) {
         change_id: hashChange(domain, src, nVal)
       });
     } else if (oVal && nVal) {
-      const oStem = normalizeBrandStem(oVal);
-      const nStem = normalizeBrandStem(nVal);
+      const oStem = normalizeBrandStem(oVal, brandContext);
+      const nStem = normalizeBrandStem(nVal, brandContext);
       brandStemsOld[src] = oStem;
       brandStemsNew[src] = nStem;
 
@@ -1983,6 +2030,32 @@ function runSelfTest() {
         const passB = redirChangeB && redirChangeB.tier === 'alert' && redirChangeB.change_type === 'domain_redirect';
 
         return !hasRedirA && normalCompRan && passB;
+      }
+    },
+    {
+      id: 18,
+      name: 'brand from title: picks best segment by domain/brand token overlap without brand_name_drift',
+      fn: () => {
+        const oldJson = {
+          data: [{
+            normalizedDomain: 'whitestudiolondon.com',
+            companyName: 'White Studio Bridal',
+            nameFromTitle: 'Wedding dress | White Studio Bridal | United Kingdom',
+            title: 'Wedding dress | White Studio Bridal | United Kingdom'
+          }]
+        };
+        const newJson = {
+          data: [{
+            normalizedDomain: 'whitestudiolondon.com',
+            companyName: 'White Studio Bridal',
+            nameFromTitle: 'White Studio Bridal',
+            title: 'Wedding dress | White Studio Bridal | United Kingdom'
+          }]
+        };
+        const res = compareCrawls(oldJson, newJson);
+        const hasDrift = res.changes.some(c => c.field === 'company_name' || c.change_type === 'brand_name_drift');
+        const hasNoise = res.noise_detected.some(n => n.field === 'nameFromTitle');
+        return !hasDrift && hasNoise;
       }
     }
   ];
