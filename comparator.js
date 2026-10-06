@@ -2810,14 +2810,15 @@ async function main() {
       let crawl1 = null;
       try {
         console.log(`  -> Fetching Crawl 1 for ${d}...`);
-        crawl1 = await crawlerService.crawlDomain(d);
+        crawl1 = await fetchCrawlWithRetry(d);
       } catch (err) {
-        console.error(`  [!] Crawl 1 failed for ${d}: ${err.message}`);
+        const reason = classifyErrorReason(err);
+        console.error(`  [!] Crawl 1 failed for ${d} (${reason}): ${err.message}`);
         report.details.push({
           domain: d,
           status: 'error',
           error_stage: 'crawl_1',
-          reason: err.message,
+          reason,
           false_positives: []
         });
         continue;
@@ -2831,14 +2832,15 @@ async function main() {
       let crawl2 = null;
       try {
         console.log(`  -> Fetching Crawl 2 for ${d}...`);
-        crawl2 = await crawlerService.crawlDomain(d);
+        crawl2 = await fetchCrawlWithRetry(d);
       } catch (err) {
-        console.error(`  [!] Crawl 2 failed for ${d}: ${err.message}`);
+        const reason = classifyErrorReason(err);
+        console.error(`  [!] Crawl 2 failed for ${d} (${reason}): ${err.message}`);
         report.details.push({
           domain: d,
           status: 'error',
           error_stage: 'crawl_2',
-          reason: err.message,
+          reason,
           false_positives: []
         });
         continue;
