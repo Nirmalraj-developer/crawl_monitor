@@ -3335,6 +3335,72 @@ function runSelfTest() {
 
         return passA && passB;
       }
+    },
+    {
+      id: 35,
+      name: 'db_baseline_pair full assertion: status ok, no alert/pending, low quality issues, coverage guard, gaps, and unchanged reg',
+      fn: () => {
+        const oldJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'old.json'), 'utf8'));
+        const newJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'new.json'), 'utf8'));
+        const res = compareCrawls(oldJson, newJson);
+
+        // 1. status "ok", has_meaningful_change false, has_pending_confirmation false
+        if (res.status !== 'ok') return false;
+        if (res.has_meaningful_change !== false) return false;
+        if (res.has_pending_confirmation !== false) return false;
+
+        // 2. baseline_quality.level "low" with expected issues
+        if (res.baseline_quality?.level !== 'low') return false;
+        const issues = res.baseline_quality?.issues || [];
+        const requiredIssues = [
+          'baseline_pages_missing',
+          'baseline_catalog_unclassified',
+          'baseline_stale_meta',
+          'baseline_different_pipeline'
+        ];
+        for (const req of requiredIssues) {
+          if (!issues.includes(req)) return false;
+        }
+
+        // 3. NO changes with tier alert or alert_if_confirmed
+        const hasAlertOrPending = res.changes.some(c => c.tier === 'alert' || c.tier === 'alert_if_confirmed');
+        if (hasAlertOrPending) return false;
+
+        // 4. no app.infynd.com subdomain change, no twitter change, no catalog_expanded alert
+        const hasAppSub = res.changes.some(c => c.field === 'subdomain' && String(c.new_value || c.old_value).includes('app.infynd.com'));
+        if (hasAppSub) return false;
+        const hasTwitterChange = res.changes.some(c => c.field.includes('twitter'));
+        if (hasTwitterChange) return false;
+        const catAlert = res.changes.some(c => c.field === 'catalog' && c.change_type === 'catalog_expanded' && c.tier !== 'log_only');
+        if (catAlert) return false;
+
+        // 5. product.infynd.com / sentinel.infynd.com: log_only, reason coverage_difference
+        const prodSub = res.changes.find(c => c.field === 'subdomain' && c.new_value === 'product.infynd.com');
+        const sentSub = res.changes.find(c => c.field === 'subdomain' && c.new_value === 'sentinel.infynd.com');
+        if (!prodSub || prodSub.tier !== 'log_only' || prodSub.reason !== 'coverage_difference') return false;
+        if (!sentSub || sentSub.tier !== 'log_only' || sentSub.reason !== 'coverage_difference') return false;
+
+        // 6. phone: baseline_gap +443338980725 only
+        const phoneGaps = res.baseline_gaps.filter(g => g.field === 'phone');
+        if (phoneGaps.length !== 1 || phoneGaps[0].new_value !== '+443338980725') return false;
+        const phoneChanges = res.changes.filter(c => c.field === 'phone');
+        if (phoneChanges.length > 0) return false;
+
+        // 7. registration_number: unchanged
+        if (!res.unchanged_fields.includes('registration_number')) return false;
+
+        // 8. description/title: log_only with reason baseline_stale_meta
+        const desc = res.changes.find(c => c.field === 'description');
+        const title = res.changes.find(c => c.field === 'title');
+        if (!desc || desc.tier !== 'log_only' || desc.reason !== 'baseline_stale_meta') return false;
+        if (!title || title.tier !== 'log_only' || title.reason !== 'baseline_stale_meta') return false;
+
+        // 9. otherLinks.contactUs: log_only change
+        const contactUs = res.changes.find(c => c.field === 'otherLinks.contactUs');
+        if (!contactUs || contactUs.tier !== 'log_only' || contactUs.change_type !== 'modified') return false;
+
+        return true;
+      }
     }
   ];
 
