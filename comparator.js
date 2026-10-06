@@ -131,7 +131,13 @@ const CONFIG = {
     'your', 'you', 'are', 'was', 'were', 'been', 'will', 'have', 'has', 'had',
     'about', 'into', 'across', 'their', 'one', 'two', 'three', 'out', 'what',
     'over', 'when', 'which', 'who', 'how', 'its', 'not', 'can', 'than', 'them'
-  ])
+  ]),
+
+  COMMERCIAL_KEYWORDS: [
+    'pricing', 'product', 'service', 'solution', 'data', 'b2b', 'b2c',
+    'api', 'platform', 'features', 'plans', 'shop', 'store', 'cart',
+    'checkout', 'buy', 'demo', 'order'
+  ]
 };
 
 // ============================================================================
@@ -840,6 +846,95 @@ function classifyCareerLink(url) {
   return 'internal';
 }
 
+/**
+ * Evaluates baseline quality and detects issues.
+ * @param {object} oldJson 
+ * @param {object} oldRec 
+ * @param {object} newJson 
+ * @param {object} newRec 
+ * @returns {{ level: 'high'|'medium'|'low', issues: string[] }}
+ */
+function evaluateBaselineQuality(oldJson, oldRec, newJson, newRec) {
+  const issues = [];
+  oldRec = oldRec || {};
+  newRec = newRec || {};
+
+  // 1. baseline_pages_missing: page bodies null while new record has them
+  const pageFields = ['contactPage', 'privacyPage', 'aboutPage', 'termsPage'];
+  const oldMissing = pageFields.filter(f => !oldRec[f] || String(oldRec[f]).trim() === '');
+  const newPresent = pageFields.filter(f => newRec[f] && String(newRec[f]).trim() !== '');
+  if (oldMissing.length > 0 && newPresent.length > 0) {
+    issues.push('baseline_pages_missing');
+  }
+
+  // 2. baseline_catalog_unclassified: productLinks/serviceLinks/ecommerceLinks empty
+  // while old link pool contains commercial-looking routes
+  const oldClassified = [
+    ...extractUrls(oldRec.productLinks),
+    ...extractUrls(oldRec.ecommerceLinks),
+    ...extractUrls(oldRec.serviceLinks)
+  ];
+  if (oldClassified.length === 0) {
+    const oldLinkPool = extractUrls([
+      oldRec.homeLinks,
+      oldRec.home_alllinks,
+      oldRec.contactLinksAll,
+      oldRec.privacyLinksAll,
+      oldRec.aboutLinksAll,
+      oldRec.termsLinksAll,
+      oldRec.otherLinks
+    ]);
+    const hasCommercial = oldLinkPool.some(u => {
+      try {
+        const parsed = new URL(u.startsWith('http') ? u : `https://${u}`);
+        const pathAndHost = (parsed.hostname + parsed.pathname).toLowerCase();
+        return CONFIG.COMMERCIAL_KEYWORDS.some(k => pathAndHost.includes(k));
+      } catch {
+        return CONFIG.COMMERCIAL_KEYWORDS.some(k => u.toLowerCase().includes(k));
+      }
+    });
+    if (hasCommercial) {
+      issues.push('baseline_catalog_unclassified');
+    }
+  }
+
+  // 3. baseline_stale_meta: old title/description inconsistent with old homeContent
+  const oldHome = String(oldRec.homeContent || '').trim();
+  if (oldHome) {
+    let stale = false;
+    if (oldRec.title) {
+      const heading = oldHome.slice(0, 150).toLowerCase();
+      const oldTitleClean = String(oldRec.title).toLowerCase().trim();
+      const oldTitleStem = oldTitleClean.split(/[|\-–—]/)[0].trim();
+      if (oldTitleStem.length > 3 && !heading.includes(oldTitleStem.slice(0, 20))) {
+        stale = true;
+      }
+    }
+    if (!stale && oldRec.description && newRec.description) {
+      const oldTokens = cleanTokens(oldRec.description);
+      const newTokens = cleanTokens(newRec.description);
+      const homeTokens = new Set(cleanTokens(oldHome));
+      const oldMatches = oldTokens.filter(t => homeTokens.has(t)).length / (oldTokens.length || 1);
+      const newMatches = newTokens.filter(t => homeTokens.has(t)).length / (newTokens.length || 1);
+      if (newMatches > oldMatches * 1.5 && newMatches > 0.6) {
+        stale = true;
+      }
+    }
+    if (stale) {
+      issues.push('baseline_stale_meta');
+    }
+  }
+
+  // 4. baseline_different_pipeline: envelope message contains "DB baseline" or ipCountry null
+  const envelopeMsg = String(oldJson?.message || '');
+  if (envelopeMsg.toLowerCase().includes('db baseline') || oldRec.ipCountry === null || oldRec.ipCountry === undefined) {
+    issues.push('baseline_different_pipeline');
+  }
+
+  const level = issues.length >= 2 ? 'low' : (issues.length === 1 ? 'medium' : 'high');
+  return { level, issues };
+}
+
 // ============================================================================
 // CORE COMPARATOR (Pure, synchronous)
 // ============================================================================
@@ -899,6 +994,9 @@ function compareCrawls(oldJson, newJson, options = {}) {
     const diffMs = Date.now() - new Date(baselineCrawledAt).getTime();
     baselineAgeDays = Math.max(0, Number((diffMs / 86400000).toFixed(1)));
   }
+
+  const baselineQuality = evaluateBaselineQuality(oldJson, oldRec, newJson, newRec);
+  const baselineGaps = [];
 
   // --------------------------------------------------------------------------
   // STEP 0: Is the new crawl trustworthy?
@@ -1883,6 +1981,8 @@ function compareCrawls(oldJson, newJson, options = {}) {
     baseline_crawled_at: baselineCrawledAt,
     baseline_age_days: baselineAgeDays,
     status: 'ok',
+    baseline_quality: baselineQuality,
+    baseline_gaps: baselineGaps,
     has_meaningful_change: hasAlert,
     has_pending_confirmation: hasPending,
     summary,
@@ -2670,6 +2770,29 @@ function runSelfTest() {
 
         return eq(uPipe, expected) && eq(uBracket, expected) && eq(uObj, expected);
       }
+    },
+    {
+      id: 26,
+      name: 'baseline quality: computes baseline_quality and issues for db_baseline_pair',
+      fn: () => {
+        const oldJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'old.json'), 'utf8'));
+        const newJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'new.json'), 'utf8'));
+        const quality = evaluateBaselineQuality(oldJson, oldJson.data[0], newJson, newJson.data[0]);
+
+        const expectedIssues = [
+          'baseline_pages_missing',
+          'baseline_catalog_unclassified',
+          'baseline_stale_meta',
+          'baseline_different_pipeline'
+        ];
+        const allPresent = expectedIssues.every(iss => quality.issues.includes(iss));
+        const res = compareCrawls(oldJson, newJson);
+
+        return quality.level === 'low' &&
+               allPresent &&
+               res.baseline_quality.level === 'low' &&
+               Array.isArray(res.baseline_gaps);
+      }
     }
   ];
 
@@ -3184,6 +3307,7 @@ module.exports = {
   evaluateStability,
   classifyErrorReason,
   extractUrls,
+  evaluateBaselineQuality,
   loadSentChangeIds,
   markChangeIdsReported,
   CONFIG
