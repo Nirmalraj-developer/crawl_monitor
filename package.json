@@ -2,17 +2,13 @@
   "name": "crawl-rnd",
   "version": "2.0.0",
   "description": "Company website crawl and change detection pipeline",
-  "main": "index.js",
+  "main": "comparator.js",
   "scripts": {
-    "test": "jest --verbose",
-    "test:watch": "jest --watch --verbose"
+    "test": "node comparator.js --selftest"
   },
   "dependencies": {
     "libphonenumber-js": "1.11.18",
+    "pg": "^8.23.1",
     "tldts": "6.1.65"
-  },
-  "devDependencies": {
-    "jest": "29.7.0"
   }
 }
-

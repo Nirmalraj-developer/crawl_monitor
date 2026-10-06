@@ -1,0 +1,270 @@
+[
+  {
+    "domain": "infynd.com",
+    "compared_at": "2026-10-06T12:00:40.393Z",
+    "status": "ok",
+    "has_meaningful_change": true,
+    "summary": "Meaningful business changes detected: catalog, description, subdomain.",
+    "changes": [
+      {
+        "field": "catalog",
+        "change_type": "catalog_expanded",
+        "old_value": "0 commercial routes",
+        "new_value": "product.infynd.com, infynd.com/pricing, infynd.com/data-integration",
+        "description": "New commercial product or service offerings added (5 new routes).",
+        "tier": "alert_if_confirmed",
+        "needs_confirmation": true,
+        "confidence": 0.9,
+        "evidence": "Added routes: product.infynd.com, infynd.com/pricing, infynd.com/data-integration, infynd.com/esg-compliance, infynd.com/risk-compliance",
+        "change_id": "741c8c51172e"
+      },
+      {
+        "field": "content_links",
+        "change_type": "content_expanded",
+        "old_value": null,
+        "new_value": "infynd.com/blog/hcp-data-compliance-healthcare-marketer-guide",
+        "description": "New informational or blog content routes detected (1 routes).",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.8,
+        "evidence": "New content routes: infynd.com/blog/hcp-data-compliance-healthcare-marketer-guide",
+        "change_id": "857d4c1bf285"
+      },
+      {
+        "field": "title",
+        "change_type": "modified",
+        "old_value": "InFynd – B2B Data & Marketing Solutions for Growth",
+        "new_value": "InFynd Group | Data & AI Platforms for B2B, Healthcare & Risk",
+        "description": "Page title changed from \"InFynd – B2B Data & Marketing Solutions for Growth\" to \"InFynd Group | Data & AI Platforms for B2B, Healthcare & Risk\".",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.7,
+        "evidence": "Token Jaccard similarity: 0.36",
+        "change_id": "4650a3e6d86b"
+      },
+      {
+        "field": "description",
+        "change_type": "modified",
+        "old_value": "Drive sales with clean B2B data, automated outreach, and real-time reporting. InFynd powers your pipeline with data-driven marketing solutions.",
+        "new_value": "InFynd Group — a family of data and AI platforms powering smarter B2B growth, healthcare intelligence, risk insight, and AI-driven execution.",
+        "description": "Company description updated: \"InFynd Group — a family of data and AI platforms powering smarter B2B growth, healthcare intelligence, risk insight, and AI-driven execution.\".",
+        "tier": "alert_if_confirmed",
+        "needs_confirmation": true,
+        "confidence": 0.85,
+        "evidence": "Jaccard 0.17 with corroboration",
+        "change_id": "b4b0de74d1e5"
+      },
+      {
+        "field": "phone",
+        "change_type": "added",
+        "old_value": null,
+        "new_value": "+443338980725, +4912150394",
+        "description": "New phone number discovered: +443338980725, +4912150394.",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.9,
+        "evidence": "New phone number found on site",
+        "change_id": "fc38781419d6"
+      },
+      {
+        "field": "email",
+        "change_type": "partial_update",
+        "old_value": "marketing@infynd.com",
+        "new_value": "sales@infynd.com, marketing@infynd.com, contact@infynd.com",
+        "description": "Contact email list updated (sales@infynd.com, marketing@infynd.com, contact@infynd.com).",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.8,
+        "evidence": "Partial overlap in emails",
+        "change_id": "ecfa1d2e5f9a"
+      },
+      {
+        "field": "social_twitter",
+        "change_type": "added",
+        "old_value": null,
+        "new_value": "infynd_data",
+        "description": "New twitter profile added (infynd_data).",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.8,
+        "evidence": "Discovered profile on twitter",
+        "change_id": "4904014d569e"
+      },
+      {
+        "field": "subdomain",
+        "change_type": "added",
+        "old_value": null,
+        "new_value": "product.infynd.com",
+        "description": "New business subdomain discovered: product.infynd.com.",
+        "tier": "alert_if_confirmed",
+        "needs_confirmation": true,
+        "confidence": 0.9,
+        "evidence": "Discovered new active host product.infynd.com",
+        "change_id": "93afeca0d0b5"
+      },
+      {
+        "field": "subdomain",
+        "change_type": "added",
+        "old_value": null,
+        "new_value": "app.infynd.com",
+        "description": "New business subdomain discovered: app.infynd.com.",
+        "tier": "alert_if_confirmed",
+        "needs_confirmation": true,
+        "confidence": 0.9,
+        "evidence": "Discovered new active host app.infynd.com",
+        "change_id": "4440cccbe8f0"
+      },
+      {
+        "field": "subdomain",
+        "change_type": "added",
+        "old_value": null,
+        "new_value": "sentinel.infynd.com",
+        "description": "New business subdomain discovered: sentinel.infynd.com.",
+        "tier": "alert_if_confirmed",
+        "needs_confirmation": true,
+        "confidence": 0.9,
+        "evidence": "Discovered new active host sentinel.infynd.com",
+        "change_id": "86162ebed9e2"
+      }
+    ],
+    "noise_detected": [
+      {
+        "field": "clearbitName",
+        "old_value": "InFynd Group",
+        "new_value": "Infynd",
+        "reason": "cosmetic: legal suffix / whitespace / minor wording"
+      },
+      {
+        "field": "nameFromTitle",
+        "old_value": "InFynd – B2B Data & Marketing Solutions for Growth",
+        "new_value": "InFynd Group",
+        "reason": "cosmetic: legal suffix / whitespace / minor wording"
+      }
+    ],
+    "unchanged_fields": [
+      "domainStatus",
+      "homeContent",
+      "language",
+      "social_facebook",
+      "social_instagram",
+      "social_linkedin",
+      "imageUrl"
+    ],
+    "not_found_fields": [
+      "companyName",
+      "name",
+      "registration_number"
+    ]
+  },
+  {
+    "domain": "whitestuff.com",
+    "compared_at": "2026-10-06T12:02:41.206Z",
+    "status": "error",
+    "reason": "Crawler API request timed out after 120000ms for whitestuff.com",
+    "has_meaningful_change": false,
+    "summary": "Live crawl error: Crawler API request timed out after 120000ms for whitestuff.com",
+    "changes": [],
+    "noise_detected": [],
+    "unchanged_fields": [],
+    "not_found_fields": []
+  },
+  {
+    "domain": "whitestudiolondon.com",
+    "compared_at": "2026-10-06T12:03:44.691Z",
+    "status": "ok",
+    "has_meaningful_change": true,
+    "summary": "Meaningful business changes detected: catalog.",
+    "changes": [
+      {
+        "field": "nameFromCopyright",
+        "change_type": "added",
+        "old_value": null,
+        "new_value": "White Studio",
+        "description": "Brand name source nameFromCopyright was added as \"White Studio\".",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.8,
+        "evidence": "Source nameFromCopyright newly discovered",
+        "change_id": "544ab02b607f"
+      },
+      {
+        "field": "company_name",
+        "change_type": "brand_name_drift",
+        "old_value": "Wedding dress | White Studio Bridal | United Kingdom",
+        "new_value": "White Studio Bridal",
+        "description": "Brand name variation detected in nameFromTitle (\"Wedding dress | White Studio Bridal | United Kingdom\" -> \"White Studio Bridal\").",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.7,
+        "evidence": "Stems changed across: nameFromTitle",
+        "change_id": "18a9b5b00f4d"
+      },
+      {
+        "field": "catalog",
+        "change_type": "catalog_expanded",
+        "old_value": "0 commercial routes",
+        "new_value": "whitestudiolondon.com/shop, whitestudiolondon.com/shop-5, whitestudiolondon.com/shop-1",
+        "description": "New commercial product or service offerings added (3 new routes).",
+        "tier": "alert_if_confirmed",
+        "needs_confirmation": true,
+        "confidence": 0.9,
+        "evidence": "Added routes: whitestudiolondon.com/shop, whitestudiolondon.com/shop-5, whitestudiolondon.com/shop-1",
+        "change_id": "3bb5e0325733"
+      }
+    ],
+    "noise_detected": [],
+    "unchanged_fields": [
+      "domainStatus",
+      "homeContent",
+      "title",
+      "description",
+      "language",
+      "phone",
+      "email",
+      "social_instagram",
+      "social_linkedin"
+    ],
+    "not_found_fields": [
+      "companyName",
+      "name",
+      "clearbitName",
+      "registration_number"
+    ]
+  },
+  {
+    "domain": "whitesbodyworks.com",
+    "compared_at": "2026-10-06T12:04:00.876Z",
+    "status": "ok",
+    "has_meaningful_change": true,
+    "summary": "Domain redirected to https://www.whitesbodyworks.com/.",
+    "changes": [
+      {
+        "field": "redirection",
+        "change_type": "domain_redirect",
+        "old_value": "https://whitesbodyworks.com/",
+        "new_value": "https://www.whitesbodyworks.com/",
+        "description": "Domain redirected from https://whitesbodyworks.com/ to https://www.whitesbodyworks.com/.",
+        "tier": "alert",
+        "needs_confirmation": false,
+        "confidence": 1,
+        "evidence": "Crawler reported redirection=true",
+        "change_id": "2df60070d065"
+      }
+    ],
+    "noise_detected": [],
+    "unchanged_fields": [],
+    "not_found_fields": []
+  },
+  {
+    "domain": "lasupermx.net",
+    "compared_at": "2026-10-06T12:06:01.291Z",
+    "status": "error",
+    "reason": "Crawler API request timed out after 120000ms for lasupermx.net",
+    "has_meaningful_change": false,
+    "summary": "Live crawl error: Crawler API request timed out after 120000ms for lasupermx.net",
+    "changes": [],
+    "noise_detected": [],
+    "unchanged_fields": [],
+    "not_found_fields": []
+  }
+]
