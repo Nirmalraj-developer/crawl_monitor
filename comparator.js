@@ -2327,11 +2327,16 @@ function compareCrawls(oldJson, newJson, options = {}) {
 
 /**
  * Pure helper returning changes that reproduce across two crawl results.
+ * A change is confirmed only if it reproduces in both old-vs-second-crawl (confirmationResult)
+ * AND in live-vs-live (live re-crawl vs first live crawl).
+ * Baseline artifacts reproduce in old-vs-new but not in live-vs-live, so they are filtered out.
+ *
  * @param {object} firstResult
  * @param {object} confirmationResult
+ * @param {object} [liveVsLiveResult]
  * @returns {Array<object>} array of confirmed change objects
  */
-function confirmChanges(firstResult, confirmationResult) {
+function confirmChanges(firstResult, confirmationResult, liveVsLiveResult) {
   if (!firstResult?.changes || !confirmationResult?.changes) return [];
   const confirmed = [];
   for (const c1 of firstResult.changes) {
@@ -2341,15 +2346,26 @@ function confirmChanges(firstResult, confirmationResult) {
             c2.change_type === c1.change_type &&
             c2.change_id === c1.change_id
     );
-    if (match) {
-      confirmed.push({
-        ...c1,
-        tier: 'alert',
-        needs_confirmation: false,
-        confirmed: true,
-        confirmed_at: new Date().toISOString()
-      });
+    if (!match) continue;
+
+    if (liveVsLiveResult && liveVsLiveResult.changes) {
+      const matchLive = liveVsLiveResult.changes.find(
+        c3 => c3.field === c1.field &&
+              c3.change_type === c1.change_type
+      );
+      if (!matchLive) {
+        // Baseline artifact: reproduced in old-vs-new but not in live-vs-live; filter out
+        continue;
+      }
     }
+
+    confirmed.push({
+      ...c1,
+      tier: 'alert',
+      needs_confirmation: false,
+      confirmed: true,
+      confirmed_at: new Date().toISOString()
+    });
   }
   return confirmed;
 }
@@ -3284,6 +3300,41 @@ function runSelfTest() {
 
         return passA && !careerAlert;
       }
+    },
+    {
+      id: 34,
+      name: 'confirmation design: filters baseline artifacts by verifying reproduction across live-vs-live re-crawl',
+      fn: () => {
+        const pendingChange = {
+          field: 'phone',
+          change_type: 'modified',
+          change_id: 'abc123phone',
+          tier: 'alert_if_confirmed',
+          needs_confirmation: true
+        };
+        const firstResult = {
+          changes: [pendingChange]
+        };
+        const confResult = {
+          changes: [pendingChange]
+        };
+
+        // Scenario A: Baseline artifact. In live-vs-live, phone did not change (changes: [])
+        const liveVsLiveArtifact = {
+          changes: []
+        };
+        const confirmedA = confirmChanges(firstResult, confResult, liveVsLiveArtifact);
+        const passA = confirmedA.length === 0;
+
+        // Scenario B: Real change. In live-vs-live, the change reproduced
+        const liveVsLiveReal = {
+          changes: [{ field: 'phone', change_type: 'modified' }]
+        };
+        const confirmedB = confirmChanges(firstResult, confResult, liveVsLiveReal);
+        const passB = confirmedB.length === 1 && confirmedB[0].tier === 'alert' && confirmedB[0].needs_confirmation === false;
+
+        return passA && passB;
+      }
     }
   ];
 
@@ -3389,7 +3440,15 @@ async function main() {
         const confCrawl = await crawlerService.crawlDomain(d);
         const oldJson = readOldJsonFile(oldPath);
         const confResult = compareCrawls(oldJson, confCrawl, { sentChangeIds: sentState });
-        const confirmedChanges = confirmChanges(entry, confResult);
+
+        const firstLivePath = path.resolve(process.cwd(), 'data', 'new', `${d}.json`);
+        let liveVsLiveResult = null;
+        if (fs.existsSync(firstLivePath)) {
+          const firstLiveCrawl = JSON.parse(fs.readFileSync(firstLivePath, 'utf8'));
+          liveVsLiveResult = compareCrawls(firstLiveCrawl, confCrawl);
+        }
+
+        const confirmedChanges = confirmChanges(entry, confResult, liveVsLiveResult);
 
         if (confirmedChanges.length > 0) {
           console.log(`[Confirm] Domain ${d}: confirmed ${confirmedChanges.length} changes!`);
