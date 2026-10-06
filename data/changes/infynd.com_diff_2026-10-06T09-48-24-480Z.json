@@ -1,0 +1,20 @@
+{
+  "domain": "infynd.com",
+  "has_meaningful_change": false,
+  "summary": "No business changes detected. Stored baseline snapshot remains fully up-to-date.",
+  "changes": [],
+  "unchanged_fields": [
+    "company_name",
+    "description",
+    "market_positioning",
+    "subdomains_infrastructure",
+    "products_and_services",
+    "phone",
+    "email",
+    "social_channels"
+  ],
+  "noise_detected": [],
+  "requires_human_review": false,
+  "evaluated_at": "2026-10-06T09:48:24.480Z",
+  "ai_verification": null
+}

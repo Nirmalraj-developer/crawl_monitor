@@ -1,0 +1,27 @@
+{
+  "domain": "infynd.com",
+  "saved_at": "2024-06-15T10:00:00.000Z",
+  "crawl_data": {
+    "status": 1,
+    "message": "Company information extracted successfully.",
+    "totalCount": 1,
+    "data": [
+      {
+        "processingId": "infynd.com",
+        "url": "https://infynd.com/",
+        "normalizedDomain": "infynd.com",
+        "companyName": "InFynd",
+        "nameFromTitle": "InFynd",
+        "industry": "Marketing & B2B Data",
+        "description": "InFynd provides B2B contact database, email verification, and lead generation solutions for sales teams in the UK and Europe.",
+        "email": "marketing@infynd.com",
+        "phone": "+44 3338 980725",
+        "productLinks": [
+          "https://infynd.com/b2b",
+          "https://infynd.com/bulk-data"
+        ],
+        "homeContent": "InFynd provides verified B2B contact data and email lists for sales and marketing teams."
+      }
+    ]
+  }
+}
