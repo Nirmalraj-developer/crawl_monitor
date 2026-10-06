@@ -192,26 +192,47 @@ function unwrapEnvelope(input) {
   };
 }
 
+const URL_REGEX = /(?:https?:\/\/|tel:)[^\s"'<>\(\)\[\]{}|,]+/gi;
+
 /**
- * Parses link fields handling both real Array and bracket-string "[url1, url2]".
+ * Extracts and deduplicates every URL from arrays, bracket-strings, pipe-delimited strings,
+ * comma/space separated strings, or nested objects.
+ * @param {*} val
+ * @returns {string[]} array of unique clean URLs
  */
-function parseLinkField(val) {
+function extractUrls(val) {
   if (!val) return [];
-  if (Array.isArray(val)) {
-    return val.map(l => String(l || '').trim()).filter(Boolean);
-  }
-  if (typeof val === 'string') {
-    let clean = val.trim();
-    if (clean.startsWith('[') && clean.endsWith(']')) {
-      clean = clean.slice(1, -1);
+  const urls = new Set();
+
+  function scan(v) {
+    if (!v) return;
+    if (typeof v === 'string') {
+      const trimmed = v.trim();
+      if (!trimmed) return;
+      const matches = trimmed.match(URL_REGEX);
+      if (matches) {
+        for (let m of matches) {
+          m = m.replace(/[.,;:!?\)>\]\}\'\"\-]+$/, '').trim();
+          if (m) urls.add(m);
+        }
+      }
+    } else if (Array.isArray(v)) {
+      for (const item of v) {
+        scan(item);
+      }
+    } else if (typeof v === 'object' && v !== null) {
+      for (const subVal of Object.values(v)) {
+        scan(subVal);
+      }
     }
-    return clean
-      .split(',')
-      .map(s => s.trim().replace(/^['"]|['"]$/g, ''))
-      .filter(Boolean);
   }
-  return [];
+
+  scan(val);
+  return Array.from(urls);
 }
+
+// Backward-compatible alias
+const parseLinkField = extractUrls;
 
 /**
  * Normalizes a URL for canonical matching (lowercase host + clean pathname).
@@ -2632,6 +2653,23 @@ function runSelfTest() {
                t4 === 'invalid_json' &&
                t5 === 'empty_crawl_data';
       }
+    },
+    {
+      id: 25,
+      name: 'url extraction: extractUrls parses pipe-delimited, bracket-string, array, and nested objects with deduplication',
+      fn: () => {
+        const uPipe = extractUrls('https://example.com/a|https://example.com/b|https://example.com/a.');
+        const uBracket = extractUrls('[https://example.com/a, https://example.com/b]');
+        const uObj = extractUrls({
+          page1: 'https://example.com/a',
+          nested: ['https://example.com/b', 'https://example.com/a;']
+        });
+
+        const expected = ['https://example.com/a', 'https://example.com/b'];
+        const eq = (a, b) => a.length === b.length && a.every(x => b.includes(x));
+
+        return eq(uPipe, expected) && eq(uBracket, expected) && eq(uObj, expected);
+      }
     }
   ];
 
@@ -3145,6 +3183,7 @@ module.exports = {
   confirmChanges,
   evaluateStability,
   classifyErrorReason,
+  extractUrls,
   loadSentChangeIds,
   markChangeIdsReported,
   CONFIG
