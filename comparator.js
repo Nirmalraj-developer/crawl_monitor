@@ -411,7 +411,80 @@ function extractAllPhones(rec) {
     }
   }
 
+  // 3. Extracted from homeLinks tel: links
+  const homeLinks = parseLinkField(rec.homeLinks || rec.home_alllinks || []);
+  for (const link of homeLinks) {
+    if (typeof link === 'string' && link.toLowerCase().startsWith('tel:')) {
+      const raw = link.replace(/^tel:/i, '').split('?')[0].trim();
+      const parsed = normalizePhoneSingle(raw, country);
+      if (parsed) phones.add(parsed);
+    }
+  }
+
   return phones;
+}
+
+/**
+ * Counts how many independent sources contain the given phone number:
+ * 1) phone / phoneFormatted field
+ * 2) contactPage
+ * 3) aboutPage
+ * 4) homeLinks tel: links
+ */
+function countPhoneSources(rec, targetPhone) {
+  let count = 0;
+  const country = inferCountry(rec);
+
+  // 1. Phone fields
+  let foundInField = false;
+  for (const f of ['phone', 'phoneFormatted']) {
+    const val = rec[f];
+    if (val) {
+      const parsed = normalizePhoneSingle(String(val), country);
+      if (parsed === targetPhone) {
+        foundInField = true;
+        break;
+      }
+    }
+  }
+  if (foundInField) count++;
+
+  // 2. contactPage
+  if (rec.contactPage && typeof rec.contactPage === 'string') {
+    try {
+      const found = findPhoneNumbersInText(rec.contactPage, country);
+      if (found.some(item => item && item.number && item.number.isValid() && item.number.format('E.164') === targetPhone)) {
+        count++;
+      }
+    } catch {}
+  }
+
+  // 3. aboutPage
+  if (rec.aboutPage && typeof rec.aboutPage === 'string') {
+    try {
+      const found = findPhoneNumbersInText(rec.aboutPage, country);
+      if (found.some(item => item && item.number && item.number.isValid() && item.number.format('E.164') === targetPhone)) {
+        count++;
+      }
+    } catch {}
+  }
+
+  // 4. homeLinks tel: links
+  const homeLinks = parseLinkField(rec.homeLinks || rec.home_alllinks || []);
+  let foundInHomeLinks = false;
+  for (const link of homeLinks) {
+    if (typeof link === 'string' && link.toLowerCase().startsWith('tel:')) {
+      const raw = link.replace(/^tel:/i, '').split('?')[0].trim();
+      const parsed = normalizePhoneSingle(raw, country);
+      if (parsed === targetPhone) {
+        foundInHomeLinks = true;
+        break;
+      }
+    }
+  }
+  if (foundInHomeLinks) count++;
+
+  return count;
 }
 
 /**
@@ -1308,19 +1381,24 @@ function compareCrawls(oldJson, newJson) {
     if (overlap.length === oldPhones.size && oldPhones.size === newPhones.size) {
       unchangedFields.push('phone');
     } else if (overlap.length === 0) {
-      // Complete replacement: ALERT phone_modified
+      // Complete replacement: check independent sources corroboration (Item 4)
       const oStr = Array.from(oldPhones).join(', ');
       const nStr = Array.from(newPhones).join(', ');
+      const maxSources = Math.max(
+        ...Array.from(newPhones).map(p => countPhoneSources(newRec, p)),
+        0
+      );
+      const isCorroborated = maxSources >= 2;
       changes.push({
         field: 'phone',
         change_type: 'modified',
         old_value: oStr,
         new_value: nStr,
         description: `Phone number changed from ${oStr} to ${nStr}.`,
-        tier: 'alert',
-        needs_confirmation: false,
-        confidence: 0.95,
-        evidence: `Zero overlap between baseline phone set and new phone set`,
+        tier: isCorroborated ? 'alert' : 'alert_if_confirmed',
+        needs_confirmation: !isCorroborated,
+        confidence: isCorroborated ? 0.95 : 0.75,
+        evidence: `Zero overlap between baseline phone set and new phone set (${maxSources} independent source(s) found)`,
         change_id: hashChange(domain, 'phone', nStr)
       });
     } else {
@@ -1806,7 +1884,7 @@ function runSelfTest() {
         oldC.crawl_data.data[0].phoneFormatted = null;
         oldC.crawl_data.data[0].aboutPage = '';
         oldC.crawl_data.data[0].contactPage = 'Call us at +44 20 8089 2420.';
-        newC.crawl_data.data[0].phone = null;
+        newC.crawl_data.data[0].phone = '+44 3338 980725';
         newC.crawl_data.data[0].phoneFormatted = null;
         newC.crawl_data.data[0].aboutPage = '';
         newC.crawl_data.data[0].contactPage = 'Call us at +44 3338 980725.';
@@ -2159,6 +2237,37 @@ function runSelfTest() {
         const noMeaningful = !res.has_meaningful_change;
 
         return hasCoverage && isLogOnly && noMeaningful;
+      }
+    },
+    {
+      id: 20,
+      name: 'phone corroboration: zero overlap with 1 source yields alert_if_confirmed; 2+ sources yields alert',
+      fn: () => {
+        const oldC = clone(baseJson);
+        const new1 = clone(baseJson);
+        oldC.crawl_data.data[0].phone = '+44 20 8089 2420';
+        oldC.crawl_data.data[0].phoneFormatted = null;
+        oldC.crawl_data.data[0].aboutPage = '';
+        oldC.crawl_data.data[0].contactPage = 'Call +44 20 8089 2420';
+
+        // 1 source: only in contactPage
+        new1.crawl_data.data[0].phone = null;
+        new1.crawl_data.data[0].phoneFormatted = null;
+        new1.crawl_data.data[0].aboutPage = '';
+        new1.crawl_data.data[0].contactPage = 'Call us at +44 3338 980725.';
+        new1.crawl_data.data[0].homeLinks = [];
+        const res1 = compareCrawls(oldC, new1);
+        const pChange1 = res1.changes.find(c => c.field === 'phone');
+        if (!pChange1 || pChange1.tier !== 'alert_if_confirmed' || !pChange1.needs_confirmation) {
+          return false;
+        }
+
+        // 2 sources: contactPage + homeLinks tel: link
+        const new2 = clone(new1);
+        new2.crawl_data.data[0].homeLinks = ['tel:+443338980725'];
+        const res2 = compareCrawls(oldC, new2);
+        const pChange2 = res2.changes.find(c => c.field === 'phone');
+        return pChange2 && pChange2.tier === 'alert' && !pChange2.needs_confirmation;
       }
     }
   ];
