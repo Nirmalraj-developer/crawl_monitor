@@ -1552,18 +1552,34 @@ function compareCrawls(oldJson, newJson, options = {}) {
     notFoundFields.push('phone');
   } else if (oldPhones.size === 0 && newPhones.size > 0) {
     const addedList = Array.from(newPhones).join(', ');
-    changes.push({
-      field: 'phone',
-      change_type: 'added',
-      old_value: null,
-      new_value: addedList,
-      description: `New phone number discovered: ${addedList}.`,
-      tier: 'log_only',
-      needs_confirmation: false,
-      confidence: 0.9,
-      evidence: 'New phone number found on site',
-      change_id: hashChange(domain, 'phone', addedList)
-    });
+    const oldPagesMissing = (!oldRec.contactPage || !oldRec.contactPage.trim()) && (!oldRec.aboutPage || !oldRec.aboutPage.trim());
+    if (oldPagesMissing) {
+      baselineGaps.push({
+        field: 'phone',
+        change_type: 'baseline_gap',
+        old_value: null,
+        new_value: addedList,
+        description: `Phone number discovered from newly crawled page (${addedList}).`,
+        tier: 'log_only',
+        needs_confirmation: false,
+        confidence: 0.8,
+        evidence: 'Baseline page bodies were missing in old crawl; phone extracted from new crawl',
+        change_id: hashChange(domain, 'phone', addedList)
+      });
+    } else {
+      changes.push({
+        field: 'phone',
+        change_type: 'added',
+        old_value: null,
+        new_value: addedList,
+        description: `New phone number discovered: ${addedList}.`,
+        tier: 'log_only',
+        needs_confirmation: false,
+        confidence: 0.9,
+        evidence: 'New phone number found on site',
+        change_id: hashChange(domain, 'phone', addedList)
+      });
+    }
   } else if (oldPhones.size > 0 && newPhones.size > 0) {
     const overlap = Array.from(oldPhones).filter(p => newPhones.has(p));
     if (overlap.length === oldPhones.size && oldPhones.size === newPhones.size) {
@@ -1872,6 +1888,23 @@ function compareCrawls(oldJson, newJson, options = {}) {
       evidence: `Postcode changed in 1 source`,
       change_id: hashChange(domain, 'address', sampleNewPostcode)
     });
+  } else if (Object.keys(oldPostcodes).length === 0 && Object.keys(newPostcodes).length > 0) {
+    const oldPagesMissing = (!oldRec.contactPage || !oldRec.contactPage.trim()) && (!oldRec.aboutPage || !oldRec.aboutPage.trim()) && !oldRec.address && !oldRec.postal_code;
+    const newPc = Object.values(newPostcodes)[0];
+    if (oldPagesMissing) {
+      baselineGaps.push({
+        field: 'address',
+        change_type: 'baseline_gap',
+        old_value: null,
+        new_value: newPc,
+        description: `Address/postcode discovered from newly crawled page (${newPc}).`,
+        tier: 'log_only',
+        needs_confirmation: false,
+        confidence: 0.8,
+        evidence: 'Baseline page bodies were missing in old crawl; address extracted from new crawl',
+        change_id: hashChange(domain, 'address', newPc)
+      });
+    }
   }
 
   // 13. LEGAL ENTITY REGISTRATION NUMBER
@@ -1955,10 +1988,44 @@ function compareCrawls(oldJson, newJson, options = {}) {
   }
 
   // --------------------------------------------------------------------------
+  // BASELINE QUALITY CAPPING (Item 3)
+  // --------------------------------------------------------------------------
+  const isHardEvent = changes.some(c => {
+    if (c.field === 'redirection' && c.change_type === 'domain_redirect') return true;
+    if (c.field === 'website_status' && c.change_type === 'offline_or_parked') return true;
+    if (c.field === 'legal_registration_number' && c.change_type === 'modified') return true;
+    if (c.field === 'address' && c.change_type === 'office_relocated' && c.tier === 'alert' && (oldRec.address || oldRec.postal_code)) return true;
+    return false;
+  });
+
+  let recommendation = null;
+  if (baselineQuality.level === 'low') {
+    recommendation = 'refresh baseline from a live crawl (--accept)';
+    const contentFields = [
+      'catalog', 'description', 'title', 'subdomain', 'subdomain_added', 'subdomain_removed',
+      'email', 'social', 'phone', 'content_links', 'nameFromTitle'
+    ];
+    for (const c of changes) {
+      if (contentFields.includes(c.field) || c.field.startsWith('socialLinks')) {
+        if (c.tier === 'alert' || c.tier === 'alert_if_confirmed') {
+          c.tier = 'log_only';
+          c.needs_confirmation = false;
+          c.evidence = `${c.evidence || ''} (capped at log_only due to low baseline quality)`.trim();
+        }
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
   // SUMMARY & METRICS
   // --------------------------------------------------------------------------
-  const hasAlert = changes.some(c => c.tier === 'alert');
-  const hasPending = changes.some(c => c.tier === 'alert_if_confirmed');
+  let hasAlert = changes.some(c => c.tier === 'alert');
+  let hasPending = changes.some(c => c.tier === 'alert_if_confirmed');
+
+  if (baselineQuality.level === 'low' && !isHardEvent) {
+    hasAlert = false;
+    hasPending = false;
+  }
 
   let summary = 'No meaningful business changes detected between crawls.';
   if (hasAlert) {
@@ -1983,6 +2050,7 @@ function compareCrawls(oldJson, newJson, options = {}) {
     status: 'ok',
     baseline_quality: baselineQuality,
     baseline_gaps: baselineGaps,
+    ...(recommendation ? { recommendation } : {}),
     has_meaningful_change: hasAlert,
     has_pending_confirmation: hasPending,
     summary,
@@ -2792,6 +2860,24 @@ function runSelfTest() {
                allPresent &&
                res.baseline_quality.level === 'low' &&
                Array.isArray(res.baseline_gaps);
+      }
+    },
+    {
+      id: 27,
+      name: 'baseline gap rules: caps content changes at log_only, sets recommendation, records gaps',
+      fn: () => {
+        const oldJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'old.json'), 'utf8'));
+        const newJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'new.json'), 'utf8'));
+        const res = compareCrawls(oldJson, newJson);
+
+        const hasPhoneGap = res.baseline_gaps.some(g => g.field === 'phone' && g.change_type === 'baseline_gap');
+        const noAlerts = !res.changes.some(c => c.tier === 'alert' || c.tier === 'alert_if_confirmed');
+
+        return res.has_meaningful_change === false &&
+               res.has_pending_confirmation === false &&
+               res.recommendation === 'refresh baseline from a live crawl (--accept)' &&
+               hasPhoneGap &&
+               noAlerts;
       }
     }
   ];
