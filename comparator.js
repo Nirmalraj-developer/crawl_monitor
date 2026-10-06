@@ -1945,6 +1945,91 @@ function compareCrawls(oldJson, newJson, options = {}) {
     } else {
       unchangedFields.push('career_portal');
     }
+  } else if (!oldCareer && newCareer) {
+    if (baselineQuality.level === 'low') {
+      baselineGaps.push({
+        field: 'career_portal',
+        change_type: 'baseline_gap',
+        tier: 'log_only',
+        evidence: `Career link ${newCareer} discovered, but baseline had no career links`
+      });
+    } else {
+      changes.push({
+        field: 'career_portal',
+        change_type: 'added',
+        old_value: null,
+        new_value: newCareer,
+        description: `Career link discovered: ${newCareer}.`,
+        tier: 'log_only',
+        needs_confirmation: false,
+        confidence: 0.7,
+        evidence: `New career link ${newCareer} without prior baseline`,
+        change_id: hashChange(domain, 'career_portal', newCareer)
+      });
+    }
+  }
+
+  // 9b. OTHER LINKS (contactUs, blog, career, team)
+  const otherKeys = ['contactUs', 'blog', 'career', 'team'];
+  const oldOther = (oldRec.otherLinks && typeof oldRec.otherLinks === 'object') ? oldRec.otherLinks : {};
+  const newOther = (newRec.otherLinks && typeof newRec.otherLinks === 'object') ? newRec.otherLinks : {};
+
+  for (const k of otherKeys) {
+    const oVal = oldOther[k];
+    const nVal = newOther[k];
+    if (oVal && nVal) {
+      if (normalizeUrl(oVal) !== normalizeUrl(nVal)) {
+        changes.push({
+          field: `otherLinks.${k}`,
+          change_type: 'modified',
+          old_value: oVal,
+          new_value: nVal,
+          description: `otherLinks.${k} moved from ${oVal} to ${nVal}.`,
+          tier: 'log_only',
+          needs_confirmation: false,
+          confidence: 0.8,
+          evidence: `otherLinks.${k} modified from ${oVal} to ${nVal}`,
+          change_id: hashChange(domain, `otherLinks.${k}`, nVal)
+        });
+      } else {
+        unchangedFields.push(`otherLinks.${k}`);
+      }
+    } else if (oVal && !nVal) {
+      changes.push({
+        field: `otherLinks.${k}`,
+        change_type: 'removed',
+        old_value: oVal,
+        new_value: null,
+        description: `otherLinks.${k} link removed.`,
+        tier: 'log_only',
+        needs_confirmation: false,
+        confidence: 0.8,
+        evidence: `otherLinks.${k} removed`,
+        change_id: hashChange(domain, `otherLinks.${k}`, 'removed')
+      });
+    } else if (!oVal && nVal) {
+      if (baselineQuality.level === 'low') {
+        baselineGaps.push({
+          field: `otherLinks.${k}`,
+          change_type: 'baseline_gap',
+          tier: 'log_only',
+          evidence: `otherLinks.${k} populated in live crawl but missing in baseline`
+        });
+      } else {
+        changes.push({
+          field: `otherLinks.${k}`,
+          change_type: 'added',
+          old_value: null,
+          new_value: nVal,
+          description: `otherLinks.${k} added: ${nVal}.`,
+          tier: 'log_only',
+          needs_confirmation: false,
+          confidence: 0.8,
+          evidence: `otherLinks.${k} discovered: ${nVal}`,
+          change_id: hashChange(domain, `otherLinks.${k}`, nVal)
+        });
+      }
+    }
   }
 
   // 10. SUBDOMAINS
@@ -3167,6 +3252,37 @@ function runSelfTest() {
                prodSub && prodSub.tier === 'log_only' && prodSub.reason === 'coverage_difference' &&
                sentSub && sentSub.tier === 'log_only' && sentSub.reason === 'coverage_difference' &&
                catExp && catExp.tier === 'log_only' && catExp.reason === 'coverage_difference';
+      }
+    },
+    {
+      id: 33,
+      name: 'otherLinks shifts: reports otherLinks shifts as log_only and guards career ATS migration without prior baseline',
+      fn: () => {
+        // Part A: db_baseline_pair contactUs moved to sentinel
+        const oldJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'old.json'), 'utf8'));
+        const newJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'new.json'), 'utf8'));
+        const resA = compareCrawls(oldJson, newJson);
+        const contactChange = resA.changes.find(c => c.field === 'otherLinks.contactUs');
+        const passA = contactChange && contactChange.tier === 'log_only' && contactChange.change_type === 'modified';
+
+        // Part B: no career link existed in old -> ATS link does not alert
+        const oldB = {
+          data: [{
+            normalizedDomain: 'example.com',
+            homeLinks: '[]'
+          }]
+        };
+        const newB = {
+          data: [{
+            normalizedDomain: 'example.com',
+            homeLinks: '[]',
+            otherLinks: { career: 'https://jobs.lever.co/example' }
+          }]
+        };
+        const resB = compareCrawls(oldB, newB);
+        const careerAlert = resB.changes.some(c => c.field === 'career_portal' && c.tier === 'alert_if_confirmed');
+
+        return passA && !careerAlert;
       }
     }
   ];
