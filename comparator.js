@@ -371,14 +371,34 @@ function normalizeBrandStem(name, context = {}) {
 }
 
 /**
- * Infers 2-letter ISO country code from record hints
+ * Infers 2-letter ISO country code from record hints.
+ * Priority: company address country / postcode pattern -> site TLD country -> language.
+ * NEVER use ipCountry (it is the hosting location).
  */
 function inferCountry(rec) {
   if (!rec) return 'GB';
-  if (rec.ipCountry) {
-    const code = CONFIG.COUNTRY_MAP[String(rec.ipCountry).toLowerCase().trim()];
-    if (code) return code;
+
+  // 1. Company address country or address text
+  if (rec.country) {
+    const c = CONFIG.COUNTRY_MAP[String(rec.country).toLowerCase().trim()];
+    if (c) return c;
   }
+  if (rec.address && typeof rec.address === 'string') {
+    const low = rec.address.toLowerCase();
+    for (const [name, code] of Object.entries(CONFIG.COUNTRY_MAP)) {
+      if (low.includes(name)) return code;
+    }
+  }
+
+  // Check postcode pattern in postal_code or contactPage/address
+  const textToCheck = `${rec.postal_code || ''} ${rec.address || ''} ${rec.contactPage ? rec.contactPage.slice(0, 1000) : ''}`;
+  for (const [countryCode, regConfig] of Object.entries(CONFIG.COUNTRY_REGISTRY)) {
+    if (regConfig.postcodeRegex && regConfig.postcodeRegex.test(textToCheck)) {
+      return countryCode;
+    }
+  }
+
+  // 2. Site TLD country
   const dom = rec.normalizedDomain || rec.url || '';
   const parts = dom.split('/')[0].split('.');
   if (parts.length > 1) {
@@ -387,6 +407,17 @@ function inferCountry(rec) {
     const twoTld = parts.slice(-2).join('.').toLowerCase();
     if (CONFIG.TLD_MAP[twoTld]) return CONFIG.TLD_MAP[twoTld];
   }
+
+  // 3. Language
+  if (rec.language) {
+    const lang = String(rec.language).toLowerCase().trim();
+    if (lang === 'de') return 'DE';
+    if (lang === 'fr') return 'FR';
+    if (lang === 'es') return 'ES';
+    if (lang === 'it') return 'IT';
+    if (lang === 'nl') return 'NL';
+  }
+
   return 'GB';
 }
 
@@ -407,6 +438,46 @@ function normalizePhoneSingle(phoneStr, countryHint) {
   return null;
 }
 
+const REJECT_PREV_LABEL = /(?:company\s*no\.?|company\s*number|reg(?:istration)?(?:\s*no\.?|\s*number)?|vat(?:\s*no\.?|\s*number)?|ico(?:\s*no\.?)?|crn|no\.?|#|id)\s*[:.\-]?\s*$/i;
+const ALLOW_PREV_LABEL = /(?:phone|tel|call|mobile|telephone|t:|p:|contact)\s*[:.\-]?\s*$/i;
+
+/**
+ * Validates whether a phone number found in page text has valid context.
+ */
+function isPhoneValidInContext(text, item, rec) {
+  if (!item || !item.number || !item.number.isValid()) return false;
+
+  const rawSnippet = text.slice(item.startsAt, item.endsAt).trim();
+  const prev35 = text.slice(Math.max(0, item.startsAt - 35), item.startsAt);
+  const prev20 = text.slice(Math.max(0, item.startsAt - 20), item.startsAt);
+
+  // 1. Check negative context (Reject if preceded by company no, reg, vat, etc.)
+  if (REJECT_PREV_LABEL.test(prev35)) {
+    return false;
+  }
+
+  // 2. Check context requirement:
+  // Must be preceded within 20 chars by a phone label OR start with '+' or '(0'
+  const hasLabel = ALLOW_PREV_LABEL.test(prev20);
+  const startsWithPlusOrZero = rawSnippet.startsWith('+') || rawSnippet.startsWith('(0');
+  if (!hasLabel && !startsWithPlusOrZero) {
+    return false;
+  }
+
+  // 3. Reject if matches extracted registration number
+  const regNum = rec.registration_number || (typeof extractRegistration === 'function' ? extractRegistration(rec)?.number : null);
+  if (regNum) {
+    const cleanReg = String(regNum).replace(/\D/g, '');
+    const numDigits = String(item.number.nationalNumber || '').replace(/\D/g, '');
+    const rawDigits = rawSnippet.replace(/\D/g, '');
+    if (cleanReg && (cleanReg === numDigits || cleanReg === rawDigits)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 /**
  * Collects and normalizes all phones from a record
  */
@@ -419,7 +490,13 @@ function extractAllPhones(rec) {
     const val = rec[field];
     if (val) {
       const parsed = normalizePhoneSingle(String(val), country);
-      if (parsed) phones.add(parsed);
+      if (parsed) {
+        const regNum = rec.registration_number || (typeof extractRegistration === 'function' ? extractRegistration(rec)?.number : null);
+        const cleanReg = regNum ? String(regNum).replace(/\D/g, '') : null;
+        if (!cleanReg || !parsed.endsWith(cleanReg)) {
+          phones.add(parsed);
+        }
+      }
     }
   }
 
@@ -430,7 +507,7 @@ function extractAllPhones(rec) {
       try {
         const found = findPhoneNumbersInText(text, country);
         for (const item of found) {
-          if (item && item.number && item.number.isValid()) {
+          if (isPhoneValidInContext(text, item, rec)) {
             phones.add(item.number.format('E.164'));
           }
         }
@@ -438,9 +515,9 @@ function extractAllPhones(rec) {
     }
   }
 
-  // 3. Extracted from homeLinks tel: links
-  const homeLinks = parseLinkField(rec.homeLinks || rec.home_alllinks || []);
-  for (const link of homeLinks) {
+  // 3. Extracted from tel: links in raw link pool
+  const rawLinks = getRawLinkPool(rec);
+  for (const link of rawLinks) {
     if (typeof link === 'string' && link.toLowerCase().startsWith('tel:')) {
       const raw = link.replace(/^tel:/i, '').split('?')[0].trim();
       const parsed = normalizePhoneSingle(raw, country);
@@ -456,7 +533,7 @@ function extractAllPhones(rec) {
  * 1) phone / phoneFormatted field
  * 2) contactPage
  * 3) aboutPage
- * 4) homeLinks tel: links
+ * 4) raw link pool tel: links
  */
 function countPhoneSources(rec, targetPhone) {
   let count = 0;
@@ -480,7 +557,7 @@ function countPhoneSources(rec, targetPhone) {
   if (rec.contactPage && typeof rec.contactPage === 'string') {
     try {
       const found = findPhoneNumbersInText(rec.contactPage, country);
-      if (found.some(item => item && item.number && item.number.isValid() && item.number.format('E.164') === targetPhone)) {
+      if (found.some(item => isPhoneValidInContext(rec.contactPage, item, rec) && item.number.format('E.164') === targetPhone)) {
         count++;
       }
     } catch {}
@@ -490,16 +567,16 @@ function countPhoneSources(rec, targetPhone) {
   if (rec.aboutPage && typeof rec.aboutPage === 'string') {
     try {
       const found = findPhoneNumbersInText(rec.aboutPage, country);
-      if (found.some(item => item && item.number && item.number.isValid() && item.number.format('E.164') === targetPhone)) {
+      if (found.some(item => isPhoneValidInContext(rec.aboutPage, item, rec) && item.number.format('E.164') === targetPhone)) {
         count++;
       }
     } catch {}
   }
 
-  // 4. homeLinks tel: links
-  const homeLinks = parseLinkField(rec.homeLinks || rec.home_alllinks || []);
+  // 4. tel: links in raw link pool
+  const rawLinks = getRawLinkPool(rec);
   let foundInHomeLinks = false;
-  for (const link of homeLinks) {
+  for (const link of rawLinks) {
     if (typeof link === 'string' && link.toLowerCase().startsWith('tel:')) {
       const raw = link.replace(/^tel:/i, '').split('?')[0].trim();
       const parsed = normalizePhoneSingle(raw, country);
@@ -2967,6 +3044,23 @@ function runSelfTest() {
 
         return oldHasCatalog && appInBoth && noAppSubChange && twitterInBoth && noTwitterChange;
       }
+    },
+    {
+      id: 29,
+      name: 'phone fixes: prioritizes address/postcode over ipCountry, contextual extraction, excludes registration number',
+      fn: () => {
+        const newJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'new.json'), 'utf8'));
+        const newRec = newJson.data[0];
+
+        const country = inferCountry({ ipCountry: 'Germany', postal_code: 'RG12 2SJ' });
+        if (country !== 'GB') return false;
+
+        const phones = extractAllPhones(newRec);
+
+        return phones.has('+443338980725') &&
+               !phones.has('+4912150394') &&
+               phones.size === 1;
+      }
     }
   ];
 
@@ -3487,6 +3581,9 @@ module.exports = {
   extractSubdomains,
   extractSocialFootprint,
   extractCareerLink,
+  extractAllPhones,
+  countPhoneSources,
+  inferCountry,
   loadSentChangeIds,
   markChangeIdsReported,
   CONFIG
