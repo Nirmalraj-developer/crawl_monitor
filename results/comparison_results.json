@@ -1,22 +1,92 @@
 [
   {
     "domain": "infynd.com",
-    "compared_at": "2026-10-06T12:00:40.393Z",
+    "compared_at": "2026-10-06T13:44:13.241Z",
+    "baseline_crawled_at": null,
+    "baseline_age_days": null,
     "status": "ok",
-    "has_meaningful_change": true,
-    "summary": "Meaningful business changes detected: catalog, description, subdomain.",
+    "baseline_quality": {
+      "level": "low",
+      "issues": [
+        "baseline_pages_missing",
+        "baseline_catalog_unclassified",
+        "baseline_stale_meta",
+        "baseline_different_pipeline"
+      ]
+    },
+    "baseline_gaps": [
+      {
+        "field": "phone",
+        "change_type": "baseline_gap",
+        "old_value": null,
+        "new_value": "+443338980725",
+        "description": "Phone number discovered from newly crawled page (+443338980725).",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.8,
+        "evidence": "Baseline page bodies were missing in old crawl; phone extracted from new crawl",
+        "change_id": "efd5549b47a4"
+      },
+      {
+        "field": "otherLinks.blog",
+        "change_type": "baseline_gap",
+        "tier": "log_only",
+        "evidence": "otherLinks.blog populated in live crawl but missing in baseline"
+      },
+      {
+        "field": "otherLinks.career",
+        "change_type": "baseline_gap",
+        "tier": "log_only",
+        "evidence": "otherLinks.career populated in live crawl but missing in baseline"
+      },
+      {
+        "field": "address",
+        "change_type": "baseline_gap",
+        "old_value": null,
+        "new_value": "RG122SJ",
+        "description": "Address/postcode discovered from newly crawled page (RG122SJ).",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.8,
+        "evidence": "Baseline page bodies were missing in old crawl; address extracted from new crawl",
+        "change_id": "333b4ac97475"
+      }
+    ],
+    "recommendation": "refresh baseline from a live crawl (--accept)",
+    "has_meaningful_change": false,
+    "has_pending_confirmation": false,
+    "summary": "Minor updates logged (9 low-priority adjustments).",
+    "coverage": {
+      "old_links": 41,
+      "new_links": 17,
+      "ratio": 0.415
+    },
     "changes": [
       {
         "field": "catalog",
         "change_type": "catalog_expanded",
-        "old_value": "0 commercial routes",
-        "new_value": "product.infynd.com, infynd.com/pricing, infynd.com/data-integration",
-        "description": "New commercial product or service offerings added (5 new routes).",
-        "tier": "alert_if_confirmed",
-        "needs_confirmation": true,
-        "confidence": 0.9,
-        "evidence": "Added routes: product.infynd.com, infynd.com/pricing, infynd.com/data-integration, infynd.com/esg-compliance, infynd.com/risk-compliance",
-        "change_id": "741c8c51172e"
+        "old_value": "12 commercial route families",
+        "new_value": "product.infynd.com, infynd.com/b2b, infynd.com/data-integration",
+        "description": "New commercial product or service offerings added (5 new route families).",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.6,
+        "evidence": "Added families: product.infynd.com, infynd.com/b2b, infynd.com/data-integration, infynd.com/esg-compliance, infynd.com/risk-compliance (downgraded due to coverage_difference: ratio 0.415)",
+        "reason": "coverage_difference",
+        "change_id": "a178a94d7443"
+      },
+      {
+        "field": "catalog",
+        "change_type": "catalog_reduced",
+        "old_value": "infynd.com/data-cleansing-infynd, infynd.com/industry-based-data, infynd.com/data-integration-api",
+        "new_value": "6 commercial route families",
+        "description": "Commercial catalog routes removed (11 families).",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.7,
+        "evidence": "Removed families: infynd.com/data-cleansing-infynd, infynd.com/industry-based-data, infynd.com/data-integration-api, infynd.com/book-a-demo, infynd.com/personalized-custom-build-data (coverage_difference: ratio 0.415)",
+        "reason": "coverage_difference",
+        "change_id": "74e05cdae574"
       },
       {
         "field": "content_links",
@@ -39,7 +109,8 @@
         "tier": "log_only",
         "needs_confirmation": false,
         "confidence": 0.7,
-        "evidence": "Token Jaccard similarity: 0.36",
+        "reason": "baseline_stale_meta",
+        "evidence": "Token Jaccard similarity: 0.36 (baseline_stale_meta)",
         "change_id": "4650a3e6d86b"
       },
       {
@@ -48,23 +119,12 @@
         "old_value": "Drive sales with clean B2B data, automated outreach, and real-time reporting. InFynd powers your pipeline with data-driven marketing solutions.",
         "new_value": "InFynd Group — a family of data and AI platforms powering smarter B2B growth, healthcare intelligence, risk insight, and AI-driven execution.",
         "description": "Company description updated: \"InFynd Group — a family of data and AI platforms powering smarter B2B growth, healthcare intelligence, risk insight, and AI-driven execution.\".",
-        "tier": "alert_if_confirmed",
-        "needs_confirmation": true,
-        "confidence": 0.85,
-        "evidence": "Jaccard 0.17 with corroboration",
-        "change_id": "b4b0de74d1e5"
-      },
-      {
-        "field": "phone",
-        "change_type": "added",
-        "old_value": null,
-        "new_value": "+443338980725, +4912150394",
-        "description": "New phone number discovered: +443338980725, +4912150394.",
         "tier": "log_only",
         "needs_confirmation": false,
-        "confidence": 0.9,
-        "evidence": "New phone number found on site",
-        "change_id": "fc38781419d6"
+        "confidence": 0.6,
+        "reason": "baseline_stale_meta",
+        "evidence": "Jaccard 0.17 (baseline_stale_meta)",
+        "change_id": "b4b0de74d1e5"
       },
       {
         "field": "email",
@@ -79,16 +139,16 @@
         "change_id": "ecfa1d2e5f9a"
       },
       {
-        "field": "social_twitter",
-        "change_type": "added",
-        "old_value": null,
-        "new_value": "infynd_data",
-        "description": "New twitter profile added (infynd_data).",
+        "field": "otherLinks.contactUs",
+        "change_type": "modified",
+        "old_value": "https://www.infynd.com/contact",
+        "new_value": "https://sentinel.infynd.com/",
+        "description": "otherLinks.contactUs moved from https://www.infynd.com/contact to https://sentinel.infynd.com/.",
         "tier": "log_only",
         "needs_confirmation": false,
         "confidence": 0.8,
-        "evidence": "Discovered profile on twitter",
-        "change_id": "4904014d569e"
+        "evidence": "otherLinks.contactUs modified from https://www.infynd.com/contact to https://sentinel.infynd.com/",
+        "change_id": "597ef5f190d3"
       },
       {
         "field": "subdomain",
@@ -96,23 +156,12 @@
         "old_value": null,
         "new_value": "product.infynd.com",
         "description": "New business subdomain discovered: product.infynd.com.",
-        "tier": "alert_if_confirmed",
-        "needs_confirmation": true,
-        "confidence": 0.9,
-        "evidence": "Discovered new active host product.infynd.com",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.6,
+        "evidence": "Discovered new active host product.infynd.com (downgraded due to coverage_difference: ratio 0.415)",
+        "reason": "coverage_difference",
         "change_id": "93afeca0d0b5"
-      },
-      {
-        "field": "subdomain",
-        "change_type": "added",
-        "old_value": null,
-        "new_value": "app.infynd.com",
-        "description": "New business subdomain discovered: app.infynd.com.",
-        "tier": "alert_if_confirmed",
-        "needs_confirmation": true,
-        "confidence": 0.9,
-        "evidence": "Discovered new active host app.infynd.com",
-        "change_id": "4440cccbe8f0"
       },
       {
         "field": "subdomain",
@@ -120,10 +169,11 @@
         "old_value": null,
         "new_value": "sentinel.infynd.com",
         "description": "New business subdomain discovered: sentinel.infynd.com.",
-        "tier": "alert_if_confirmed",
-        "needs_confirmation": true,
-        "confidence": 0.9,
-        "evidence": "Discovered new active host sentinel.infynd.com",
+        "tier": "log_only",
+        "needs_confirmation": false,
+        "confidence": 0.6,
+        "evidence": "Discovered new active host sentinel.infynd.com (downgraded due to coverage_difference: ratio 0.415)",
+        "reason": "coverage_difference",
         "change_id": "86162ebed9e2"
       }
     ],
@@ -148,20 +198,24 @@
       "social_facebook",
       "social_instagram",
       "social_linkedin",
-      "imageUrl"
+      "social_twitter",
+      "career_portal",
+      "imageUrl",
+      "legal_registration_number",
+      "registration_number"
     ],
     "not_found_fields": [
       "companyName",
-      "name",
-      "registration_number"
+      "name"
     ]
   },
   {
     "domain": "whitestuff.com",
-    "compared_at": "2026-10-06T12:02:41.206Z",
+    "compared_at": "2026-10-06T13:44:13.242Z",
     "status": "error",
     "reason": "Crawler API request timed out after 120000ms for whitestuff.com",
     "has_meaningful_change": false,
+    "has_pending_confirmation": false,
     "summary": "Live crawl error: Crawler API request timed out after 120000ms for whitestuff.com",
     "changes": [],
     "noise_detected": [],
@@ -170,10 +224,27 @@
   },
   {
     "domain": "whitestudiolondon.com",
-    "compared_at": "2026-10-06T12:03:44.691Z",
+    "compared_at": "2026-10-06T13:44:13.255Z",
+    "baseline_crawled_at": null,
+    "baseline_age_days": null,
     "status": "ok",
-    "has_meaningful_change": true,
-    "summary": "Meaningful business changes detected: catalog.",
+    "baseline_quality": {
+      "level": "low",
+      "issues": [
+        "baseline_pages_missing",
+        "baseline_catalog_unclassified"
+      ]
+    },
+    "baseline_gaps": [],
+    "recommendation": "refresh baseline from a live crawl (--accept)",
+    "has_meaningful_change": false,
+    "has_pending_confirmation": false,
+    "summary": "Minor updates logged (1 low-priority adjustments).",
+    "coverage": {
+      "old_links": 20,
+      "new_links": 20,
+      "ratio": 1
+    },
     "changes": [
       {
         "field": "nameFromCopyright",
@@ -186,81 +257,81 @@
         "confidence": 0.8,
         "evidence": "Source nameFromCopyright newly discovered",
         "change_id": "544ab02b607f"
-      },
-      {
-        "field": "company_name",
-        "change_type": "brand_name_drift",
-        "old_value": "Wedding dress | White Studio Bridal | United Kingdom",
-        "new_value": "White Studio Bridal",
-        "description": "Brand name variation detected in nameFromTitle (\"Wedding dress | White Studio Bridal | United Kingdom\" -> \"White Studio Bridal\").",
-        "tier": "log_only",
-        "needs_confirmation": false,
-        "confidence": 0.7,
-        "evidence": "Stems changed across: nameFromTitle",
-        "change_id": "18a9b5b00f4d"
-      },
-      {
-        "field": "catalog",
-        "change_type": "catalog_expanded",
-        "old_value": "0 commercial routes",
-        "new_value": "whitestudiolondon.com/shop, whitestudiolondon.com/shop-5, whitestudiolondon.com/shop-1",
-        "description": "New commercial product or service offerings added (3 new routes).",
-        "tier": "alert_if_confirmed",
-        "needs_confirmation": true,
-        "confidence": 0.9,
-        "evidence": "Added routes: whitestudiolondon.com/shop, whitestudiolondon.com/shop-5, whitestudiolondon.com/shop-1",
-        "change_id": "3bb5e0325733"
       }
     ],
-    "noise_detected": [],
+    "noise_detected": [
+      {
+        "field": "nameFromTitle",
+        "old_value": "Wedding dress | White Studio Bridal | United Kingdom",
+        "new_value": "White Studio Bridal",
+        "reason": "cosmetic: legal suffix / whitespace / minor wording"
+      }
+    ],
     "unchanged_fields": [
       "domainStatus",
       "homeContent",
       "title",
       "description",
       "language",
-      "phone",
       "email",
       "social_instagram",
-      "social_linkedin"
+      "social_linkedin",
+      "imageUrl"
     ],
     "not_found_fields": [
-      "companyName",
-      "name",
-      "clearbitName",
-      "registration_number"
+      "companyName"
     ]
   },
   {
     "domain": "whitesbodyworks.com",
-    "compared_at": "2026-10-06T12:04:00.876Z",
+    "compared_at": "2026-10-06T13:44:13.272Z",
+    "baseline_crawled_at": null,
+    "baseline_age_days": null,
     "status": "ok",
-    "has_meaningful_change": true,
-    "summary": "Domain redirected to https://www.whitesbodyworks.com/.",
-    "changes": [
-      {
-        "field": "redirection",
-        "change_type": "domain_redirect",
-        "old_value": "https://whitesbodyworks.com/",
-        "new_value": "https://www.whitesbodyworks.com/",
-        "description": "Domain redirected from https://whitesbodyworks.com/ to https://www.whitesbodyworks.com/.",
-        "tier": "alert",
-        "needs_confirmation": false,
-        "confidence": 1,
-        "evidence": "Crawler reported redirection=true",
-        "change_id": "2df60070d065"
-      }
-    ],
+    "baseline_quality": {
+      "level": "medium",
+      "issues": [
+        "baseline_pages_missing"
+      ]
+    },
+    "baseline_gaps": [],
+    "has_meaningful_change": false,
+    "has_pending_confirmation": false,
+    "summary": "No meaningful business changes detected between crawls.",
+    "coverage": {
+      "old_links": 48,
+      "new_links": 48,
+      "ratio": 1
+    },
+    "changes": [],
     "noise_detected": [],
-    "unchanged_fields": [],
-    "not_found_fields": []
+    "unchanged_fields": [
+      "domainStatus",
+      "clearbitName",
+      "nameFromTitle",
+      "nameFromCopyright",
+      "homeContent",
+      "title",
+      "description",
+      "language",
+      "email",
+      "social_facebook",
+      "social_instagram",
+      "otherLinks.blog",
+      "otherLinks.team",
+      "imageUrl"
+    ],
+    "not_found_fields": [
+      "companyName"
+    ]
   },
   {
     "domain": "lasupermx.net",
-    "compared_at": "2026-10-06T12:06:01.291Z",
+    "compared_at": "2026-10-06T13:44:13.274Z",
     "status": "error",
     "reason": "Crawler API request timed out after 120000ms for lasupermx.net",
     "has_meaningful_change": false,
+    "has_pending_confirmation": false,
     "summary": "Live crawl error: Crawler API request timed out after 120000ms for lasupermx.net",
     "changes": [],
     "noise_detected": [],
