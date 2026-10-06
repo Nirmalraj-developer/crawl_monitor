@@ -827,6 +827,41 @@ function classifyCareerLink(url) {
  * Compares an OLD crawl JSON against a NEW crawl JSON.
  * @param {object} oldJson 
  * @param {object} newJson 
+/**
+ * Extracts baseline crawl timestamp from record or envelope.
+ */
+function extractBaselineTimestamp(oldInput, oldRec) {
+  const candidates = [
+    oldRec?.crawled_at,
+    oldRec?.crawledAt,
+    oldRec?.created_at,
+    oldRec?.updated_at,
+    oldRec?.saved_at,
+    oldRec?.crawl_date,
+    oldRec?._file_mtime,
+    oldInput?.saved_at,
+    oldInput?.crawled_at,
+    oldInput?.crawledAt,
+    oldInput?.compared_at,
+    oldInput?.created_at,
+    oldInput?.updated_at,
+    oldInput?._file_mtime
+  ];
+  for (const c of candidates) {
+    if (c) {
+      const dt = new Date(c);
+      if (!isNaN(dt.getTime())) {
+        return dt.toISOString();
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Main Pure Comparator Function
+ * @param {object} oldJson
+ * @param {object} newJson
  * @returns {object} result entry
  */
 function compareCrawls(oldJson, newJson) {
@@ -837,6 +872,13 @@ function compareCrawls(oldJson, newJson) {
   const newRec = newExtracted.record || {};
   const domain = newRec.normalizedDomain || oldRec.normalizedDomain || newRec.domain || oldRec.domain || 'unknown';
 
+  const baselineCrawledAt = extractBaselineTimestamp(oldJson, oldRec);
+  let baselineAgeDays = null;
+  if (baselineCrawledAt) {
+    const diffMs = Date.now() - new Date(baselineCrawledAt).getTime();
+    baselineAgeDays = Math.max(0, Number((diffMs / 86400000).toFixed(1)));
+  }
+
   // --------------------------------------------------------------------------
   // STEP 0: Is the new crawl trustworthy?
   // --------------------------------------------------------------------------
@@ -846,9 +888,12 @@ function compareCrawls(oldJson, newJson) {
     return {
       domain,
       compared_at: new Date().toISOString(),
+      baseline_crawled_at: baselineCrawledAt,
+      baseline_age_days: baselineAgeDays,
       status: 'inconclusive',
       reason: `envelope_status_${newExtracted.envelopeStatus}`,
       has_meaningful_change: false,
+      has_pending_confirmation: false,
       summary: `Crawl inconclusive due to API envelope status ${newExtracted.envelopeStatus}.`,
       changes: [],
       noise_detected: [],
@@ -862,9 +907,12 @@ function compareCrawls(oldJson, newJson) {
     return {
       domain,
       compared_at: new Date().toISOString(),
+      baseline_crawled_at: baselineCrawledAt,
+      baseline_age_days: baselineAgeDays,
       status: 'inconclusive',
       reason: 'empty_crawl_data',
       has_meaningful_change: false,
+      has_pending_confirmation: false,
       summary: 'Crawl inconclusive because no crawl records were returned.',
       changes: [],
       noise_detected: [],
@@ -880,9 +928,12 @@ function compareCrawls(oldJson, newJson) {
     return {
       domain,
       compared_at: new Date().toISOString(),
+      baseline_crawled_at: baselineCrawledAt,
+      baseline_age_days: baselineAgeDays,
       status: 'inconclusive',
       reason: 'domain_mismatch',
       has_meaningful_change: false,
+      has_pending_confirmation: false,
       summary: `Domain mismatch between baseline (${oldNormDomain}) and new crawl (${newNormDomain}).`,
       changes: [],
       noise_detected: [],
@@ -897,9 +948,12 @@ function compareCrawls(oldJson, newJson) {
     return {
       domain,
       compared_at: new Date().toISOString(),
+      baseline_crawled_at: baselineCrawledAt,
+      baseline_age_days: baselineAgeDays,
       status: 'inconclusive',
       reason: `http_${newRespCode}`,
       has_meaningful_change: false,
+      has_pending_confirmation: false,
       summary: `Crawl inconclusive due to HTTP ${newRespCode} response code.`,
       changes: [],
       noise_detected: [],
@@ -915,9 +969,12 @@ function compareCrawls(oldJson, newJson) {
       return {
         domain,
         compared_at: new Date().toISOString(),
+        baseline_crawled_at: baselineCrawledAt,
+        baseline_age_days: baselineAgeDays,
         status: 'inconclusive',
         reason: 'challenge_page_detected',
         has_meaningful_change: false,
+        has_pending_confirmation: false,
         summary: `Challenge or security checkpoint page detected ("${phrase}").`,
         changes: [],
         noise_detected: [],
@@ -934,9 +991,12 @@ function compareCrawls(oldJson, newJson) {
     return {
       domain,
       compared_at: new Date().toISOString(),
+      baseline_crawled_at: baselineCrawledAt,
+      baseline_age_days: baselineAgeDays,
       status: 'inconclusive',
       reason: 'js_rendering_required',
       has_meaningful_change: false,
+      has_pending_confirmation: false,
       summary: 'Page content was under 30% of baseline length; JS rendering required.',
       changes: [],
       noise_detected: [],
@@ -955,9 +1015,12 @@ function compareCrawls(oldJson, newJson) {
     return {
       domain,
       compared_at: new Date().toISOString(),
+      baseline_crawled_at: baselineCrawledAt,
+      baseline_age_days: baselineAgeDays,
       status: 'inconclusive',
       reason: 'js_rendering_required',
       has_meaningful_change: false,
+      has_pending_confirmation: false,
       summary: 'JavaScript rendering required (SPA shell detected).',
       changes: [],
       noise_detected: [],
@@ -983,9 +1046,12 @@ function compareCrawls(oldJson, newJson) {
     return {
       domain,
       compared_at: new Date().toISOString(),
+      baseline_crawled_at: baselineCrawledAt,
+      baseline_age_days: baselineAgeDays,
       status: 'inconclusive',
       reason: 'partial_crawl',
       has_meaningful_change: false,
+      has_pending_confirmation: false,
       summary: 'Crawl incomplete: over 50% of baseline fields were empty in the new crawl.',
       changes: [],
       noise_detected: [],
@@ -1024,8 +1090,11 @@ function compareCrawls(oldJson, newJson) {
     return {
       domain,
       compared_at: new Date().toISOString(),
+      baseline_crawled_at: baselineCrawledAt,
+      baseline_age_days: baselineAgeDays,
       status: 'ok',
       has_meaningful_change: true,
+      has_pending_confirmation: false,
       summary: `Domain redirected to ${newRec.url || newNormDomain}.`,
       changes: [alertChange],
       noise_detected: [],
@@ -1745,13 +1814,20 @@ function compareCrawls(oldJson, newJson) {
   // --------------------------------------------------------------------------
   // SUMMARY & METRICS
   // --------------------------------------------------------------------------
-  const hasMeaningful = changes.some(c => c.tier === 'alert' || c.tier === 'alert_if_confirmed');
+  const hasAlert = changes.some(c => c.tier === 'alert');
+  const hasPending = changes.some(c => c.tier === 'alert_if_confirmed');
+
   let summary = 'No meaningful business changes detected between crawls.';
-  if (hasMeaningful) {
+  if (hasAlert) {
     const alertFields = changes
-      .filter(c => c.tier === 'alert' || c.tier === 'alert_if_confirmed')
+      .filter(c => c.tier === 'alert')
       .map(c => c.field);
     summary = `Meaningful business changes detected: ${Array.from(new Set(alertFields)).join(', ')}.`;
+  } else if (hasPending) {
+    const pendingFields = changes
+      .filter(c => c.tier === 'alert_if_confirmed')
+      .map(c => c.field);
+    summary = `Pending confirmation changes detected: ${Array.from(new Set(pendingFields)).join(', ')}.`;
   } else if (changes.length > 0) {
     summary = `Minor updates logged (${changes.length} low-priority adjustments).`;
   }
@@ -1759,8 +1835,11 @@ function compareCrawls(oldJson, newJson) {
   return {
     domain,
     compared_at: new Date().toISOString(),
+    baseline_crawled_at: baselineCrawledAt,
+    baseline_age_days: baselineAgeDays,
     status: 'ok',
-    has_meaningful_change: hasMeaningful,
+    has_meaningful_change: hasAlert,
+    has_pending_confirmation: hasPending,
     summary,
     coverage,
     changes,
@@ -1785,6 +1864,23 @@ function atomicWriteJson(filePath, data) {
   const tempPath = path.join(dir, `.tmp_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.json`);
   fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), 'utf8');
   fs.renameSync(tempPath, filePath);
+}
+
+/**
+ * Reads an old JSON snapshot file and attaches _file_mtime if no timestamp is present.
+ */
+function readOldJsonFile(filePath) {
+  const raw = fs.readFileSync(filePath, 'utf8');
+  const parsed = JSON.parse(raw);
+  if (parsed && typeof parsed === 'object') {
+    try {
+      const stats = fs.statSync(filePath);
+      if (!parsed.saved_at && !parsed.created_at && !parsed.crawled_at) {
+        parsed._file_mtime = stats.mtime.toISOString();
+      }
+    } catch {}
+  }
+  return parsed;
 }
 
 /**
@@ -2269,6 +2365,38 @@ function runSelfTest() {
         const pChange2 = res2.changes.find(c => c.field === 'phone');
         return pChange2 && pChange2.tier === 'alert' && !pChange2.needs_confirmation;
       }
+    },
+    {
+      id: 21,
+      name: 'output semantics: has_meaningful_change is true only for alert; has_pending_confirmation for alert_if_confirmed; baseline timestamps',
+      fn: () => {
+        const oldC = clone(baseJson);
+        oldC.saved_at = '2026-10-01T00:00:00.000Z';
+        const new1 = clone(baseJson);
+
+        // Subdomain portal.infynd.com only -> alert_if_confirmed
+        new1.crawl_data.data[0].homeLinks = ['https://portal.infynd.com/login'];
+        const res1 = compareCrawls(oldC, new1);
+        if (res1.has_meaningful_change !== false) return false;
+        if (res1.has_pending_confirmation !== true) return false;
+        if (res1.baseline_crawled_at !== '2026-10-01T00:00:00.000Z') return false;
+        if (typeof res1.baseline_age_days !== 'number' || res1.baseline_age_days < 0) return false;
+
+        // Add phone change with 2 sources -> alert
+        const new2 = clone(new1);
+        oldC.crawl_data.data[0].phone = '+44 20 8089 2420';
+        oldC.crawl_data.data[0].phoneFormatted = null;
+        oldC.crawl_data.data[0].aboutPage = '';
+        oldC.crawl_data.data[0].contactPage = 'Call +44 20 8089 2420';
+
+        new2.crawl_data.data[0].phone = '+44 3338 980725';
+        new2.crawl_data.data[0].contactPage = 'Call us at +44 3338 980725.';
+        const res2 = compareCrawls(oldC, new2);
+        if (res2.has_meaningful_change !== true) return false;
+        if (res2.has_pending_confirmation !== true) return false;
+
+        return true;
+      }
     }
   ];
 
@@ -2338,7 +2466,7 @@ async function main() {
         return;
       }
 
-      const oldJson = JSON.parse(fs.readFileSync(oldPath, 'utf8'));
+      const oldJson = readOldJsonFile(oldPath);
       const result = compareCrawls(oldJson, liveCrawl);
 
       if (saveBaseline) {
@@ -2442,7 +2570,7 @@ async function main() {
               not_found_fields: []
             });
           } else {
-            const oldJson = JSON.parse(fs.readFileSync(oldPath, 'utf8'));
+            const oldJson = readOldJsonFile(oldPath);
             const res = compareCrawls(oldJson, liveCrawl);
             if (saveBaseline) {
               atomicWriteJson(oldPath, liveCrawl);
@@ -2486,7 +2614,7 @@ async function main() {
       process.exit(1);
     }
 
-    const oldJson = JSON.parse(fs.readFileSync(oldPath, 'utf8'));
+    const oldJson = readOldJsonFile(oldPath);
     const newJson = JSON.parse(fs.readFileSync(newPath, 'utf8'));
     const result = compareCrawls(oldJson, newJson);
     console.log(JSON.stringify(result, null, 2));
