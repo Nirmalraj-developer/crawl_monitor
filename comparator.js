@@ -1637,6 +1637,7 @@ function compareCrawls(oldJson, newJson, options = {}) {
         unchangedFields.push('title');
       }
     } else {
+      const isStaleMeta = baselineQuality?.issues?.includes('baseline_stale_meta');
       changes.push({
         field: 'title',
         change_type: 'modified',
@@ -1646,7 +1647,8 @@ function compareCrawls(oldJson, newJson, options = {}) {
         tier: 'log_only',
         needs_confirmation: false,
         confidence: 0.7,
-        evidence: `Token Jaccard similarity: ${titleSim.toFixed(2)}`,
+        ...(isStaleMeta ? { reason: 'baseline_stale_meta' } : {}),
+        evidence: `Token Jaccard similarity: ${titleSim.toFixed(2)}${isStaleMeta ? ' (baseline_stale_meta)' : ''}`,
         change_id: hashChange(domain, 'title', newRec.title)
       });
     }
@@ -1663,17 +1665,21 @@ function compareCrawls(oldJson, newJson, options = {}) {
         unchangedFields.push('description');
       }
     } else {
-      const isCorroborated = homeThemeChanged || catalogExpanded;
+      const isValidatedCatalog = catalogExpanded && !isCoverageImbalanced && baselineQuality.level !== 'low';
+      const isCorroborated = homeThemeChanged || isValidatedCatalog;
+      const isStaleMeta = baselineQuality?.issues?.includes('baseline_stale_meta');
+      const descTier = isCorroborated && !isStaleMeta ? 'alert_if_confirmed' : 'log_only';
       changes.push({
         field: 'description',
         change_type: 'modified',
         old_value: oldRec.description,
         new_value: newRec.description,
         description: `Company description updated: "${newRec.description}".`,
-        tier: isCorroborated ? 'alert_if_confirmed' : 'log_only',
-        needs_confirmation: isCorroborated,
-        confidence: isCorroborated ? 0.85 : 0.6,
-        evidence: `Jaccard ${descSim.toFixed(2)}${isCorroborated ? ' with corroboration' : ''}`,
+        tier: descTier,
+        needs_confirmation: descTier === 'alert_if_confirmed',
+        confidence: descTier === 'alert_if_confirmed' ? 0.85 : 0.6,
+        ...(isStaleMeta ? { reason: 'baseline_stale_meta' } : {}),
+        evidence: `Jaccard ${descSim.toFixed(2)}${isCorroborated && !isStaleMeta ? ' with corroboration' : ''}${isStaleMeta ? ' (baseline_stale_meta)' : ''}`,
         change_id: hashChange(domain, 'description', newRec.description)
       });
     }
@@ -3100,6 +3106,25 @@ function runSelfTest() {
         const noAlert = !res.changes.some(c => c.field === 'legal_registration_number');
 
         return isUnchanged && notInNotFound && noAlert;
+      }
+    },
+    {
+      id: 31,
+      name: 'non-circular corroboration: keeps description/title log_only with reason baseline_stale_meta',
+      fn: () => {
+        const oldJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'old.json'), 'utf8'));
+        const newJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'new.json'), 'utf8'));
+        const res = compareCrawls(oldJson, newJson);
+
+        const descChange = res.changes.find(c => c.field === 'description');
+        const titleChange = res.changes.find(c => c.field === 'title');
+
+        return descChange &&
+               descChange.tier === 'log_only' &&
+               descChange.reason === 'baseline_stale_meta' &&
+               titleChange &&
+               titleChange.tier === 'log_only' &&
+               titleChange.reason === 'baseline_stale_meta';
       }
     }
   ];
