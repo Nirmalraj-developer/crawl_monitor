@@ -1901,6 +1901,29 @@ function confirmChanges(firstResult, confirmationResult) {
   return confirmed;
 }
 
+/**
+ * Evaluates stability between two consecutive crawls of the same domain.
+ * Any change with tier alert or alert_if_confirmed is classified as a FALSE POSITIVE.
+ * @param {object} crawl1
+ * @param {object} crawl2
+ * @returns {object} stability evaluation
+ */
+function evaluateStability(crawl1, crawl2) {
+  const comp = compareCrawls(crawl1, crawl2);
+  const falsePositives = (comp.changes || []).filter(
+    c => c.tier === 'alert' || c.tier === 'alert_if_confirmed'
+  );
+  const logOnly = (comp.changes || []).filter(c => c.tier === 'log_only');
+  return {
+    domain: comp.domain,
+    status: comp.status,
+    is_stable: falsePositives.length === 0,
+    false_positives: falsePositives,
+    log_only: logOnly,
+    comparison: comp
+  };
+}
+
 const STATE_DIR = path.resolve(process.cwd(), 'data', 'state');
 const SENT_STATE_FILE = path.join(STATE_DIR, 'sent_change_ids.json');
 
@@ -2515,6 +2538,35 @@ function runSelfTest() {
 
         return true;
       }
+    },
+    {
+      id: 23,
+      name: 'stability mode: evaluateStability classifies alert & alert_if_confirmed as false positives, ignores log_only',
+      fn: () => {
+        const c1 = clone(baseJson);
+        const c2 = clone(baseJson);
+
+        // Same domain, minor log-only update
+        c2.crawl_data.data[0].title = c1.crawl_data.data[0].title + ' - Updated';
+        const stableEval = evaluateStability(c1, c2);
+        if (!stableEval.is_stable || stableEval.false_positives.length !== 0) return false;
+
+        // Unstable crawl with phone changed (alert) and new portal subdomain (alert_if_confirmed)
+        const c3 = clone(baseJson);
+        c3.crawl_data.data[0].phone = '+44 113 496 0000';
+        c3.crawl_data.data[0].phoneFormatted = '+44 113 496 0000';
+        c3.crawl_data.data[0].aboutPage = '';
+        c3.crawl_data.data[0].contactPage = 'Call us at +44 113 496 0000.';
+        c3.crawl_data.data[0].homeLinks = ['https://portal.infynd.com/login'];
+
+        const unstableEval = evaluateStability(c1, c3);
+        if (unstableEval.is_stable) return false;
+        if (unstableEval.false_positives.length < 2) return false;
+        const hasPhone = unstableEval.false_positives.some(c => c.field === 'phone');
+        const hasSub = unstableEval.false_positives.some(c => c.field === 'subdomain');
+
+        return hasPhone && hasSub;
+      }
     }
   ];
 
@@ -2647,6 +2699,148 @@ async function main() {
     }
 
     console.log('[Confirm] Completed confirmation flow.');
+    return;
+  }
+
+  // Mode: --stability <domains.txt> [--gap <sec>] (Item 7)
+  const stabilityIdx = args.indexOf('--stability');
+  if (stabilityIdx !== -1 && args[stabilityIdx + 1]) {
+    const listFile = path.resolve(process.cwd(), args[stabilityIdx + 1].trim());
+    if (!fs.existsSync(listFile)) {
+      console.error(`[Stability Error] Domain list file not found: ${listFile}`);
+      process.exit(1);
+    }
+
+    if (!crawlerService) crawlerService = require('./crawler_service');
+
+    const gapIdx = args.indexOf('--gap');
+    const gapSec = gapIdx !== -1 && args[gapIdx + 1] ? parseInt(args[gapIdx + 1], 10) : 120;
+
+    const domains = fs.readFileSync(listFile, 'utf8')
+      .split('\n')
+      .map(l => l.trim())
+      .filter(l => l && !l.startsWith('#'));
+
+    console.log(`\n======================================================`);
+    console.log(`STABILITY TEST RUNNER: ${domains.length} domain(s), gap: ${gapSec}s`);
+    console.log(`======================================================\n`);
+
+    const report = {
+      generated_at: new Date().toISOString(),
+      gap_seconds: gapSec,
+      total_domains: domains.length,
+      domains_tested: domains,
+      zero_fp_domains: [],
+      zero_fp_count: 0,
+      false_positive_count: 0,
+      false_positives_by_type: {},
+      details: []
+    };
+
+    for (let i = 0; i < domains.length; i++) {
+      const d = domains[i];
+      console.log(`[Stability ${i + 1}/${domains.length}] Starting domain: ${d}`);
+
+      // Crawl 1
+      let crawl1 = null;
+      try {
+        console.log(`  -> Fetching Crawl 1 for ${d}...`);
+        crawl1 = await crawlerService.crawlDomain(d);
+      } catch (err) {
+        console.error(`  [!] Crawl 1 failed for ${d}: ${err.message}`);
+        report.details.push({
+          domain: d,
+          status: 'error',
+          error_stage: 'crawl_1',
+          reason: err.message,
+          false_positives: []
+        });
+        continue;
+      }
+
+      // Wait gap
+      console.log(`  -> Waiting ${gapSec}s gap before Crawl 2...`);
+      await new Promise(r => setTimeout(r, gapSec * 1000));
+
+      // Crawl 2
+      let crawl2 = null;
+      try {
+        console.log(`  -> Fetching Crawl 2 for ${d}...`);
+        crawl2 = await crawlerService.crawlDomain(d);
+      } catch (err) {
+        console.error(`  [!] Crawl 2 failed for ${d}: ${err.message}`);
+        report.details.push({
+          domain: d,
+          status: 'error',
+          error_stage: 'crawl_2',
+          reason: err.message,
+          false_positives: []
+        });
+        continue;
+      }
+
+      // Evaluate Stability
+      const evalResult = evaluateStability(crawl1, crawl2);
+      const fps = evalResult.false_positives;
+
+      if (fps.length === 0) {
+        console.log(`  -> [PASS] Domain ${d} is STABLE (0 false positives, ${evalResult.log_only.length} noise logged)`);
+        report.zero_fp_domains.push(d);
+      } else {
+        console.warn(`  -> [FAIL] Domain ${d} had ${fps.length} FALSE POSITIVE(S):`);
+        for (const fp of fps) {
+          console.warn(`     * [${fp.tier}] ${fp.field} (${fp.change_type}): ${fp.description}`);
+          const key = `${fp.field}:${fp.change_type}`;
+          if (!report.false_positives_by_type[key]) report.false_positives_by_type[key] = [];
+          report.false_positives_by_type[key].push({
+            domain: d,
+            field: fp.field,
+            change_type: fp.change_type,
+            tier: fp.tier,
+            old_value: fp.old_value,
+            new_value: fp.new_value,
+            description: fp.description
+          });
+        }
+      }
+
+      report.false_positive_count += fps.length;
+      report.details.push({
+        domain: d,
+        status: evalResult.status,
+        is_stable: evalResult.is_stable,
+        false_positives: fps,
+        log_only_count: evalResult.log_only.length
+      });
+    }
+
+    report.zero_fp_count = report.zero_fp_domains.length;
+
+    // Write stability report JSON
+    const reportPath = path.resolve(process.cwd(), 'results', 'stability_report.json');
+    atomicWriteJson(reportPath, report);
+
+    // Print formatted summary table
+    console.log(`\n======================================================`);
+    console.log(`STABILITY REPORT SUMMARY`);
+    console.log(`======================================================`);
+    console.log(`Total domains tested:        ${report.total_domains}`);
+    console.log(`Zero false positive domains: ${report.zero_fp_count} (${report.total_domains > 0 ? Math.round(report.zero_fp_count / report.total_domains * 100) : 0}%)`);
+    console.log(`Total false positives:       ${report.false_positive_count}`);
+    console.log(`\nDomain Breakdown:`);
+    console.log(`--------------------------------------------------------------------------------`);
+    console.log(`| Domain                         | Status | FP Alerts | Noise Logged | Verdict |`);
+    console.log(`--------------------------------------------------------------------------------`);
+    for (const det of report.details) {
+      const dCol = det.domain.padEnd(30, ' ').slice(0, 30);
+      const sCol = (det.status || 'ok').padEnd(6, ' ').slice(0, 6);
+      const fpCol = String(det.false_positives?.length || 0).padEnd(9, ' ');
+      const nCol = String(det.log_only_count || 0).padEnd(12, ' ');
+      const vCol = det.is_stable ? 'STABLE' : 'UNSTABLE';
+      console.log(`| ${dCol} | ${sCol} | ${fpCol} | ${nCol} | ${vCol}  |`);
+    }
+    console.log(`--------------------------------------------------------------------------------`);
+    console.log(`Report written to: ${reportPath}\n`);
     return;
   }
 
@@ -2846,12 +3040,14 @@ Usage:
   node comparator.js --batch <domains.txt> [--save-baseline]
   node comparator.js --confirm [--confirm-delay <sec>] [--domain <domain>]
   node comparator.js --accept <domain>
+  node comparator.js --stability <domains.txt> [--gap <sec>]
   `);
 }
 
 module.exports = {
   compareCrawls,
   confirmChanges,
+  evaluateStability,
   loadSentChangeIds,
   markChangeIdsReported,
   CONFIG
