@@ -41,7 +41,8 @@ const CONFIG = {
     'contactLinks', 'privacyLinks', 'aboutLinks', 'termsLinks',
     'productLinks', 'ecommerceLinks', 'serviceLinks',
     'homeLinks', 'contactLinksAll', 'privacyLinksAll', 'aboutLinksAll', 'termsLinksAll',
-    'contactPage', 'privacyPage', 'aboutPage', 'termsPage', 'productPage'
+    'contactPage', 'privacyPage', 'aboutPage', 'termsPage', 'productPage',
+    'registration_number', 'address', 'postal_code'
   ],
 
   // ATS Recruitment platforms
@@ -748,6 +749,16 @@ function extractPostcodeFromText(text) {
  */
 function extractPostcodes(rec) {
   const sources = {};
+  if (!rec) return sources;
+
+  // Source 0: top-level postal_code / address fields (e.g. DB baseline)
+  if (rec.postal_code && String(rec.postal_code).trim()) {
+    sources.postal_code = String(rec.postal_code).trim().toUpperCase().replace(/\s+/g, '');
+  }
+  if (rec.address && typeof rec.address === 'string') {
+    const pc = extractPostcodeFromText(rec.address);
+    if (pc) sources.address = pc;
+  }
 
   // Source 1: contactPage
   if (rec.contactPage && typeof rec.contactPage === 'string') {
@@ -795,9 +806,17 @@ function extractPostcodes(rec) {
 }
 
 /**
- * Extracts company registration numbers
+ * Extracts company registration numbers from record or page text
  */
 function extractRegistration(rec) {
+  if (!rec) return null;
+  if (rec.registration_number && String(rec.registration_number).trim()) {
+    return {
+      number: String(rec.registration_number).trim(),
+      source: 'registration_number',
+      country: inferCountry(rec)
+    };
+  }
   for (const field of ['privacyPage', 'contactPage', 'termsPage', 'aboutPage']) {
     const text = rec[field];
     if (text && typeof text === 'string') {
@@ -2065,7 +2084,10 @@ function compareCrawls(oldJson, newJson, options = {}) {
       });
     } else {
       unchangedFields.push('legal_registration_number');
+      unchangedFields.push('registration_number');
     }
+  } else if (!oldReg && newReg) {
+    unchangedFields.push('registration_number');
   }
 
   // 14. UNKNOWN FIELDS (Rule 7: always log_only)
@@ -2091,6 +2113,8 @@ function compareCrawls(oldJson, newJson, options = {}) {
   // 15. CHECK FOR DROPPED SCALAR FIELDS (Missing is not removed -> not_found_fields)
   for (const [k, v] of Object.entries(oldRec)) {
     if (CONFIG.VOLATILE_FIELDS.includes(k)) continue;
+    if (k === 'registration_number' && newReg) continue;
+    if ((k === 'address' || k === 'postal_code') && Object.keys(newPostcodes).length > 0) continue;
     if (v !== null && v !== undefined && String(v).trim() !== '') {
       const nv = newRec[k];
       if (nv === null || nv === undefined || String(nv).trim() === '') {
@@ -3060,6 +3084,22 @@ function runSelfTest() {
         return phones.has('+443338980725') &&
                !phones.has('+4912150394') &&
                phones.size === 1;
+      }
+    },
+    {
+      id: 30,
+      name: 'registration number: compares top-level registration_number with extracted number and marks unchanged',
+      fn: () => {
+        const oldJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'old.json'), 'utf8'));
+        const newJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'test', 'fixtures', 'db_baseline_pair', 'new.json'), 'utf8'));
+        const res = compareCrawls(oldJson, newJson);
+
+        const isUnchanged = res.unchanged_fields.includes('registration_number') ||
+                            res.unchanged_fields.includes('legal_registration_number');
+        const notInNotFound = !res.not_found_fields.includes('registration_number');
+        const noAlert = !res.changes.some(c => c.field === 'legal_registration_number');
+
+        return isUnchanged && notInNotFound && noAlert;
       }
     }
   ];
