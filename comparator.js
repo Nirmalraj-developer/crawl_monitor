@@ -629,6 +629,44 @@ function extractTop5Keywords(text) {
 }
 
 /**
+ * Collapses route variants into one family root:
+ * numeric suffixes (/shop-1, /shop-5), /page/N, pagination params, trailing numbers.
+ */
+function getRouteFamily(route) {
+  if (!route || typeof route !== 'string') return '';
+  let str = route.toLowerCase().trim();
+  str = str.split('?')[0];
+  str = str.replace(/\/+$/, '');
+  str = str.replace(/\/(?:page|p)[-_/]\d+$/i, '');
+  str = str.replace(/\/\d+$/i, '');
+  str = str.replace(/[-_]\d+$/i, '');
+  return str;
+}
+
+/**
+ * Gathers unique normalized links across the link pool for coverage calculation
+ */
+function getUniqueLinksInPool(rec) {
+  const pool = new Set();
+  const rawList = [
+    ...parseLinkField(rec.homeLinks),
+    ...parseLinkField(rec.contactLinksAll),
+    ...parseLinkField(rec.privacyLinksAll),
+    ...parseLinkField(rec.aboutLinksAll),
+    ...parseLinkField(rec.termsLinksAll),
+    ...parseLinkField(rec.productLinks),
+    ...parseLinkField(rec.ecommerceLinks),
+    ...parseLinkField(rec.serviceLinks),
+    ...Object.values(rec.otherLinks || {})
+  ];
+  for (const l of rawList) {
+    const norm = normalizeUrl(l);
+    if (norm) pool.add(norm);
+  }
+  return pool;
+}
+
+/**
  * Categorizes link lists into catalog routes and content routes
  */
 function extractCatalogAndContentRoutes(rec) {
@@ -931,6 +969,23 @@ function compareCrawls(oldJson, newJson) {
   const unchangedFields = [];
   const notFoundFields = [];
 
+  // Compute coverage for both crawls
+  const oldPool = getUniqueLinksInPool(oldRec);
+  const newPool = getUniqueLinksInPool(newRec);
+  const oldLinksCount = oldPool.size;
+  const newLinksCount = newPool.size;
+  const coverageRatio = oldLinksCount === 0
+    ? (newLinksCount === 0 ? 1.0 : 999.0)
+    : Number((newLinksCount / oldLinksCount).toFixed(3));
+
+  const coverage = {
+    old_links: oldLinksCount,
+    new_links: newLinksCount,
+    ratio: coverageRatio
+  };
+
+  const isCoverageImbalanced = (coverageRatio < 0.5 || coverageRatio > 2.0);
+
   // Helper to add noise
   function addNoise(field, oldVal, newVal, reason) {
     noiseDetected.push({
@@ -1076,39 +1131,48 @@ function compareCrawls(oldJson, newJson) {
   const oldCatalog = extractCatalogAndContentRoutes(oldRec);
   const newCatalog = extractCatalogAndContentRoutes(newRec);
 
-  const addedCatalogRoutes = Array.from(newCatalog.catalogRoutes).filter(r => !oldCatalog.catalogRoutes.has(r));
-  const removedCatalogRoutes = Array.from(oldCatalog.catalogRoutes).filter(r => !newCatalog.catalogRoutes.has(r));
+  const oldFamilies = new Set(Array.from(oldCatalog.catalogRoutes).map(getRouteFamily));
+  const newFamilies = new Set(Array.from(newCatalog.catalogRoutes).map(getRouteFamily));
+
+  const addedCatalogFamilies = Array.from(newFamilies).filter(f => !oldFamilies.has(f));
+  const removedCatalogFamilies = Array.from(oldFamilies).filter(f => !newFamilies.has(f));
   const addedContentRoutes = Array.from(newCatalog.contentRoutes).filter(r => !oldCatalog.contentRoutes.has(r));
 
   let catalogExpanded = false;
-  if (addedCatalogRoutes.length > 0) {
+  if (addedCatalogFamilies.length > 0) {
     catalogExpanded = true;
+    const catTier = isCoverageImbalanced ? 'log_only' : 'alert_if_confirmed';
+    const catNeedsConfirm = !isCoverageImbalanced;
     changes.push({
       field: 'catalog',
       change_type: 'catalog_expanded',
-      old_value: `${oldCatalog.catalogRoutes.size} commercial routes`,
-      new_value: addedCatalogRoutes.slice(0, 3).join(', '),
-      description: `New commercial product or service offerings added (${addedCatalogRoutes.length} new routes).`,
-      tier: 'alert_if_confirmed',
-      needs_confirmation: true,
-      confidence: 0.9,
-      evidence: `Added routes: ${addedCatalogRoutes.slice(0, 5).join(', ')}`,
-      change_id: hashChange(domain, 'catalog', addedCatalogRoutes.join(','))
+      old_value: `${oldFamilies.size} commercial route families`,
+      new_value: addedCatalogFamilies.slice(0, 3).join(', '),
+      description: `New commercial product or service offerings added (${addedCatalogFamilies.length} new route families).`,
+      tier: catTier,
+      needs_confirmation: catNeedsConfirm,
+      confidence: isCoverageImbalanced ? 0.6 : 0.9,
+      evidence: isCoverageImbalanced
+        ? `Added families: ${addedCatalogFamilies.slice(0, 5).join(', ')} (downgraded due to coverage_difference: ratio ${coverageRatio})`
+        : `Added route families: ${addedCatalogFamilies.slice(0, 5).join(', ')}`,
+      change_id: hashChange(domain, 'catalog', addedCatalogFamilies.join(','))
     });
   }
 
-  if (removedCatalogRoutes.length > 0) {
+  if (removedCatalogFamilies.length > 0) {
     changes.push({
       field: 'catalog',
       change_type: 'catalog_reduced',
-      old_value: removedCatalogRoutes.slice(0, 3).join(', '),
-      new_value: `${newCatalog.catalogRoutes.size} commercial routes`,
-      description: `Commercial catalog routes removed (${removedCatalogRoutes.length} routes).`,
+      old_value: removedCatalogFamilies.slice(0, 3).join(', '),
+      new_value: `${newFamilies.size} commercial route families`,
+      description: `Commercial catalog routes removed (${removedCatalogFamilies.length} families).`,
       tier: 'log_only',
       needs_confirmation: false,
       confidence: 0.7,
-      evidence: `Removed routes: ${removedCatalogRoutes.slice(0, 5).join(', ')}`,
-      change_id: hashChange(domain, 'catalog_removed', removedCatalogRoutes.join(','))
+      evidence: isCoverageImbalanced
+        ? `Removed families: ${removedCatalogFamilies.slice(0, 5).join(', ')} (coverage_difference: ratio ${coverageRatio})`
+        : `Removed families: ${removedCatalogFamilies.slice(0, 5).join(', ')}`,
+      change_id: hashChange(domain, 'catalog_removed', removedCatalogFamilies.join(','))
     });
   }
 
@@ -1438,16 +1502,19 @@ function compareCrawls(oldJson, newJson) {
   const removedSubdomains = Array.from(oldSubdomains).filter(s => !newSubdomains.has(s));
 
   for (const sub of addedSubdomains) {
+    const subTier = isCoverageImbalanced ? 'log_only' : 'alert_if_confirmed';
     changes.push({
       field: 'subdomain',
       change_type: 'added',
       old_value: null,
       new_value: `${sub}.${domain}`,
       description: `New business subdomain discovered: ${sub}.${domain}.`,
-      tier: 'alert_if_confirmed',
-      needs_confirmation: true,
-      confidence: 0.9,
-      evidence: `Discovered new active host ${sub}.${domain}`,
+      tier: subTier,
+      needs_confirmation: !isCoverageImbalanced,
+      confidence: isCoverageImbalanced ? 0.6 : 0.9,
+      evidence: isCoverageImbalanced
+        ? `Discovered new active host ${sub}.${domain} (downgraded due to coverage_difference: ratio ${coverageRatio})`
+        : `Discovered new active host ${sub}.${domain}`,
       change_id: hashChange(domain, 'subdomain', `${sub}.${domain}`)
     });
   }
@@ -1462,7 +1529,9 @@ function compareCrawls(oldJson, newJson) {
       tier: 'log_only',
       needs_confirmation: false,
       confidence: 0.7,
-      evidence: `Subdomain disappeared from link pool`,
+      evidence: isCoverageImbalanced
+        ? `Subdomain disappeared from link pool (coverage_difference: ratio ${coverageRatio})`
+        : `Subdomain disappeared from link pool`,
       change_id: hashChange(domain, 'subdomain_removed', `${sub}.${domain}`)
     });
   }
@@ -1615,6 +1684,7 @@ function compareCrawls(oldJson, newJson) {
     status: 'ok',
     has_meaningful_change: hasMeaningful,
     summary,
+    coverage,
     changes,
     noise_detected: noiseDetected,
     unchanged_fields: Array.from(new Set(unchangedFields)),
@@ -2056,6 +2126,39 @@ function runSelfTest() {
         const hasDrift = res.changes.some(c => c.field === 'company_name' || c.change_type === 'brand_name_drift');
         const hasNoise = res.noise_detected.some(n => n.field === 'nameFromTitle');
         return !hasDrift && hasNoise;
+      }
+    },
+    {
+      id: 19,
+      name: 'route families & coverage guard: collapses /shop-N and downgrades when link ratio > 2.0 to log_only',
+      fn: () => {
+        // Old has 12 unique links
+        const oldLinks = Array.from({ length: 12 }, (_, i) => `https://example.com/page-${i}`);
+        // New has 40 unique links + 3 new routes: /shop-1, /shop-5, /shop-10
+        const newLinks = Array.from({ length: 40 }, (_, i) => `https://example.com/item-${i}`);
+
+        const oldJson = {
+          data: [{
+            normalizedDomain: 'example.com',
+            homeLinks: JSON.stringify(oldLinks),
+            productLinks: []
+          }]
+        };
+        const newJson = {
+          data: [{
+            normalizedDomain: 'example.com',
+            homeLinks: JSON.stringify(newLinks),
+            productLinks: ['https://example.com/shop-1', 'https://example.com/shop-5', 'https://example.com/shop-10']
+          }]
+        };
+
+        const res = compareCrawls(oldJson, newJson);
+        const catChange = res.changes.find(c => c.field === 'catalog');
+        const hasCoverage = res.coverage && res.coverage.ratio > 2.0;
+        const isLogOnly = catChange && catChange.tier === 'log_only';
+        const noMeaningful = !res.has_meaningful_change;
+
+        return hasCoverage && isLogOnly && noMeaningful;
       }
     }
   ];
