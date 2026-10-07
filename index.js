@@ -17,6 +17,7 @@ const path = require('path');
 const { Client } = require('pg');
 const { crawlDomain, cleanDomain } = require('./crawler_service');
 const { compareCrawls } = require('./comparator');
+const { scoreCompanyChanges } = require('./field_scorer');
 
 // Load environment variables from .env
 function loadEnv() {
@@ -302,22 +303,26 @@ async function processDomain(domain, dbClient = null) {
     return initialReport;
   }
 
-  // Step 3: Run Comparator
+  // Step 3: Run Direct Field-by-Field Scoring (Pure 1-to-1 comparison)
+  const oldRec = dbBaselineJson.data?.[0] || {};
+  const liveRec = liveCrawlJson.data?.[0] || {};
+  const fieldScoring = scoreCompanyChanges(oldRec, liveRec);
+
+  // Step 4: Run Comparator (for deep metadata & quality diagnostics)
   console.log(`[Comparator] Comparing DB baseline against live crawl...`);
   const comparisonResult = compareCrawls(dbBaselineJson, liveCrawlJson);
 
-  // Step 4: Assemble comprehensive Company Report
-  const liveRec = liveCrawlJson.data?.[0] || {};
+  // Step 5: Assemble Company Report
   const companyReport = {
     domain: targetDomain,
     compared_at: comparisonResult.compared_at,
-    status: comparisonResult.status,
-    has_meaningful_change: comparisonResult.has_meaningful_change,
-    has_pending_confirmation: comparisonResult.has_pending_confirmation,
-    baseline_quality: comparisonResult.baseline_quality,
-    coverage: comparisonResult.coverage,
-    summary: comparisonResult.summary,
-    recommendation: comparisonResult.recommendation || null,
+    // --- Direct Field Scoring Summary ---
+    total_change_score: fieldScoring.total_change_score,
+    change_level: fieldScoring.change_level,
+    has_meaningful_change: fieldScoring.has_meaningful_change,
+    summary: fieldScoring.summary,
+    field_scores: fieldScoring.fields,
+    // --- Detailed Diagnostics & Baseline Metrics ---
     db_baseline_profile: dbProfileSummary || { found_in_db: false },
     live_crawl_summary: {
       url: liveRec.url || null,
@@ -328,39 +333,39 @@ async function processDomain(domain, dbClient = null) {
       response_code: liveRec.responseCode || null,
       home_content_length: (liveRec.homeContent || '').length,
     },
-    changes: comparisonResult.changes,
-    baseline_gaps: comparisonResult.baseline_gaps || [],
-    noise_detected: comparisonResult.noise_detected || [],
-    unchanged_fields: comparisonResult.unchanged_fields || [],
-    not_found_fields: comparisonResult.not_found_fields || [],
+    baseline_quality: comparisonResult.baseline_quality,
+    coverage: comparisonResult.coverage,
+    comparator_details: {
+      status: comparisonResult.status,
+      has_pending_confirmation: comparisonResult.has_pending_confirmation,
+      changes: comparisonResult.changes,
+      baseline_gaps: comparisonResult.baseline_gaps || [],
+      noise_detected: comparisonResult.noise_detected || [],
+      unchanged_fields: comparisonResult.unchanged_fields || [],
+      not_found_fields: comparisonResult.not_found_fields || [],
+    },
   };
 
-  // Step 5: Save Individual Report JSON
+  // Step 6: Save Individual Report JSON
   const reportPath = path.resolve(process.cwd(), 'results', `${targetDomain}_report.json`);
   atomicWriteJson(reportPath, companyReport);
 
-  // Print neat summary
-  console.log('\n--- Company Comparison Summary ---');
-  console.log(`Domain:                  ${targetDomain}`);
-  console.log(`Status:                  ${companyReport.status.toUpperCase()}`);
-  console.log(`Meaningful Change:       ${companyReport.has_meaningful_change ? 'YES [ALERT]' : 'NO'}`);
-  console.log(`Pending Confirmation:    ${companyReport.has_pending_confirmation ? 'YES [RE-CRAWL NEEDED]' : 'NO'}`);
-  if (companyReport.baseline_quality) {
-    console.log(`Baseline Quality:        ${companyReport.baseline_quality.level.toUpperCase()} (Issues: ${companyReport.baseline_quality.issues.join(', ') || 'None'})`);
+  // Print neat, clear field score summary
+  console.log('\n======================================================');
+  console.log(` FIELD-BY-FIELD CHANGE REPORT: ${targetDomain}`);
+  console.log('======================================================');
+  console.log(`TOTAL CHANGE SCORE:      ${fieldScoring.total_change_score} / 100 [${fieldScoring.change_level} CHANGE]`);
+  console.log(`MEANINGFUL CHANGE:       ${fieldScoring.has_meaningful_change ? 'YES' : 'NO'}`);
+  console.log(`SUMMARY:                 ${fieldScoring.summary}\n`);
+  console.log('--- Individual Field Scores ---');
+  for (const [fieldName, info] of Object.entries(fieldScoring.fields)) {
+    const statusTag = `[${info.status}]`.padEnd(23);
+    const scoreTag = `(Score: ${String(info.score).padStart(2)})`;
+    const simTag = info.similarity ? ` [Sim: ${info.similarity}]` : '';
+    console.log(`  • ${fieldName.padEnd(14)}: ${statusTag} ${scoreTag}${simTag} - ${info.description}`);
   }
-  if (companyReport.coverage) {
-    console.log(`Coverage Ratio:          ${companyReport.coverage.ratio} (${companyReport.coverage.old_links} old vs ${companyReport.coverage.new_links} new links)`);
-  }
-  console.log(`Changes Detected:        ${companyReport.changes.length}`);
-  if (companyReport.changes.length > 0) {
-    companyReport.changes.forEach((c) => {
-      console.log(`  -> [${c.tier.toUpperCase()}] ${c.field} (${c.change_type}): ${c.description}`);
-    });
-  }
-  if (companyReport.baseline_gaps.length > 0) {
-    console.log(`Baseline Gaps:           ${companyReport.baseline_gaps.length} (data missing in DB baseline)`);
-  }
-  console.log(`Report JSON Saved:       results/${targetDomain}_report.json`);
+  console.log('------------------------------------------------------');
+  console.log(`Report JSON Saved: results/${targetDomain}_report.json`);
 
   return companyReport;
 }
