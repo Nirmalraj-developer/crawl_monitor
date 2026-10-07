@@ -261,11 +261,256 @@
     </header>
 
     <div class="nav-tabs">
+      <a href="#cat-six-signals" class="nav-btn" style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(192, 132, 252, 0.2)); color: #fff; border-color: var(--accent-blue);">★ Six-Signal Architecture & Algorithms</a>
       <a href="#cat-core" class="nav-btn">Tier 1: Core Business (12)</a>
       <a href="#cat-content" class="nav-btn">Tier 2: Page Bodies (5)</a>
       <a href="#cat-tech" class="nav-btn">Tier 3: Technical & Infrastructure (6)</a>
       <a href="#cat-identity" class="nav-btn">Tier 4: Auxiliary Identity (5)</a>
       <a href="#cat-links" class="nav-btn">Tier 5: Link Pools (4)</a>
+      <a href="#report-layer" class="nav-btn">Banking Report</a>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION: SIX-SIGNAL COMPANY CHANGE ANALYSIS LAYER & ALGORITHMS -->
+    <!-- ===================================================================== -->
+    <div id="cat-six-signals" style="margin-top: 20px; margin-bottom: 40px; padding: 30px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)); border: 1px solid var(--accent-blue); border-radius: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 18px;">
+        <div>
+          <span class="badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); margin-bottom: 8px;">NEW ARCHITECTURE LAYER</span>
+          <h2 style="font-size: 2.1rem; font-weight: 800; color: #fff; margin-top: 6px;">Six-Signal Company Change Analysis Layer</h2>
+          <p style="color: var(--text-muted); font-size: 0.98rem; max-width: 900px; margin-top: 4px;">
+            A field-aware, multi-signal feature extraction and evaluation engine that answers: <em>"Did something meaningful about this company actually change?"</em> rather than merely <em>"Did some JSON text change?"</em>.
+          </p>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span class="badge unchanged">Field-Aware Dispatch</span>
+          <span class="badge not-found">Strictly NO Levenshtein / SimHash / MinHash</span>
+          <span class="badge comparator">AI Escalation Only</span>
+        </div>
+      </div>
+
+      <!-- Execution Flow Visual Block -->
+      <div style="background: var(--code-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 28px; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #94a3b8; line-height: 1.6;">
+        <span style="color: #38bdf8; font-weight: 700;">// End-to-End Execution Pipeline (src/index.js)</span><br/>
+        <span style="color: #cbd5e1;">OLD JSON + NEW JSON</span> &rarr;
+        <span style="color: #facc15;">[Deterministic Diff]</span> &rarr;
+        <span style="color: #38bdf8;">[Value Normalizer (null&harr;"" filter)]</span> &rarr;
+        <span style="color: #c084fc;">[Field-Type Classifier]</span> &rarr;
+        <span style="color: #34d399;">[Field-Specific Six Signals]</span> &rarr;
+        <span style="color: #fb923c;">[Importance-First Scoring]</span> &rarr;
+        <span style="color: #fb7185;">[Ambiguity &rarr; AI Escalator]</span> &rarr;
+        <span style="color: #38bdf8;">[Dual JSON Outputs]</span>
+      </div>
+
+      <!-- Deep Dive into the 6 Algorithms -->
+      <h3 style="font-size: 1.35rem; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+        <span>🔬</span> The Six Approved Signals: Mechanics, Use Case &amp; Field Mappings
+      </h3>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 18px; margin-bottom: 30px;">
+        
+        <!-- Signal 1 -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h4 style="color: #fb7185; font-size: 1.05rem; font-weight: 700;">1. Entity Changes</h4>
+            <span class="badge not-found">Identity &amp; Contact</span>
+          </div>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">
+            <strong style="color: #e2e8f0;">Algorithm:</strong> Field-aware Named Entity Extraction. For structured fields, tracks canonical entity state directly. For text, extracts phones via <code>libphonenumber-js</code>, emails via RFC 5322 regex, Companies House registration IDs, and gazetteer locations.
+          </p>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;">
+            <strong style="color: #e2e8f0;">Purpose:</strong> Detects material real-world shifts: corporate identity changes, statutory registration alterations, phone replacements, and physical office moves.
+          </p>
+          <div style="background: var(--code-bg); padding: 8px 12px; border-radius: 6px; font-size: 0.78rem;">
+            <span style="color: #64748b; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">Applied Fields:</span>
+            <code style="color: #38bdf8;">companyName, legalName, clearbitName, phone, phoneFormatted, email, address, country, registration_number, description</code>
+          </div>
+        </div>
+
+        <!-- Signal 2 -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h4 style="color: #c084fc; font-size: 1.05rem; font-weight: 700;">2. Embedding Semantic Similarity</h4>
+            <span class="badge comparator">Conceptual Drift</span>
+          </div>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">
+            <strong style="color: #e2e8f0;">Algorithm:</strong> High-dimensional dense vector embeddings via OpenAI <code>text-embedding-3-small</code> (or deterministic 128-dimensional n-gram projection offline). Computes cosine similarity between vectors: \(\cos(\theta) = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{u}\| \|\mathbf{v}\|}\).
+          </p>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;">
+            <strong style="color: #e2e8f0;">Purpose:</strong> Identifies conceptual meaning drift and business model pivots in narrative text, remaining immune to routine grammatical rewrites and marketing paraphrasing.
+          </p>
+          <div style="background: var(--code-bg); padding: 8px 12px; border-radius: 6px; font-size: 0.78rem;">
+            <span style="color: #64748b; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">Applied Fields (Text Only):</span>
+            <code style="color: #c084fc;">description, summary, tagline, about, mission, products, services, aboutPage</code>
+          </div>
+        </div>
+
+        <!-- Signal 3 -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h4 style="color: #38bdf8; font-size: 1.05rem; font-weight: 700;">3. TF-IDF + Cosine Similarity</h4>
+            <span class="badge scorer">Distinctive Lexicon</span>
+          </div>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">
+            <strong style="color: #e2e8f0;">Algorithm:</strong> Term Frequency &times; Inverse Document Frequency weighting with smoothed IDF: \(\text{TF-IDF}(t) = \text{TF}(t) \times \ln(1 + \frac{N}{\text{DF}(t)})\). Suppresses non-material stop words while weighting sector/brand terms.
+          </p>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;">
+            <strong style="color: #e2e8f0;">Purpose:</strong> Detects specialized terminology shifts and commercial offerings changes without being misled by generic copywriting tweaks.
+          </p>
+          <div style="background: var(--code-bg); padding: 8px 12px; border-radius: 6px; font-size: 0.78rem;">
+            <span style="color: #64748b; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">Applied Fields (Text Only):</span>
+            <code style="color: #38bdf8;">description, summary, tagline, business_description, products_services_c</code>
+          </div>
+        </div>
+
+        <!-- Signal 4 -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h4 style="color: #34d399; font-size: 1.05rem; font-weight: 700;">4. Jaccard Similarity</h4>
+            <span class="badge unchanged">Lexical Token Set</span>
+          </div>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">
+            <strong style="color: #e2e8f0;">Algorithm:</strong> Normalized token set intersection over union: \(J(A, B) = \frac{|A \cap B|}{|A \cup B|}\). Independent of sentence grammar, word reordering, or punctuation insertion.
+          </p>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;">
+            <strong style="color: #e2e8f0;">Purpose:</strong> Measures exact vocabulary overlap percentage. When paired with embeddings, large divergences highlight structural rewrites vs genuine business pivots.
+          </p>
+          <div style="background: var(--code-bg); padding: 8px 12px; border-radius: 6px; font-size: 0.78rem;">
+            <span style="color: #64748b; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">Applied Fields (Text Only):</span>
+            <code style="color: #34d399;">description, summary, title, aboutPage</code>
+          </div>
+        </div>
+
+        <!-- Signal 5 -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h4 style="color: #fbbf24; font-size: 1.05rem; font-weight: 700;">5. Number Changes</h4>
+            <span class="badge modified">Metrics &amp; Stats</span>
+          </div>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">
+            <strong style="color: #e2e8f0;">Algorithm:</strong> Strips URLs, query parameters (e.g. <code>?id=12345</code>), tracking hashes, and session tokens. Extracts business numbers (currencies £/$/€, headcounts, establishment years, percentages, unit metrics).
+          </p>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;">
+            <strong style="color: #e2e8f0;">Purpose:</strong> Surfaces critical commercial metric revisions: <em>"28 years of experience"</em> &rarr; <em>"15 years"</em>, pricing adjustments, headcount growth, or founded dates.
+          </p>
+          <div style="background: var(--code-bg); padding: 8px 12px; border-radius: 6px; font-size: 0.78rem;">
+            <span style="color: #64748b; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">Applied Fields:</span>
+            <code style="color: #fbbf24;">description, summary, founded_year, employee_count, revenue</code>
+          </div>
+        </div>
+
+        <!-- Signal 6 -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h4 style="color: #fb7185; font-size: 1.05rem; font-weight: 700;">6. Negation Changes</h4>
+            <span class="badge not-found">Polarity &amp; State</span>
+          </div>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">
+            <strong style="color: #e2e8f0;">Algorithm:</strong> Lexical search for negation terms (<code>not</code>, <code>no</code>, <code>never</code>, <code>neither</code>, <code>ceased</code>, <code>closed</code>, <code>discontinued</code>, <code>halted</code>, <code>stopped</code>, <code>suspended</code>, <code>cannot</code>) and extracts contextual sliding word windows around each occurrence.
+          </p>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;">
+            <strong style="color: #e2e8f0;">Purpose:</strong> Catches operational shutdowns or state reversals: e.g. <em>"Accepting new clients"</em> &rarr; <em>"Not accepting new clients"</em>, which have catastrophic business impacts despite high similarity.
+          </p>
+          <div style="background: var(--code-bg); padding: 8px 12px; border-radius: 6px; font-size: 0.78rem;">
+            <span style="color: #64748b; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">Applied Fields (Text Only):</span>
+            <code style="color: #fb7185;">description, summary, homeContent, termsPage</code>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Field-Type Classification & Signal Dispatch Matrix -->
+      <h3 style="font-size: 1.35rem; color: #fff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+        <span>📋</span> Field-Type Classification &amp; Signal Dispatch Matrix
+      </h3>
+
+      <div style="overflow-x: auto; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 24px;">
+        <table class="case-table" style="font-size: 0.86rem;">
+          <thead>
+            <tr>
+              <th style="padding: 10px 14px;">Field Type</th>
+              <th style="padding: 10px 14px;">Key Fields</th>
+              <th style="padding: 10px 14px;">Importance</th>
+              <th style="padding: 10px 14px;">Allowed Signals</th>
+              <th style="padding: 10px 14px;">Excluded Signals (Prevent Noise)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 10px 14px; font-weight: 700; color: #38bdf8;">IDENTITY</td>
+              <td style="padding: 10px 14px;"><code>companyName</code>, <code>legalName</code>, <code>name</code>, <code>clearbitName</code></td>
+              <td style="padding: 10px 14px;"><span class="badge not-found">CRITICAL</span></td>
+              <td style="padding: 10px 14px; color: #34d399;">Entity Changes (Company ID)</td>
+              <td style="padding: 10px 14px; color: #64748b;">Embeddings, TF-IDF, Jaccard, Number extraction</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 14px; font-weight: 700; color: #38bdf8;">CONTACT</td>
+              <td style="padding: 10px 14px;"><code>phone</code>, <code>phoneFormatted</code>, <code>email</code>, <code>mobile</code></td>
+              <td style="padding: 10px 14px;"><span class="badge not-found">HIGH</span></td>
+              <td style="padding: 10px 14px; color: #34d399;">Entity Changes (Phone / Email E.164)</td>
+              <td style="padding: 10px 14px; color: #64748b;">Embeddings, TF-IDF, Jaccard, Negation</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 14px; font-weight: 700; color: #38bdf8;">LOCATION</td>
+              <td style="padding: 10px 14px;"><code>country</code>, <code>address</code>, <code>city</code>, <code>postal_code</code></td>
+              <td style="padding: 10px 14px;"><span class="badge not-found">HIGH</span></td>
+              <td style="padding: 10px 14px; color: #34d399;">Entity Changes (Location &amp; Address)</td>
+              <td style="padding: 10px 14px; color: #64748b;">Text Embeddings, TF-IDF, Jaccard</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 14px; font-weight: 700; color: #38bdf8;">NUMERIC / FACT</td>
+              <td style="padding: 10px 14px;"><code>registration_number</code>, <code>founded_year</code>, <code>employee_count</code></td>
+              <td style="padding: 10px 14px;"><span class="badge not-found">CRITICAL / MED</span></td>
+              <td style="padding: 10px 14px; color: #34d399;">Number Changes, Entity Changes (Reg ID)</td>
+              <td style="padding: 10px 14px; color: #64748b;">Text Embeddings, TF-IDF, Negation</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 14px; font-weight: 700; color: #34d399;">TEXT</td>
+              <td style="padding: 10px 14px;"><code>description</code>, <code>summary</code>, <code>tagline</code>, <code>about</code>, <code>products</code></td>
+              <td style="padding: 10px 14px;"><span class="badge unchanged">LOW / MED</span></td>
+              <td style="padding: 10px 14px; color: #34d399;"><strong>ALL SIX SIGNALS</strong></td>
+              <td style="padding: 10px 14px; color: #64748b;">None (Full natural language processing)</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 14px; font-weight: 700; color: #94a3b8;">URL / SOCIAL</td>
+              <td style="padding: 10px 14px;"><code>website</code>, <code>linkedin</code>, <code>facebook</code>, <code>socialLinks.*</code></td>
+              <td style="padding: 10px 14px;"><span class="badge unchanged">LOW</span></td>
+              <td style="padding: 10px 14px; color: #34d399;">URL Normalization &amp; Tracking Strip</td>
+              <td style="padding: 10px 14px; color: #64748b;">Embeddings, TF-IDF, Number extraction</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 14px; font-weight: 700; color: #64748b;">TECHNICAL</td>
+              <td style="padding: 10px 14px;"><code>processingId</code>, <code>hostIp</code>, <code>loadTimeMs</code>, <code>webServer</code></td>
+              <td style="padding: 10px 14px;"><span class="badge" style="background:#334155;color:#94a3b8;">IGNORE</span></td>
+              <td style="padding: 10px 14px; color: #64748b;">None (Filtered as operational telemetry)</td>
+              <td style="padding: 10px 14px; color: #64748b;">All signals</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Normalization & Scoring Rules -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px;">
+          <h4 style="color: #38bdf8; margin-bottom: 10px; font-size: 1rem;">Value Normalization (Noise Filter)</h4>
+          <ul class="step-list">
+            <li><code>null</code> vs <code>""</code> vs <code>"   "</code> &rarr; treated as <code>NO_MEANINGFUL_CHANGE</code>.</li>
+            <li>Phones: normalized to E.164 (e.g. <code>020 8368 1500</code> == <code>+44 20 8368 1500</code>).</li>
+            <li>Emails: lowercased, trimmed. No fake diffs from casing.</li>
+            <li>URLs: tracking parameters (<code>utm_*</code>, <code>gclid</code>, <code>sxsrf</code>) and trailing slashes stripped.</li>
+            <li>Registration numbers: whitespace and dashes stripped.</li>
+          </ul>
+        </div>
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px;">
+          <h4 style="color: #c084fc; margin-bottom: 10px; font-size: 1rem;">Importance-First Scoring Rule</h4>
+          <ul class="step-list">
+            <li><strong>Factual Overrides:</strong> A business-critical factual change (CRITICAL/HIGH) always triggers <code>REVIEW</code> regardless of text similarity.</li>
+            <li><strong>Location Priority:</strong> <code>London</code> &rarr; <code>Manchester</code> requires human review even if text embeddings return <code>0.95</code> similarity.</li>
+            <li><strong>AI Escalation Gate:</strong> Only genuinely ambiguous text changes or polarity flips escalate to the LLM (e.g. 1 field instead of 37).</li>
+            <li><strong>Missing Value Events:</strong> Emits <code>VALUE_REMOVED</code> or <code>VALUE_ADDED</code> without fake zero-similarity scores.</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <!-- ===================================================================== -->
