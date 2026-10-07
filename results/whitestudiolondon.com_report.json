@@ -1,10 +1,10 @@
 {
   "domain": "whitestudiolondon.com",
-  "compared_at": "2026-10-07T08:47:18.997Z",
+  "compared_at": "2026-10-07T09:56:52.477Z",
   "total_change_score": 60,
   "change_level": "HIGH",
   "has_meaningful_change": true,
-  "summary": "Changed: description, social links, catalog routes, host ip, ip country, load time_ms, name from_title, other links | Not found in crawl: company name, phone, address, registration number, clearbit name",
+  "summary": "Changed: description, social links, catalog routes, ip country, load time_ms, name from_title, other links | Not found in crawl: company name, phone, address, registration number, about page, clearbit name",
   "fields": {
     "company_name": {
       "old": "White Studio",
@@ -179,7 +179,7 @@
     },
     "website": {
       "old": "https://www.whitestudiolondon.com",
-      "new": "https://www.whitestudiolondon.com/",
+      "new": "https://www.whitestudiolondon.com",
       "status": "UNCHANGED",
       "score": 0,
       "similarity": null,
@@ -278,20 +278,20 @@
     },
     "about_page": {
       "old": "About Us | White Studio top of page HOME Collections White Studio White Studio Curve White Studio Signature About Us #WS Brides Find Stockists Events Become a stockist Contact Us Size Chart More Use tab to navigate through the menu items. Other Labels: White Rose Millie May Our Story Established in 2023, our journey began with a vision to expand the bridal experience. Showcasing our beautiful collection at the Harrogate Bridal Week in September, we proudly introduced our commitment to exquisite designs at accessible prices. As part of our White Rose Bridal family of brands, we uphold our dedication to crafting high-quality wedding dresses while curating our most affordable collection. Ensuring every bride discovers their dream gown without compromise, we believe luxury should be within everyone`s reach. Explore Now White Studio About Us Our Collections FAQ Contact Us Become A Stockist Find A Stockist White Studio | Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE Size Chart WS Brides Events 020 8368 1500 info@whitestudiolondon.com © 2023 by White Studio. All rights reserved. bottom of page",
-      "new": "About Us | White Studio top of page HOME Collections White Studio White Studio Curve White Studio Signature About Us #WS Brides Find Stockists Events Become a stockist Contact Us Size Chart More Use tab to navigate through the menu items. Other Labels: White Rose Millie May Our Story Established in 2023, our journey began with a vision to expand the bridal experience. Showcasing our beautiful collection at the Harrogate Bridal Week in September, we proudly introduced our commitment to exquisite designs at accessible prices. As part of our White Rose Bridal family of brands, we uphold our dedication to crafting high-quality wedding dresses while curating our most affordable collection. Ensuring every bride discovers their dream gown without compromise, we believe luxury should be within everyone`s reach. Explore Now White Studio About Us Our Collections FAQ Contact Us Become A Stockist Find A Stockist White Studio | Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE Size Chart WS Brides Events 020 8368 1500 info@whitestudiolondon.com © 2023 by White Studio. All rights reserved. bottom of page",
-      "status": "UNCHANGED",
+      "new": null,
+      "status": "NOT_FOUND_IN_CRAWL",
       "score": 0,
-      "similarity": "100%",
+      "similarity": "0%",
       "independent": {
         "score": 0,
-        "status": "UNCHANGED",
-        "verdict": "About Page body content matches (100% similarity)."
+        "status": "NOT_FOUND_IN_CRAWL",
+        "verdict": "About Page missing in live crawl."
       },
       "dependent": {
-        "tier": "unchanged",
-        "corroborated": true,
-        "confidence": 1,
-        "evidence": "Field verified unchanged across records and page text.",
+        "tier": "not_found",
+        "corroborated": false,
+        "confidence": 0.7,
+        "evidence": "Not located in extracted crawl page contacts or body.",
         "needs_confirmation": false
       }
     },
@@ -373,20 +373,20 @@
     },
     "host_ip": {
       "old": "172.66.3.8",
-      "new": "162.159.143.12",
-      "status": "MODIFIED",
+      "new": "172.66.3.8",
+      "status": "UNCHANGED",
       "score": 0,
       "similarity": null,
       "independent": {
         "score": 0,
-        "status": "MODIFIED",
-        "verdict": "Host IP shifted from \"172.66.3.8\" to \"162.159.143.12\"."
+        "status": "UNCHANGED",
+        "verdict": "Host IP matches (\"172.66.3.8\")."
       },
       "dependent": {
-        "tier": "log_only",
-        "corroborated": false,
-        "confidence": 0.5,
-        "evidence": "Host IP shifted from \"172.66.3.8\" to \"162.159.143.12\".",
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
         "needs_confirmation": false
       }
     },
@@ -449,20 +449,20 @@
     },
     "load_time_ms": {
       "old": 131,
-      "new": 170,
+      "new": 174,
       "status": "MODIFIED",
       "score": 0,
       "similarity": null,
       "independent": {
         "score": 0,
         "status": "MODIFIED",
-        "verdict": "Load Time shifted from \"131\" to \"170\"."
+        "verdict": "Load Time shifted from \"131\" to \"174\"."
       },
       "dependent": {
         "tier": "log_only",
         "corroborated": false,
         "confidence": 0.5,
-        "evidence": "Load Time shifted from \"131\" to \"170\".",
+        "evidence": "Load Time shifted from \"131\" to \"174\".",
         "needs_confirmation": false
       }
     },
@@ -674,8 +674,8 @@
     },
     "baseline_gaps": [],
     "http_response_code": "200",
-    "host_ip": "162.159.143.12",
-    "load_time_ms": 170,
+    "host_ip": "172.66.3.8",
+    "load_time_ms": 174,
     "home_content_length": 2775
   },
   "db_baseline_profile": {
@@ -692,7 +692,7 @@
     "has_privacy_page": false
   },
   "live_crawl_summary": {
-    "url": "https://www.whitestudiolondon.com/",
+    "url": "https://www.whitestudiolondon.com",
     "title": "Wedding dress | White Studio Bridal | United Kingdom",
     "company_name": null,
     "phone": null,

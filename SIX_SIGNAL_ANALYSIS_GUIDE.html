@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deep Dive: Six Signals, Algorithms, Field Mappings & Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0f1d;
+      --bg-secondary: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #24344d;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --code-bg: #090d16;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+    .container { max-width: 1320px; margin: 0 auto; }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    header h1 {
+      font-size: 2.7rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    header p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .badge-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent-blue);
+    }
+    .badge.rule {
+      background: rgba(251, 113, 133, 0.1);
+      border-color: rgba(251, 113, 133, 0.3);
+      color: var(--accent-rose);
+    }
+    .badge.emerald {
+      background: rgba(52, 211, 153, 0.1);
+      border-color: rgba(52, 211, 153, 0.3);
+      color: var(--accent-emerald);
+    }
+
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 32px;
+    }
+    .card h2 {
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .algo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 20px;
+      margin: 24px 0;
+    }
+    .algo-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    .algo-card h3 {
+      font-size: 1.25rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .algo-tag {
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .tag-blue { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+    .tag-purple { background: rgba(192, 132, 252, 0.2); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.4); }
+    .tag-green { background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); }
+    .tag-amber { background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.4); }
+    .tag-rose { background: rgba(251, 113, 133, 0.2); color: #fb7185; border: 1px solid rgba(251, 113, 133, 0.4); }
+
+    .algo-body p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .algo-fields {
+      background: var(--code-bg);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: auto;
+    }
+    .algo-fields strong {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+    .algo-fields code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      color: #38bdf8;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+    th {
+      background: #1e293b;
+      padding: 12px 16px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-blue);
+      text-align: left;
+      border-bottom: 2px solid var(--border-color);
+    }
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.88rem;
+      vertical-align: top;
+    }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .field-chip {
+      display: inline-block;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin: 2px;
+      color: #e2e8f0;
+    }
+
+    .rule-box {
+      background: rgba(251, 113, 133, 0.08);
+      border-left: 4px solid var(--accent-rose);
+      padding: 18px 22px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+    .rule-box strong { color: var(--accent-rose); }
+
+    pre code {
+      display: block;
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1>Six-Signal Change Analysis Layer</h1>
+      <p>
+        Comprehensive Guide to the Six Approved Signals: Algorithmic Mechanics, Business Purpose,
+        Field-Level Mappings, Normalization Layer, and Decision Architecture.
+      </p>
+      <div class="badge-bar">
+        <span class="badge emerald">Field-Aware Signal Selection</span>
+        <span class="badge rule">Excludes Levenshtein, SimHash, MinHash</span>
+        <span class="badge">Deterministic JSON Diff</span>
+        <span class="badge">Importance-First Rule Engine</span>
+        <span class="badge">AI Escalation for Ambiguity Only</span>
+      </div>
+    </header>
+
+    <!-- SECTION 1: THE SIX APPROVED SIGNALS -->
+    <div class="card">
+      <h2><span>🔬</span> The Six Approved Signals: Algorithmic Details & Field Mappings</h2>
+      <p style="color: var(--text-muted);">
+        Every signal operates completely independently and produces raw, unadulterated metrics. Signals are dispatched <strong>strictly based on field category</strong>.
+      </p>
+
+      <div class="algo-grid">
+        <!-- Signal 1 -->
+        <div class="algo-card">
+          <h3>
+            <span>1. Entity Changes</span>
+            <span class="algo-tag tag-rose">Identity & Contact</span>
+          </h3>
+          <div class="algo-body">
+            <p><strong>Algorithm & Mechanism:</strong> Performs field-aware named entity recognition. For structured attributes (companies, contacts, locations, corporate IDs), it executes direct canonical entity state tracking. For body text, it extracts phone numbers via <code>libphonenumber-js</code>, emails via RFC 5322 regex, UK Companies House registration numbers (8-digit/2-alpha), and gazetteer-matched locations.</p>
+            <p><strong>Use Case:</strong> Detects material real-world shifts: rebrands, company name drift, physical address moves, statutory ID deletions, and phone/email replacements.</p>
+          </div>
+          <div class="algo-fields">
+            <strong>Applicable Fields:</strong>
+            <span class="field-chip">companyName</span>
+            <span class="field-chip">legalName</span>
+            <span class="field-chip">phone</span>
+            <span class="field-chip">email</span>
+            <span class="field-chip">address</span>
+            <span class="field-chip">country</span>
+            <span class="field-chip">registration_number</span>
+            <span class="field-chip">description</span>
+          </div>
+        </div>
+
+        <!-- Signal 2 -->
+        <div class="algo-card">
+          <h3>
+            <span>2. Embedding Semantic Similarity</span>
+            <span class="algo-tag tag-purple">Conceptual Drift</span>
+          </h3>
+          <div class="algo-body">
+            <p><strong>Algorithm & Mechanism:</strong> Computes high-dimensional vector representations of natural language. Uses OpenAI <code>text-embedding-3-small</code> (or deterministic 128-dimensional term/n-gram hashing projection when offline) and calculates <strong>Cosine Similarity</strong> \(\cos(\theta) = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{u}\| \|\mathbf{v}\|}\) producing a score between <code>0.0</code> and <code>1.0</code>.</p>
+            <p><strong>Use Case:</strong> Identifies conceptual drift and business pivot in narrative text even when completely rewritten with different vocabulary. Ignores cosmetic paraphrasing.</p>
+          </div>
+          <div class="algo-fields">
+            <strong>Applicable Fields (Text Only):</strong>
+            <span class="field-chip">description</span>
+            <span class="field-chip">summary</span>
+            <span class="field-chip">tagline</span>
+            <span class="field-chip">about</span>
+            <span class="field-chip">products</span>
+            <span class="field-chip">services</span>
+            <span class="field-chip">aboutPage</span>
+          </div>
+        </div>
+
+        <!-- Signal 3 -->
+        <div class="algo-card">
+          <h3>
+            <span>3. TF-IDF + Cosine Similarity</span>
+            <span class="algo-tag tag-blue">Distinctive Vocabulary</span>
+          </h3>
+          <div class="algo-body">
+            <p><strong>Algorithm & Mechanism:</strong> Calculates Term Frequency &times; Inverse Document Frequency: \(\text{TF-IDF}(t) = \text{TF}(t) \times \ln(1 + \frac{N}{\text{DF}(t)})\). Suppresses non-material stop words while exponentially weighting rare distinctive keywords (sector terminology, specialized products, trademarks). Evaluates vector cosine angle.</p>
+            <p><strong>Use Case:</strong> Detects changes in specialized offerings or industry keywords while remaining immune to routine grammatical adjustments.</p>
+          </div>
+          <div class="algo-fields">
+            <strong>Applicable Fields (Text Only):</strong>
+            <span class="field-chip">description</span>
+            <span class="field-chip">summary</span>
+            <span class="field-chip">tagline</span>
+            <span class="field-chip">business_description</span>
+            <span class="field-chip">products_services_c</span>
+          </div>
+        </div>
+
+        <!-- Signal 4 -->
+        <div class="algo-card">
+          <h3>
+            <span>4. Jaccard Similarity</span>
+            <span class="algo-tag tag-green">Lexical Token Set</span>
+          </h3>
+          <div class="algo-body">
+            <p><strong>Algorithm & Mechanism:</strong> Evaluates set-based intersection over union of normalized word token sets: \(J(A, B) = \frac{|A \cap B|}{|A \cup B|}\). Independent of sentence grammar, word reordering, or punctuation insertion.</p>
+            <p><strong>Use Case:</strong> Measures raw vocabulary retention between snapshots. When paired with embeddings, large divergences highlight structural copy edits vs genuine conceptual shifts.</p>
+          </div>
+          <div class="algo-fields">
+            <strong>Applicable Fields (Text Only):</strong>
+            <span class="field-chip">description</span>
+            <span class="field-chip">summary</span>
+            <span class="field-chip">title</span>
+            <span class="field-chip">aboutPage</span>
+          </div>
+        </div>
+
+        <!-- Signal 5 -->
+        <div class="algo-card">
+          <h3>
+            <span>5. Number Changes</span>
+            <span class="algo-tag tag-amber">Metrics & Quantities</span>
+          </h3>
+          <div class="algo-body">
+            <p><strong>Algorithm & Mechanism:</strong> Strips all URLs, query parameters (e.g. <code>?id=12345</code>), tracking hashes, and session tokens. Extracts business numbers (integers, currencies £/$/€, headcounts, establishment years, percentages, unit metrics). Compares added vs removed numbers.</p>
+            <p><strong>Use Case:</strong> Captures crucial commercial metric revisions: <em>"28 years of experience"</em> &rarr; <em>"15 years"</em>, pricing tiers, workforce headcounts, and founding dates.</p>
+          </div>
+          <div class="algo-fields">
+            <strong>Applicable Fields:</strong>
+            <span class="field-chip">description</span>
+            <span class="field-chip">summary</span>
+            <span class="field-chip">founded_year</span>
+            <span class="field-chip">employee_count</span>
+            <span class="field-chip">revenue</span>
+          </div>
+        </div>
+
+        <!-- Signal 6 -->
+        <div class="algo-card">
+          <h3>
+            <span>6. Negation Changes</span>
+            <span class="algo-tag tag-rose">Polarity & Operations</span>
+          </h3>
+          <div class="algo-body">
+            <p><strong>Algorithm & Mechanism:</strong> Detects polarity flipping terms (<code>not</code>, <code>no</code>, <code>never</code>, <code>neither</code>, <code>ceased</code>, <code>closed</code>, <code>discontinued</code>, <code>halted</code>, <code>stopped</code>, <code>suspended</code>, <code>cannot</code>) and extracts contextual sliding word windows around each occurrence.</p>
+            <p><strong>Use Case:</strong> Catches operational shutdowns or state reversals that standard similarity misses: e.g. <em>"Accepting new clients"</em> &rarr; <em>"Not accepting new clients"</em>.</p>
+          </div>
+          <div class="algo-fields">
+            <strong>Applicable Fields (Text Only):</strong>
+            <span class="field-chip">description</span>
+            <span class="field-chip">summary</span>
+            <span class="field-chip">homeContent</span>
+            <span class="field-chip">termsPage</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rule-box">
+        <strong>STRICT ALGORITHMIC BOUNDARY:</strong><br/>
+        This pipeline explicitly forbids and excludes <strong>Levenshtein distance</strong>, <strong>SimHash</strong>, and <strong>MinHash</strong>.
+        Character edit distance algorithms create false positives on minor typos and long URLs, while hashing heuristics obscure raw auditability.
+      </div>
+    </div>
+
+    <!-- SECTION 2: FIELD-TYPE CLASSIFICATION MATRIX -->
+    <div class="card">
+      <h2><span>📋</span> Field-Type Classification & Allowed Signal Matrix</h2>
+      <p style="color: var(--text-muted); margin-bottom: 16px;">
+        To prevent noise, signals are restricted to appropriate field types.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Field Category</th>
+            <th>Typical Fields</th>
+            <th>Default Importance</th>
+            <th>Allowed Signals</th>
+            <th>Forbidden Signals</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color: #38bdf8;">IDENTITY</strong></td>
+            <td><code>companyName</code>, <code>company_name</code>, <code>legalName</code>, <code>clearbitName</code></td>
+            <td><span style="color: #f87171; font-weight: 700;">CRITICAL</span></td>
+            <td>Entity Changes (Company ID)</td>
+            <td>Embeddings, TF-IDF, Jaccard, Number extraction</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #38bdf8;">CONTACT</strong></td>
+            <td><code>phone</code>, <code>phoneFormatted</code>, <code>email</code>, <code>mobile</code></td>
+            <td><span style="color: #f87171; font-weight: 700;">HIGH</span></td>
+            <td>Entity Changes (Phone / Email E.164)</td>
+            <td>Embeddings, TF-IDF, Jaccard, Negation</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #38bdf8;">LOCATION</strong></td>
+            <td><code>country</code>, <code>address</code>, <code>city</code>, <code>postal_code</code></td>
+            <td><span style="color: #f87171; font-weight: 700;">HIGH</span></td>
+            <td>Entity Changes (Location & Address)</td>
+            <td>Text Embeddings, TF-IDF, Jaccard</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #38bdf8;">NUMERIC / FACT</strong></td>
+            <td><code>registration_number</code>, <code>founded_year</code>, <code>employee_count</code></td>
+            <td><span style="color: #f87171; font-weight: 700;">CRITICAL / MED</span></td>
+            <td>Number Changes, Entity Changes (Reg ID)</td>
+            <td>Text Embeddings, TF-IDF, Negation</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #34d399;">TEXT</strong></td>
+            <td><code>description</code>, <code>summary</code>, <code>tagline</code>, <code>about</code>, <code>products</code></td>
+            <td><span style="color: #cbd5e1; font-weight: 700;">LOW / MED</span></td>
+            <td><strong>ALL SIX SIGNALS</strong></td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #94a3b8;">URL / SOCIAL</strong></td>
+            <td><code>website</code>, <code>linkedin</code>, <code>facebook</code>, <code>socialLinks.*</code></td>
+            <td><span style="color: #94a3b8; font-weight: 700;">LOW</span></td>
+            <td>URL Normalization only</td>
+            <td>Embeddings, TF-IDF, Number extraction</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #64748b;">TECHNICAL</strong></td>
+            <td><code>processingId</code>, <code>hostIp</code>, <code>loadTimeMs</code>, <code>webServer</code></td>
+            <td><span style="color: #64748b; font-weight: 700;">IGNORE</span></td>
+            <td>None (Filtered out as operational noise)</td>
+            <td>All signals</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 3: NORMALIZATION & DECISION PIPELINE -->
+    <div class="card">
+      <h2><span>⚡</span> Pipeline Flow: From Crawl to Actionable Decision</h2>
+      <pre><code>OLD COMPANY JSON + NEW COMPANY JSON
+               │
+               ▼
+   [1. Deterministic JSON Diff]          (src/diff/deterministic_diff.js)
+   • Pure JavaScript diffing (NO AI)
+   • Traverses primitives, objects, arrays (ignores key order & whitespace)
+   • Emits changed paths only
+               │
+               ▼
+   [2. Value Normalization Layer]        (src/normalization/normalizer.js)
+   • Resolves null vs "" vs "   " vs undefined -> NO_MEANINGFUL_CHANGE
+   • Normalizes phones (E.164: 020 8368 1500 == +44 20 8368 1500)
+   • Normalizes emails (case-folding) and strips URL tracking parameters
+               │
+               ▼
+   [3. Field-Type Classification]        (src/config/field_analysis_config.js)
+   • Resolves field category: IDENTITY | CONTACT | LOCATION | NUMERIC | TEXT | URL
+   • Selects permitted signals strictly
+               │
+               ▼
+   [4. Field-Specific Six Signals]       (src/signals/index.js)
+   • Evaluates ONLY permitted signals
+   • Missing values emit VALUE_ADDED or VALUE_REMOVED (no artificial 0 similarity)
+               │
+               ▼
+   [5. Importance-First Scoring]         (src/scoring/scoring_engine.js)
+   • Factual business changes (CRITICAL / HIGH) override generic similarity
+   • London -> Manchester demands REVIEW regardless of embedding score
+               │
+               ▼
+   Is change Ambiguous or Divergent?
+          ├── NO  ──> Resolved Deterministically (AUTO_ACCEPT / REVIEW / IGNORE)
+          └── YES ──> [6. AI Escalation Gate] (src/classifier/ai_escalation_classifier.js)
+                      • Receives ONLY ambiguous field findings + identity
+                      • LLM classifies: CONTENT_UPDATE | CORRECTION | BUSINESS_CHANGE
+               │
+               ▼
+   [7. Dual Output Generation]
+   ├── Client-Friendly Report: results/&lt;domain&gt;_client_report.json (Plain English)
+   └── Full Auditable JSON:    results/&lt;domain&gt;_signal_analysis.json (All raw metrics)</code></pre>
+    </div>
+
+    <!-- How to Run -->
+    <div class="card">
+      <h2><span>🚀</span> Commands & Testing</h2>
+      <pre><code># Run full regression test suite (35 comparator selftests + 9 field-aware signal tests)
+npm test
+
+# Run change analysis on a domain
+node analyze_changes.js --domain whitestudiolondon.com
+
+# Run in developer debug mode (prints detailed signal metrics)
+node analyze_changes.js --domain whitestudiolondon.com --debug</code></pre>
+    </div>
+  </div>
+</body>
+</html>

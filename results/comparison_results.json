@@ -1,7 +1,7 @@
 [
   {
     "domain": "whitestudiolondon.com",
-    "compared_at": "2026-10-07T08:47:18.997Z",
+    "compared_at": "2026-10-07T09:39:47.539Z",
     "total_change_score": 60,
     "change_level": "HIGH",
     "has_meaningful_change": true,
@@ -680,17 +680,7 @@
       "home_content_length": 2775
     },
     "db_baseline_profile": {
-      "found_in_db": true,
-      "company_name": "White Studio",
-      "title": "Wedding dress | White Studio Bridal | United Kingdom",
-      "phone": "020 8368 1500",
-      "email": "info@whitestudiolondon.com",
-      "address": "Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE",
-      "postal_code": null,
-      "website": "https://www.whitestudiolondon.com",
-      "has_content": true,
-      "has_contact_page": true,
-      "has_privacy_page": false
+      "found_in_db": false
     },
     "live_crawl_summary": {
       "url": "https://www.whitestudiolondon.com/",
@@ -698,6 +688,23 @@
       "company_name": null,
       "phone": null,
       "email": "info@whitestudiolondon.com"
+    },
+    "ai_classification": {
+      "decision": "REVIEW",
+      "confidence": 0.91,
+      "policy_action": "REVIEW",
+      "reason": "High-impact attributes or conflicting business details require human verification before updating production records.",
+      "summary": {
+        "totalChanges": 36,
+        "enrichmentCount": 1,
+        "correctionCount": 3,
+        "businessChangeCount": 0,
+        "contentUpdateCount": 4,
+        "structuralChangeCount": 17,
+        "noiseCount": 11,
+        "highImportanceCount": 3
+      },
+      "report_file": "/home/nirmal/Nirmal_WorkSpace/Applications/Scripts/Crawl_RND/results/whitestudiolondon.com_ai_classification.json"
     }
   }
 ]

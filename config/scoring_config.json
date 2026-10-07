@@ -1,0 +1,49 @@
+{
+  "weights": {
+    "entity_changes": 0.25,
+    "embedding_semantic_similarity": 0.20,
+    "tfidf_cosine_similarity": 0.15,
+    "jaccard_similarity": 0.15,
+    "number_changes": 0.10,
+    "negation_changes": 0.15
+  },
+  "field_importance": {
+    "high": [
+      "country",
+      "companyName",
+      "name",
+      "legal_name",
+      "address",
+      "registration_number",
+      "status"
+    ],
+    "medium": [
+      "phone",
+      "phoneFormatted",
+      "email",
+      "website",
+      "leadership",
+      "products",
+      "services"
+    ],
+    "low": [
+      "description",
+      "title",
+      "homeLinks",
+      "socialLinks",
+      "aboutLinks"
+    ]
+  },
+  "thresholds": {
+    "auto_accept_score_ceiling": 15,
+    "ignore_score_ceiling": 5,
+    "ai_escalation_score_floor": 40,
+    "ai_escalation_triggers": [
+      "polarity_flip",
+      "critical_entity_lost",
+      "high_importance_conflict",
+      "divergent_similarity"
+    ]
+  }
+}
+

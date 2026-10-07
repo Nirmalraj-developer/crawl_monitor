@@ -5,7 +5,7 @@
   "main": "comparator.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node comparator.js --selftest"
+    "test": "node comparator.js --selftest && node test/field_aware_signals.test.js"
   },
   "dependencies": {
     "diff": "^9.0.0",
