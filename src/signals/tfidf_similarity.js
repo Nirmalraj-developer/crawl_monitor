@@ -10,24 +10,18 @@
  * - top shifted terms (added/removed)
  */
 
-// Pure grammatical stop words
-const STOP_WORDS = new Set([
-  'a', 'an', 'the', 'and', 'or', 'but', 'not',
-  'in', 'on', 'at', 'to', 'for', 'from', 'with', 'by', 'of', 'into', 'across', 'over',
-  'is', 'am', 'are', 'was', 'were', 'be', 'been', 'being',
-  'have', 'has', 'had', 'do', 'does', 'did',
-  'will', 'would', 'shall', 'should', 'can', 'could', 'may', 'might', 'must',
-  'that', 'this', 'these', 'those', 'which', 'who', 'whom', 'whose', 'what', 'when', 'where', 'how',
-  'it', 'its', 'he', 'she', 'they', 'them', 'their', 'we', 'our', 'you', 'your'
-]);
+const { removeStopwords, eng } = require('stopword');
 
 function tokenizeWords(text) {
   if (!text || typeof text !== 'string') return [];
-  return text
+  const rawTokens = text
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, ' ')
     .split(/\s+/)
-    .filter(w => w.length > 1 && !STOP_WORDS.has(w));
+    .filter(w => w.length > 1);
+
+  // Use 'stopword' package to filter English stop words
+  return removeStopwords(rawTokens, eng);
 }
 
 function computeTermFrequencies(tokens) {
