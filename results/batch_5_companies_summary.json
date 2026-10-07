@@ -1,0 +1,42 @@
+[
+  {
+    "domain": "infynd.com",
+    "company": "InFynd Group",
+    "status": "REVIEW",
+    "changesCount": 31,
+    "clientReportPath": "/home/nirmal/Nirmal_WorkSpace/Applications/Scripts/Crawl_RND/results/infynd.com_client_report.json",
+    "developerReportPath": "/home/nirmal/Nirmal_WorkSpace/Applications/Scripts/Crawl_RND/results/infynd.com_signal_analysis.json"
+  },
+  {
+    "domain": "whitestudiolondon.com",
+    "company": "White Studio Bridal",
+    "status": "REVIEW",
+    "changesCount": 18,
+    "clientReportPath": "/home/nirmal/Nirmal_WorkSpace/Applications/Scripts/Crawl_RND/results/whitestudiolondon.com_client_report.json",
+    "developerReportPath": "/home/nirmal/Nirmal_WorkSpace/Applications/Scripts/Crawl_RND/results/whitestudiolondon.com_signal_analysis.json"
+  },
+  {
+    "domain": "twelvesix.co",
+    "company": "twelvesix",
+    "status": "REVIEW",
+    "changesCount": 16,
+    "clientReportPath": "/home/nirmal/Nirmal_WorkSpace/Applications/Scripts/Crawl_RND/results/twelvesix.co_client_report.json",
+    "developerReportPath": "/home/nirmal/Nirmal_WorkSpace/Applications/Scripts/Crawl_RND/results/twelvesix.co_signal_analysis.json"
+  },
+  {
+    "domain": "sanctuarycottages.net",
+    "company": "Sanctuary Cottages Townhomes Twin Church Townhouses For Sale",
+    "status": "REVIEW",
+    "changesCount": 10,
+    "clientReportPath": "/home/nirmal/Nirmal_WorkSpace/Applications/Scripts/Crawl_RND/results/sanctuarycottages.net_client_report.json",
+    "developerReportPath": "/home/nirmal/Nirmal_WorkSpace/Applications/Scripts/Crawl_RND/results/sanctuarycottages.net_signal_analysis.json"
+  },
+  {
+    "domain": "sircloud.net",
+    "company": "sircloud.net",
+    "status": "REVIEW",
+    "changesCount": 14,
+    "clientReportPath": "/home/nirmal/Nirmal_WorkSpace/Applications/Scripts/Crawl_RND/results/sircloud.net_client_report.json",
+    "developerReportPath": "/home/nirmal/Nirmal_WorkSpace/Applications/Scripts/Crawl_RND/results/sircloud.net_signal_analysis.json"
+  }
+]

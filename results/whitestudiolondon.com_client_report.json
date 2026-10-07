@@ -3,23 +3,17 @@
   "domain": "whitestudiolondon.com",
   "overallStatus": "REVIEW",
   "summary": "Several important company profile attributes changed or were omitted on the latest website crawl.",
-  "totalChanges": 17,
+  "totalChanges": 18,
   "changes": [
     {
-      "field": "aboutLinksAll",
-      "path": "aboutLinksAll",
-      "previous": "[https://www.whitestudiolondon.com/all-dresses, https://www.whitestudiolondon.com/contact, https://www.google.com/search?q=white+rose+bridal&sca_esv=592247150&rlz=1C1CHBF_en-GBGB772GB772&sxsrf=AM9HkKkd8qmx4TKGC3PzHDCkjXIZKhhGRQ%3A1703063255116&ei=166CZezYBoq7i-gP4fmBQA&oq=white+rose&gs_lp=Egxnd3Mtd2l6LXNlcnAiCndoaXRlIHJvc2UqAggAMgoQIxiABBiKBRgnMhQQLhiABBiKBRiRAhjHARivARiOBTIIEAAYgAQYsQMyCBAAGIAEGLEDMhEQLhiABBiKBRiRAhjHARivATIREC4YgwEYrwEYxwEYsQMYgAQyBRAAGIAEMggQABiABBixAzIOEC4YgAQYxwEYrwEYjgUyCxAAGIAEGLEDGIMBSPBAUPsSWOEucAJ4AZABAZgBnQGgAfQIqgEDNy40uAEDyAEA-AEBwgIKEAAYRxjWBBiwA8ICCxAAGIAEGIoFGJECwgIREC4YgAQYigUYkQIYxwEY0QPCAhAQABiABBiKBRhDGLEDGIMBwgILEC4YgAQYsQMYgwHCAhEQLhiABBixAxiDARjHARjRA8ICBBAjGCfCAgoQABiABBiKBRhDwgIOEAAYgAQYigUYkQIYsQPCAgoQLhiABBiKBRhDwgIQEC4YgAQYigUYQxjHARivAcICERAuGIAEGLEDGIMBGMcBGK8BwgIjEC4YgAQYigUYkQIYxwEYrwEYjgUYlwUY3AQY3gQY4ATYAQHiAwQYACBBiAYBkAYIugYGCAEQARgU&sclient=gws-wiz-serp#, https://www.whitestudiolondon.com/event, https://www.whitestudiolondon.com/become-a-stockist, https://milliemaybridal.co.uk/, https://whiterosebridal.com/, https://www.whitestudiolondon.com/wrb-brides, https://www.whitestudiolondon.com/size-chart, https://www.whitestudiolondon.com/about, https://www.whitestudiolondon.com/shop, https://www.whitestudiolondon.com, https://www.whitestudiolondon.com/shop-5, https://www.whitestudiolondon.com/shop-1, https://www.whitestudiolondon.com/find-stockists, https://www.whitestudiolondon.com/faq]",
-      "current": null,
+      "field": "aboutLinks",
+      "path": "aboutLinks",
+      "previous": null,
+      "current": [
+        "https://www.whitestudiolondon.com/about"
+      ],
       "importance": "LOW",
-      "reason": "Field value was removed in the latest crawl."
-    },
-    {
-      "field": "About Us Page Content",
-      "path": "aboutPage",
-      "previous": "About Us | White Studio top of page HOME Collections White Studio White Studio Curve White Studio Signature About Us #WS Brides Find Stockists Events Become a stockist Contact Us Size Chart More Use tab to navigate through the menu items. Other Labels: White Rose Millie May Our Story Established in 2023, our journey began with a vision to expand the bridal experience. Showcasing our beautiful collection at the Harrogate Bridal Week in September, we proudly introduced our commitment to exquisite designs at accessible prices. As part of our White Rose Bridal family of brands, we uphold our dedication to crafting high-quality wedding dresses while curating our most affordable collection. Ensuring every bride discovers their dream gown without compromise, we believe luxury should be within everyone`s reach. Explore Now White Studio About Us Our Collections FAQ Contact Us Become A Stockist Find A Stockist White Studio | Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE Size Chart WS Brides Events 020 8368 1500 info@whitestudiolondon.com © 2023 by White Studio. All rights reserved. bottom of page",
-      "current": null,
-      "importance": "LOW",
-      "reason": "Field value was removed in the latest crawl."
+      "reason": "Newly discovered data attribute enriched from crawl."
     },
     {
       "field": "Physical Address",
@@ -30,20 +24,30 @@
       "reason": "Location shifted from \"Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE\" to \"\""
     },
     {
-      "field": "clearbitName",
-      "path": "clearbitName",
-      "previous": "White Studio",
-      "current": null,
-      "importance": "CRITICAL",
-      "reason": "Identity shifted from \"White Studio\" to \"\""
-    },
-    {
       "field": "Company Name",
       "path": "companyName",
       "previous": "White Studio",
       "current": null,
       "importance": "CRITICAL",
       "reason": "Identity shifted from \"White Studio\" to \"\""
+    },
+    {
+      "field": "contactLinks",
+      "path": "contactLinks",
+      "previous": null,
+      "current": [
+        "https://www.whitestudiolondon.com/contact"
+      ],
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    },
+    {
+      "field": "Operating Country",
+      "path": "country",
+      "previous": "United Kingdom",
+      "current": null,
+      "importance": "HIGH",
+      "reason": "Location shifted from \"United Kingdom\" to \"\""
     },
     {
       "field": "Company Description",
@@ -54,14 +58,50 @@
       "reason": "High-importance entity change (undefined) on \"description\"."
     },
     {
+      "field": "domainMatchedSocialLinks",
+      "path": "domainMatchedSocialLinks",
+      "previous": null,
+      "current": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "",
+        "terms": ""
+      },
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    },
+    {
       "field": "ecommerceLinks",
       "path": "ecommerceLinks",
-      "previous": [],
+      "previous": null,
       "current": [
         "https://www.whitestudiolondon.com/shop",
         "https://www.whitestudiolondon.com/shop-5",
         "https://www.whitestudiolondon.com/shop-1"
       ],
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    },
+    {
+      "field": "genericEmail",
+      "path": "genericEmail",
+      "previous": null,
+      "current": "info@whitestudiolondon.com",
+      "importance": "HIGH",
+      "reason": "EMAIL channel changed from \"\" to \"info@whitestudiolondon.com\""
+    },
+    {
+      "field": "imageUrl",
+      "path": "imageUrl",
+      "previous": null,
+      "current": "https://static.wixstatic.com/media/826fbf_2622912c615940d59deb2778ca519341%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/826fbf_2622912c615940d59deb2778ca519341%7Emv2.jpg",
       "importance": "LOW",
       "reason": "Newly discovered data attribute enriched from crawl."
     },
@@ -92,26 +132,23 @@
     {
       "field": "nameFromTitle",
       "path": "nameFromTitle",
-      "previous": "Wedding dress | White Studio Bridal | United Kingdom",
+      "previous": null,
       "current": "White Studio Bridal",
       "importance": "CRITICAL",
-      "reason": "Identity shifted from \"Wedding dress | White Studio Bridal | United Kingdom\" to \"White Studio Bridal\""
+      "reason": "Identity shifted from \"\" to \"White Studio Bridal\""
     },
     {
-      "field": "otherLinks.about",
-      "path": "otherLinks.about",
-      "previous": "https://www.whitestudiolondon.com/about",
-      "current": null,
+      "field": "otherLinks",
+      "path": "otherLinks",
+      "previous": null,
+      "current": {
+        "contactUs": null,
+        "team": null,
+        "blog": null,
+        "career": null
+      },
       "importance": "LOW",
-      "reason": "Field value was removed in the latest crawl."
-    },
-    {
-      "field": "otherLinks.contactUs",
-      "path": "otherLinks.contactUs",
-      "previous": "https://www.whitestudiolondon.com/contact",
-      "current": null,
-      "importance": "LOW",
-      "reason": "Field value was removed in the latest crawl."
+      "reason": "Newly discovered data attribute enriched from crawl."
     },
     {
       "field": "Phone Number",
@@ -119,15 +156,7 @@
       "previous": "020 8368 1500",
       "current": null,
       "importance": "HIGH",
-      "reason": "PHONE channel changed from \"442083681500\" to \"\""
-    },
-    {
-      "field": "Phone Number",
-      "path": "phoneFormatted",
-      "previous": "020 8368 1500",
-      "current": null,
-      "importance": "HIGH",
-      "reason": "PHONE channel changed from \"442083681500\" to \"\""
+      "reason": "PHONE channel changed from \"+442083681500\" to \"\""
     },
     {
       "field": "Company Registration Number",
@@ -138,12 +167,24 @@
       "reason": "NUMERIC changed from \"08742433\" to \"null\""
     },
     {
-      "field": "socialLinks.linkedin",
-      "path": "socialLinks.linkedin",
-      "previous": "https://www.linkedin.com/in/white-studio-9a68a9288",
-      "current": "https://www.linkedin.com/in/white-studio-9a68a9288?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B2hfe6sxITXGRTLKX82jJIw%3D%3D",
+      "field": "socialLinks",
+      "path": "socialLinks",
+      "previous": null,
+      "current": {
+        "facebook": "",
+        "instagram": "https://www.instagram.com/whitestudiolondon/profilecard/?igsh=MWx4Ym53M2R5emRobQ==",
+        "linkedin": "https://www.linkedin.com/in/white-studio-9a68a9288?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B2hfe6sxITXGRTLKX82jJIw%3D%3D",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "",
+        "terms": ""
+      },
       "importance": "LOW",
-      "reason": "Routine text rewording detected."
+      "reason": "Newly discovered data attribute enriched from crawl."
     }
   ]
 }

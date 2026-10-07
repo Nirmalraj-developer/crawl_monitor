@@ -1,0 +1,36 @@
+{
+  "status": 1,
+  "message": "Baseline extracted from PostgreSQL.",
+  "totalCount": 1,
+  "data": [
+    {
+      "processingId": "twelvesix.co",
+      "url": "https://twelvesix.co/",
+      "normalizedDomain": "twelvesix.co",
+      "redirection": "false",
+      "hostIp": "13.248.243.5",
+      "ipCountry": null,
+      "loadTimeMs": 135,
+      "responseCode": "200",
+      "domainStatus": "Valid",
+      "comments": "valid",
+      "webServer": "jsoup",
+      "homeContent": "Expert Fractional CMO and Marketing Consultancy Home Our Approach Our Services About Us Connect More Home Our Approach Our Services About Us Connect Home Our Approach Our Services About Us Connect Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Expert Marketing Solutions Accelerate and Scale with High-Impact Results Twelve Six helps companies bridge the gap between strategy and execution to scale with clarity and impact. We bring deep expertise in insights-led business, brand, go-to-market, and marketing strategy - paired with relentlessly creative and innovative marketing activation planning - to align big ideas with real-world momentum. When you're stuck in overthinking or lost in disconnected activity, we're the partner that gets things moving with focus and purpose. Why Twelve Six Strategic depth + execution focus We don’t just build plans - we build the right ones, and guide you in bringing them to life. Brand-first, customer-led We position brands to stand out and connect with the audiences who matter most. Fractional senior leadership Get CMO-level thinking without the full-time cost. We integrate quickly and deliver real momentum, fast. Start Now Want to move forward with focus, purpose, and results? Let’s talk. Name Email* Attach Files Attachments (0) Send This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply. Take the first step, and contact us to schedule a complimentary strategy consultation to discuss your marketing and business goals.  Send us a message, and we will get back to you soon. Twelve Six 1750 E Sagittarius Pl Chandler AZ 85249 (480) 371-6387 Copyright © 2025 Twelve Six LLC - All Rights Reserved. Powered by This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept",
+      "title": "Expert Fractional CMO and Marketing Consultancy",
+      "description": "Elevate your brand with an expert fractional CMO and marketing consultancy. We provide innovative solutions to help businesses accelerate and grow with differentiated precision and purpose.",
+      "language": null,
+      "companyName": "twelvesix",
+      "name": "twelvesix",
+      "phone": null,
+      "email": "info@ndiscovered.com",
+      "address": null,
+      "country": null,
+      "registration_number": null,
+      "homeLinks": "http://twelvesix.co/about-us|https://policies.google.com/privacy|http://twelvesix.co/#d48a92dd-9218-4ed5-9d8b-1f75504c4872|http://twelvesix.co/our-approach|http://twelvesix.co/#|http://twelvesix.co/our-services|http://twelvesix.co/connect|http://twelvesix.co/|https://policies.google.com/terms|https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base",
+      "aboutLinksAll": "https://policies.google.com/privacy|https://www.linkedin.com/in/cristofano|https://policies.google.com/terms|https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base",
+      "contactLinksAll": null,
+      "aboutPage": null,
+      "contactPage": null
+    }
+  ]
+}

@@ -1,0 +1,1027 @@
+{
+  "company": {
+    "company_name": "InFynd Group",
+    "domain": "infynd.com"
+  },
+  "evaluatedAt": "2026-10-07T12:33:27.031Z",
+  "summary": {
+    "totalChanges": 31,
+    "criticalChangesCount": 5,
+    "highChangesCount": 3,
+    "overallStatus": "REVIEW",
+    "finalAction": "REVIEW",
+    "escalatedToAi": true,
+    "escalatedCount": 1
+  },
+  "aiEscalation": {
+    "escalationSummary": "Processed 1 escalated field(s) via signal arbitration.",
+    "overallVerdict": "AUTO_ACCEPT",
+    "overallConfidence": 0.91,
+    "decisions": [
+      {
+        "path": "description",
+        "classification": "CONTENT_UPDATE",
+        "action": "AUTO_ACCEPT",
+        "confidence": 0.85,
+        "reasoning": "Significant divergence between semantic embedding and keyword similarity"
+      }
+    ]
+  },
+  "fieldEvaluations": [
+    {
+      "path": "aboutLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": [
+        "https://www.infynd.com/about",
+        "https://www.infynd.com/about-us"
+      ],
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "aboutLinksAll",
+      "fieldType": "URL",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "https://www.infynd.com/blog/the-best-way-to-do-cold-email-and-cold-calling-right|https://x.com/infynd_data|https://www.infynd.com/blog/3-step-data-checklist-before-your-next-campaign-goes-live|https://www.instagram.com/infynd|https://www.linkedin.com/company/infynd|https://ico.org.uk/|https://www.facebook.com/infynd360|https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes|https://infynd.com/do-not-sell-my-info/|https://infynd.zohorecruit.in/jobs/Careers|https://app.infynd.com|https://experian.co.uk/business-information/marketing-transparency-notice.html",
+      "newValue": "[https://www.27x.ai/blog/the-2026-outbound-crisis-autonomous-ai-sdrs-are-reshaping-b2b-sales, https://www.linkedin.com/company/infynd/, https://27x.ai, https://x.com/infynd_data, https://www.facebook.com/infynd360/, https://www.klodev.com/blog/how-can-klodevs-ai-digital-employees-cut-costs-and-boost-roi, https://www.instagram.com/infynd/, https://www.no2bounce.com/blog/best-free-email-validators-in-2026-tested-ranked-for-accuracy, https://product.infynd.com/, https://infynd.zohorecruit.in/jobs/Careers, https://www.b2bdrum.com/blog/how-to-build-an-outreach-engineering-system-from-scratch, https://app.infynd.com/auth/login, https://app.infynd.com/]",
+      "score": 0,
+      "classification": "CONTENT_UPDATE",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Routine text rewording detected.",
+      "signals": {}
+    },
+    {
+      "path": "aboutPage",
+      "fieldType": "TEXT",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": "About InFynd | B2B Data & Intelligence Platform UK Platform Solutions Industries AI Resources About us Book a demoSign In Our Story Where Clean Data Meets Smarter Marketing InFynd was born from a simple idea, B2B growth shouldn't be slowed down by bad data, fragmented tools, or guesswork. We bring together verified data, automated outreach, and real-time reporting to help revenue teams work smarter, not harder. Trusted by 1,000+ leading companies including Sony, CV-Library, Experian, Deliveroo, Britannia, and Silvey Fleet. 0+ Businesses Powered 0+ Campaigns Executed 0M+ Emails Delivered 0K+ Conversations Started The Growth Loop Data. Marketing. AI Martech. 01 Smarter Data. Stronger Targeting. Clean, custom, and compliant B2B data sets, tailored to your ICP. 02 Omnichannel Marketing That Meets Buyers Where They Are Email, content, ads, PR, branding, data-informed campaigns, not guesswork. 03 Measure What Matters. In Real Time. Unified view of engagement, attribution, and campaign ROI. Why Choose Us End-to-End Martech Expertise Seamless Integrations Platform Agnostic Real-Time Visibility Services We Offer Custom B2B Contact Lists Email Campaign Management AI Powered Outreach Cold Email Automation Lead Scoring and Segmentation Marketing Funnel Setup Healthcare Data Multi-Touch Campaigns Social Media Automation Let's Build Your Demand Engine We'll help you identify, reach, and convert your best-fit buyers, without wasting time or budget. Book a Demo →Contact Us Address: Lily Hill House, Lily Hill Road, Bracknell, England, RG12 2SJ Phone: +44 3338 980725 Email: marketing@infynd.com Ready to Grow? Ready to Build Your Demand Engine? Identify, reach, and convert your best-fit buyers, without wasting time or budget. Talk to an Expert →Start Free Trial → ✓ No credit card required✓ GDPR Compliant✓ Setup in minutes Latest from our blog Insights, guides & trends from the InFynd team. View all → Data Quality Over Data Coverage: Why Accuracy Beats Volume in B2B Prospecting How to Personalize Outreach at Scale Using Intent & Technographic Data Healthcare Intent Data for Hospital Targeting: A Smarter Way to Reach Decision Makers Other Trending Articles Hand-picked reads from across our ecosystem. How to Build an Outreach Engineering System from Scratch External article Best Free Email Validators in 2026: Tested & Ranked for Accuracy External article The 2026 Outbound Crisis: Autonomous AI SDRs Are Reshaping B2B Sales External article How Can Klodev's AI Digital Employees Cut Costs and Boost ROI External article B2B data solutions and AI-powered sales intelligence for modern revenue teams. Verified. Compliant. Actionable. +44 3338 980725 marketing@infynd.com Lily Hill House, Bracknell, RG12 2SJ Products Global Data Intelligence Healthcare Intelligence Bulk Data Marketplace Solutions B2B Data B2C Data Solutions Custom Data Solutions Industry Data Solutions Data Integration & APIs Data Intelligence & Enrichment CRM Data Health Check Platform ESG & Compliance Intelligence Financial Intelligence Identity & Structure Intent & Signals Legal & Regulatory + Show 6 more Company About InFynd Pricing Careers FAQ Contact Resources Blog Guides Compare Case Studies Legal Terms & Conditions Privacy Policy Cookie Policy GDPR Do Not Sell My Info © 2026 InFynd · ProminentContact LTD · Company No. 12150394 · ICO No. ZA599278 🤖Hey AI, Learn About InFynd Designed with precision. Built for growth. InFynd | B2B Data & Sales Intelligence Platform 404 Page not found The page you're looking for doesn't exist or has been moved. Go home I InFynd Support ● Online Welcome to InFynd! How can I help you today? Let's get started Tell us a bit about you to personalize your experience. Name * Email * Phone (optional) Continue Powered by 27x.ai",
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "entities": {
+            "phones": {
+              "added": [
+                "+443338980725"
+              ],
+              "removed": []
+            },
+            "emails": {
+              "added": [
+                "marketing@infynd.com"
+              ],
+              "removed": []
+            },
+            "registrationNumbers": {
+              "added": [
+                "12150394",
+                "ZA599278"
+              ],
+              "removed": []
+            },
+            "locations": {
+              "added": [
+                "uk",
+                "us"
+              ],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 6,
+            "removed": 0
+          }
+        }
+      }
+    },
+    {
+      "path": "clearbitName",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_ADDED",
+      "importance": "CRITICAL",
+      "oldValue": null,
+      "newValue": "Infynd",
+      "score": 90,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_ADDED)"
+      ],
+      "reason": "Identity shifted from \"\" to \"Infynd\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": null,
+          "newEntity": "Infynd",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"\" to \"Infynd\""
+        }
+      }
+    },
+    {
+      "path": "companyName",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_REMOVED",
+      "importance": "CRITICAL",
+      "oldValue": "InFynd Group",
+      "newValue": null,
+      "score": 90,
+      "classification": "CORRECTION",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_REMOVED)"
+      ],
+      "reason": "Identity shifted from \"InFynd Group\" to \"\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": "InFynd Group",
+          "newEntity": null,
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"InFynd Group\" to \"\""
+        }
+      }
+    },
+    {
+      "path": "contactLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": [
+        "https://www.infynd.com/contact"
+      ],
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "contactLinksAll",
+      "fieldType": "URL",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "https://www.infynd.com/blog/the-best-way-to-do-cold-email-and-cold-calling-right|https://x.com/infynd_data|https://www.infynd.com/blog/3-step-data-checklist-before-your-next-campaign-goes-live|https://www.instagram.com/infynd|https://www.linkedin.com/company/infynd|https://www.facebook.com/infynd360|https://app.infynd.com|https://infynd.zohorecruit.in/jobs/Careers",
+      "newValue": "[https://www.27x.ai/blog/the-2026-outbound-crisis-autonomous-ai-sdrs-are-reshaping-b2b-sales, https://www.linkedin.com/company/infynd/, https://x.com/infynd_data, https://www.facebook.com/infynd360/, https://www.klodev.com/blog/how-can-klodevs-ai-digital-employees-cut-costs-and-boost-roi, https://www.instagram.com/infynd/, https://www.no2bounce.com/blog/best-free-email-validators-in-2026-tested-ranked-for-accuracy, https://product.infynd.com/, https://www.google.com/maps/search/?api=1&query=Lily+Hill+House+Lily+Hill+Road+Bracknell+RG12+2SJ, https://infynd.zohorecruit.in/jobs/Careers, https://www.b2bdrum.com/blog/how-to-build-an-outreach-engineering-system-from-scratch, https://app.infynd.com/auth/login, https://app.infynd.com/]",
+      "score": 0,
+      "classification": "CONTENT_UPDATE",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Routine text rewording detected.",
+      "signals": {}
+    },
+    {
+      "path": "contactPage",
+      "fieldType": "TEXT",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": "Contact InFynd | Talk to a B2B Data Specialist Now Platform Solutions Industries AI Resources About us Book a demoSign In Get in Touch Fuel Your Funnel. Automate the Hustle. Power your CRM, marketing, and reporting, all from one growth engine. Let's Talk Seamless platform setup across your entire funnel. First Name *Work Email * Phone Number Company Name * Message Request a Demo Phone +44 3338 980725 Email marketing@infynd.com sales@infynd.com Address Lily Hill House, Lily Hill Road, Bracknell, England, RG12 2SJ Lily Hill House, Bracknell Quick Questions How quickly will I hear back? Our team responds to all enquiries within one business day, typically within a few hours during UK business hours. Do you offer custom data builds? Yes, share your ICP and we'll scope a custom dataset. Is my data secure? All submissions are encrypted in transit and stored on GDPR-compliant infrastructure. Latest from our blog Insights, guides & trends from the InFynd team. View all → Data Quality Over Data Coverage: Why Accuracy Beats Volume in B2B Prospecting How to Personalize Outreach at Scale Using Intent & Technographic Data Healthcare Intent Data for Hospital Targeting: A Smarter Way to Reach Decision Makers Other Trending Articles Hand-picked reads from across our ecosystem. How to Build an Outreach Engineering System from Scratch External article Best Free Email Validators in 2026: Tested & Ranked for Accuracy External article The 2026 Outbound Crisis: Autonomous AI SDRs Are Reshaping B2B Sales External article How Can Klodev's AI Digital Employees Cut Costs and Boost ROI External article B2B data solutions and AI-powered sales intelligence for modern revenue teams. Verified. Compliant. Actionable. +44 3338 980725 marketing@infynd.com Lily Hill House, Bracknell, RG12 2SJ Products Global Data Intelligence Healthcare Intelligence Bulk Data Marketplace Solutions B2B Data B2C Data Solutions Custom Data Solutions Industry Data Solutions Data Integration & APIs Data Intelligence & Enrichment CRM Data Health Check Platform ESG & Compliance Intelligence Financial Intelligence Identity & Structure Intent & Signals Legal & Regulatory + Show 6 more Company About InFynd Pricing Careers FAQ Contact Resources Blog Guides Compare Case Studies Legal Terms & Conditions Privacy Policy Cookie Policy GDPR Do Not Sell My Info © 2026 InFynd · ProminentContact LTD · Company No. 12150394 · ICO No. ZA599278 🤖Hey AI, Learn About InFynd Designed with precision. Built for growth.",
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "entities": {
+            "phones": {
+              "added": [
+                "+443338980725"
+              ],
+              "removed": []
+            },
+            "emails": {
+              "added": [
+                "marketing@infynd.com",
+                "sales@infynd.com"
+              ],
+              "removed": []
+            },
+            "registrationNumbers": {
+              "added": [
+                "12150394",
+                "ZA599278"
+              ],
+              "removed": []
+            },
+            "locations": {
+              "added": [
+                "uk",
+                "us"
+              ],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 7,
+            "removed": 0
+          }
+        }
+      }
+    },
+    {
+      "path": "description",
+      "fieldType": "TEXT",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "Drive sales with clean B2B data, automated outreach, and real-time reporting. InFynd powers your pipeline with data-driven marketing solutions.",
+      "newValue": "InFynd Group — a family of data and AI platforms powering smarter B2B growth, healthcare intelligence, risk insight, and AI-driven execution.",
+      "score": 51,
+      "classification": "CONTENT_UPDATE",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": true,
+      "escalationReasons": [
+        "Significant divergence between semantic embedding and keyword similarity"
+      ],
+      "reason": "Significant divergence between semantic embedding and keyword similarity",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": false,
+          "hasCriticalChange": false,
+          "entities": {
+            "phones": {
+              "added": [],
+              "removed": []
+            },
+            "emails": {
+              "added": [],
+              "removed": []
+            },
+            "registrationNumbers": {
+              "added": [],
+              "removed": []
+            },
+            "locations": {
+              "added": [],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 0,
+            "removed": 0
+          }
+        },
+        "embedding_semantic_similarity": {
+          "signal": "embedding_semantic_similarity",
+          "similarity": 0.6679,
+          "cosineDistance": 0.3321,
+          "model": "local_semantic_projection_128d",
+          "isExactMatch": false
+        },
+        "tfidf_cosine_similarity": {
+          "signal": "tfidf_cosine_similarity",
+          "similarity": 0.1271,
+          "sharedTerms": [
+            "b2b",
+            "data",
+            "infynd",
+            "driven"
+          ],
+          "addedTerms": [
+            "group",
+            "family",
+            "ai",
+            "platforms",
+            "powering",
+            "smarter",
+            "growth",
+            "healthcare",
+            "intelligence",
+            "risk"
+          ],
+          "removedTerms": [
+            "drive",
+            "sales",
+            "clean",
+            "automated",
+            "outreach",
+            "real",
+            "time",
+            "reporting",
+            "powers",
+            "pipeline"
+          ]
+        },
+        "jaccard_similarity": {
+          "signal": "jaccard_similarity",
+          "similarity": 0.1429,
+          "intersectionCount": 4,
+          "unionCount": 28,
+          "overlapPercentage": 14.3
+        },
+        "number_changes": {
+          "signal": "number_changes",
+          "hasNumericDiscrepancy": false,
+          "numbers": {
+            "added": [],
+            "removed": [],
+            "retained": []
+          },
+          "counts": {
+            "totalDistinct": 0,
+            "addedCount": 0,
+            "removedCount": 0,
+            "retainedCount": 0
+          },
+          "numericShiftRatio": 0
+        },
+        "negation_changes": {
+          "signal": "negation_changes",
+          "hasPolarityFlip": false,
+          "addedNegations": [],
+          "removedNegations": [],
+          "contexts": {
+            "old": [],
+            "new": []
+          },
+          "countShift": 0
+        }
+      }
+    },
+    {
+      "path": "domainMatchedSocialLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "https://infynd.com/privacy-policy",
+        "terms": "https://infynd.com/terms-conditions"
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "ecommerceLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": [
+        "https://www.infynd.com/pricing",
+        "https://product.infynd.com/"
+      ],
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "email",
+      "fieldType": "CONTACT",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "HIGH",
+      "oldValue": "marketing@infynd.com",
+      "newValue": "sales@infynd.com|marketing@infynd.com|contact@infynd.com",
+      "score": 75,
+      "classification": "FACTUAL_CHANGE",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "High-importance CONTACT change (VALUE_MODIFIED)"
+      ],
+      "reason": "EMAIL channel changed from \"marketing@infynd.com\" to \"sales@infynd.com|marketing@infynd.com|contact@infynd.com\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "CONTACT",
+          "entityType": "EMAIL",
+          "oldEntity": "marketing@infynd.com",
+          "newEntity": "sales@infynd.com|marketing@infynd.com|contact@infynd.com",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "description": "EMAIL channel changed from \"marketing@infynd.com\" to \"sales@infynd.com|marketing@infynd.com|contact@infynd.com\""
+        }
+      }
+    },
+    {
+      "path": "genericEmail",
+      "fieldType": "CONTACT",
+      "changeType": "VALUE_ADDED",
+      "importance": "HIGH",
+      "oldValue": null,
+      "newValue": "sales@infynd.com|marketing@infynd.com|contact@infynd.com",
+      "score": 75,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "High-importance CONTACT change (VALUE_ADDED)"
+      ],
+      "reason": "EMAIL channel changed from \"\" to \"sales@infynd.com|marketing@infynd.com|contact@infynd.com\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "CONTACT",
+          "entityType": "EMAIL",
+          "oldEntity": null,
+          "newEntity": "sales@infynd.com|marketing@infynd.com|contact@infynd.com",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "description": "EMAIL channel changed from \"\" to \"sales@infynd.com|marketing@infynd.com|contact@infynd.com\""
+        }
+      }
+    },
+    {
+      "path": "homeLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "https://www.infynd.com/data-cleansing-infynd|https://www.infynd.com/industry-based-data|https://www.infynd.com/conversion-rate-optimization|https://www.infynd.com/llm-info|https://www.infynd.com/blog|https://www.infynd.com/demand-generation|https://www.infynd.com/gdpr|https://www.infynd.com/data-integration-api|https://www.infynd.com/ai-sdr|https://www.infynd.com/book-a-demo|https://www.instagram.com/infynd|https://www.infynd.com/personalized-custom-build-data|https://www.infynd.com/healthcare|https://www.infynd.com/martech|https://www.facebook.com/infynd360|https://www.infynd.com/do-not-sell-my-info|https://www.infynd.com/b2b-data|https://www.infynd.com/crm-data-health-check|https://app.infynd.com|https://www.infynd.com/privacy-policy|https://www.infynd.com/|https://www.infynd.com/social-media-marketing|https://x.com/infynd_data|https://www.infynd.com/blog/3-step-data-checklist-before-your-next-campaign-goes-live|https://www.infynd.com/social-media-strategy|https://www.infynd.com/terms-conditions|https://www.infynd.com/b2c-data|https://www.infynd.com/about-us|https://infynd.zohorecruit.in/jobs/Careers|https://www.infynd.com/paid-media-campaigns|https://www.infynd.com/#|https://www.infynd.com/data-solutions|https://www.infynd.com/blog/the-best-way-to-do-cold-email-and-cold-calling-right|https://www.infynd.com/brand-awareness|https://www.infynd.com/content-marketing|https://www.infynd.com/data-intelligence-and-enrichment|https://www.infynd.com/brand-messaging-and-positioning|https://www.infynd.com/pr-media-outreach|https://www.linkedin.com/company/infynd|https://www.infynd.com/contact|https://www.infynd.com/cookie-policy|https://www.infynd.com/data-appending-infynd",
+      "newValue": "[https://www.27x.ai/blog/the-2026-outbound-crisis-autonomous-ai-sdrs-are-reshaping-b2b-sales, https://www.linkedin.com/company/infynd/, https://beta-sentinel.27x.ai/login, https://27x.ai, https://x.com/infynd_data, https://www.instagram.com/sentineintelligence/, https://www.facebook.com/infynd360/, https://www.klodev.com/blog/how-can-klodevs-ai-digital-employees-cut-costs-and-boost-roi, https://x.com/sentinelcrp, https://www.instagram.com/infynd/, https://product.infynd.com/, https://www.no2bounce.com/blog/best-free-email-validators-in-2026-tested-ranked-for-accuracy, https://www.google.com/maps/search/?api=1&query=Lily+Hill+House+Lily+Hill+Road+Bracknell+RG12+2SJ, https://www.facebook.com/profile.php?id=61591719262218, https://infynd.zohorecruit.in/jobs/Careers, https://infynd.com/, https://www.b2bdrum.com/blog/how-to-build-an-outreach-engineering-system-from-scratch, https://app.infynd.com/auth/login, https://www.27x.ai/, https://infynd.com/b2b, https://app.infynd.com/, https://www.linkedin.com/company/sentinel-intelligence-01/, https://sentinel.infynd.com/, https://app.infynd.com]",
+      "score": 0,
+      "classification": "CONTENT_UPDATE",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Routine text rewording detected.",
+      "signals": {}
+    },
+    {
+      "path": "imageUrl",
+      "fieldType": "UNKNOWN",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": "https://infynd.com/__l5e/assets-v1/8c00196f-b105-401c-ae8f-1606a7893cd5/infynd_logo_white.png",
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "ipCountry",
+      "fieldType": "LOCATION",
+      "changeType": "VALUE_ADDED",
+      "importance": "HIGH",
+      "oldValue": null,
+      "newValue": "Germany",
+      "score": 75,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "High-importance LOCATION change (VALUE_ADDED)"
+      ],
+      "reason": "Location shifted from \"\" to \"Germany\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "LOCATION",
+          "entityType": "LOCATION",
+          "oldEntity": null,
+          "newEntity": "Germany",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Location shifted from \"\" to \"Germany\""
+        }
+      }
+    },
+    {
+      "path": "name",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_REMOVED",
+      "importance": "CRITICAL",
+      "oldValue": "InFynd Group",
+      "newValue": null,
+      "score": 90,
+      "classification": "CORRECTION",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_REMOVED)"
+      ],
+      "reason": "Identity shifted from \"InFynd Group\" to \"\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": "InFynd Group",
+          "newEntity": null,
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"InFynd Group\" to \"\""
+        }
+      }
+    },
+    {
+      "path": "nameFromTitle",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_ADDED",
+      "importance": "CRITICAL",
+      "oldValue": null,
+      "newValue": "InFynd Group",
+      "score": 90,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_ADDED)"
+      ],
+      "reason": "Identity shifted from \"\" to \"InFynd Group\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": null,
+          "newEntity": "InFynd Group",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"\" to \"InFynd Group\""
+        }
+      }
+    },
+    {
+      "path": "otherLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "contactUs": "https://sentinel.infynd.com/",
+        "team": null,
+        "blog": "https://infynd.com/blog",
+        "career": "https://infynd.zohorecruit.in/jobs/Careers"
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "privacyLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": [
+        "https://www.infynd.com/privacy-policy"
+      ],
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "privacyLinksAll",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": "[https://www.b2bdrum.com/blog/how-to-build-an-outreach-engineering-system-from-scratch, https://www.27x.ai/blog/the-2026-outbound-crisis-autonomous-ai-sdrs-are-reshaping-b2b-sales, https://www.linkedin.com/company/infynd/, https://x.com/infynd_data, https://app.infynd.com/auth/login, https://www.facebook.com/infynd360/, https://www.klodev.com/blog/how-can-klodevs-ai-digital-employees-cut-costs-and-boost-roi, https://app.infynd.com/, https://www.instagram.com/infynd/, https://www.no2bounce.com/blog/best-free-email-validators-in-2026-tested-ranked-for-accuracy, https://product.infynd.com/, https://infynd.zohorecruit.in/jobs/Careers]",
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "privacyPage",
+      "fieldType": "TEXT",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": "Privacy Policy | InFynd Data Protection & Compliance Platform Solutions Industries AI Resources About us Book a demoSign In Legal Privacy Policy How ProminentContact LTD (trading as InFynd.com) collects, uses, and safeguards personal data, in compliance with UK GDPR, EU GDPR, and ICO guidelines. Last updated: 05 February 2026 Contents 1. Introduction and General Terms 2. What information will InFynd collect about me? 3. Grounds of Processing 4. Data Sharing 5. How We Will Use Information We Collect About You 6. Marketing Opt-Out Options 7. The App 8. Your Rights With Personal Data That We Process Relating to You 9. Data Retention 10. Children 11. Security 12. Changes 13. International Data Transfers 14. California Residents & CCPA 1. Introduction and General Terms This Privacy Policy covers the processing of personal data by ProminentContact LTD, trading as InFynd.com, a private limited company under the laws of England and Wales with company number 12150394 whose registered office is at Lily Hill House, Lily Hill Road, Bracknell, England, RG12 2SJ and ICO Registration Number ZA599278 (\"InFynd\", \"We\", \"us\", or \"our\" in this policy), when providing its services to clients. If you have any questions or comments about this Privacy Policy, please contact us at: Address: Lily Hill House, Lily Hill Road, Bracknell, England, RG12 2SJ Email: compliance@inFynd.com This Privacy Policy applies to personal data processed in connection with InFynd's website, online platform, applications, browser extensions (where applicable), and related services provided on a software-as-a-service basis. Our services are designed exclusively for business users and are not intended for personal, household, or consumer use. All personal data processed under this policy relates to individuals acting in a professional or business capacity. InFynd is committed to protecting and respecting your privacy. This Privacy Policy explains the basis on which personal data collected from you or from public sources will be processed by us. When we determine the purpose or means for processing this personal data, we act as the \"data controller.\" Depending on the context of processing, InFynd may act either as a data controller or a data processor. We act as a data controller where we determine the purposes and means of processing personal data, including operating our website, marketing our services, and maintaining our proprietary database. We act as a data processor where we process personal data strictly on behalf of our clients and in accordance with their documented instructions. Where InFynd processes personal data strictly on behalf of a client as part of providing its services, such processing is governed by the applicable client agreement or data processing agreement. In such cases, this Privacy Policy does not apply to the client-controlled processing, and the client remains responsible for providing appropriate privacy notices and handling data subject rights requests. We will comply with all applicable data protection laws, including the UK General Data Protection Regulation (UK GDPR), the European Union's General Data Protection Regulation (GDPR) and ICO Guidelines. You have the right to object to us processing your personal data for direct marketing purposes; refer to paragraph 7 below for details on how to do this. This Privacy Policy explains the following: What personal data we may collect about you; Why our processing is lawful; Who we may share your information with; How we will use that information; Who we may disclose that information to; and Your rights regarding the information. 2. What information will InFynd collect about me? We collect and process the following data, which may include your personal data. InFynd's Website: If you contact us about our services or request a demo on our website, the forms you complete or the emails you send may include information about you, such as your full name, email address, the organization on behalf of whom you are contacting us, and your inquiry. InFynd's Online Client Platform: To provide an InFynd Client with access to our platform and enable them to access our services, we collect the full name, email address, and password of each individual authorized by such client to access the platform. Analytics on the Website and the Platform: Our website and online client platform use cookies and other mechanisms to collect and log analytical information, help analyse usage, compile statistical reports on the use of our website, and improve both our website and marketing efforts. The following data may be collected: Number of visitors to our website; Pages visited and time spent per page; page interaction information, such as scrolling, clicks and browsing methods; Websites tracking the origins of visitors and their subsequent destinations; Page response times and any download errors; and Other technical information relating to end user device, such as IP address or browser plug-in. InFynd Database: InFynd gathers current and historic business contact data. The data collected about individuals on the InFynd Database comprises: Name Employer Company & Company Details Office Location (Country & City) Business Telephone Number Business Email Address Job Title Social profiles such as LinkedIn We also hold data regarding your employer company, such as its name, alias, size, industry, website, social handles and industry. Where you change jobs, we may hold your previous employers and titles. To facilitate specific aspects of its services, InFynd requires a business email address to be recorded for profiles in our database. If not available, we may generate one based on the email address structure known to be employed by the respective employer company. We also retain hashed personal email addresses. Hashing is a method of encryption that involves the transformation of the actual email address into a unique reference known as a hash. A Hash is one of the means used to locate the same individual on social networking platforms. It's important to note that we do not reverse the hash or use the personal email address to contact you. The majority of the personal data collected about you is sourced from publicly available channels, including business and employment-oriented social networks, recruitment websites, and company websites. Information is also acquired through correspondence with you (via email or phone), from our clients, our affiliate's services, recruiters, and other premium data providers. InFynd does not aim to collect any non-business-related data, such as date of birth, home address, personal email, or telephone number, and InFynd does not collect sensitive personal data. InFynd does not intentionally collect or process special category personal data as defined under Article 9 of the UK General Data Protection Regulation and EU General Data Protection Regulation, personal data relating to criminal convictions or offences, or personal consumer data. Our services are designed exclusively for professional and business-related use. When our clients utilize our service to send marketing emails, they may include cookies (or similar technologies) in the emails. This enables them to determine whether an email bounced back and was not delivered, whether an email was opened and whether links in the email were followed. In addition to data collected from public or third-party sources, InFynd may generate derived or inferred data, such as professional role classification, industry categorisation, or profile linkage indicators. This processing is carried out solely to improve data accuracy, relevance, and deduplication and is not used to make decisions producing legal or similarly significant effects. 3. Grounds of Processing Consent: On some occasions, InFynd processes your data with your consent, which may be obtained by third parties on InFynd's behalf. You have the right to withdraw such consent at any time, and we will cease processing the data after consent is withdrawn. Legitimate interest: InFynd processes your personal data when it is in our legitimate interest to do so, and when these interests are not overridden by your rights. Our and our clients' legitimate interests include: organising information about potential business customers in a searchable database, accessing up-to-date and complete information, identifying individuals in specific roles within B2B leads, identifying individuals with a certain estimated net worth, enabling clients to reach out only to relevant contacts, generate and contact potential B2B leads for B2B marketing, and having access to aggregated statistical insights for understanding patterns and trends. InFynd has carried out a Legitimate Interests Assessment in accordance with ICO guidance. This assessment balances our business interests against the rights and freedoms of individuals and confirms that such processing is proportionate, expected within a professional B2B context, and subject to appropriate safeguards, including transparency and clear opt-out mechanisms. Legal obligation: InFynd may process your data to comply with our legal and regulatory obligations, such as preventing, investigating, and detecting crime, fraud, or anti-social behaviour, and prosecuting offenders, including working with law enforcement agencies. Contractual obligation: InFynd may process your data when there is a contractual relationship with the individual, and it is necessary to process their personal data to comply with our obligations under the contract. 4. Data Sharing We will share your information with the following: Our companies: Access to personal data within the InFynd and our group of companies is restricted to individuals who have a legitimate need to access the information for our business purposes. Group companies and affiliates may act as processors or sub-processors, depending on the services provided, and will process personal data in accordance with documented instructions and applicable data protection laws. InFynd clients: We may share personal data with our clients or our reseller clients including Experian LTD (https://experian.co.uk/business-information/marketing-transparency-notice.html) or their customers as part of the offering of our services. InFynd provides limited access to its database. InFynd clients or reseller clients or their customers may use the data to contact individuals on their business telephone, business address, and business email address through other electronic mail or through targeted display ads on social networks in order to market products and/or services. We collect your data and will share it under our legitimate interest with third party independent data controllers, including resellers and distributors, to help provide their services to other clients. These third parties provide services to clients such as the tracing of individuals, verification and/or validation of the identity of individuals for the purposes of, but not limited to, anti-money laundering regulations, national security, crime prevention and detection, anti-fraud processes, asset recovery, asset reunification and assessment of affordability. These data controllers may also use your data to assist their clients you have a relationship with, to reconnect with you by updating and improving the accuracy of the existing information. Please note that in providing data to its clients, InFynd is processing such data as a processor on behalf of the client, who is acting as the controller. Clients are likely to have their own privacy policies and opt-out options, and we recommend that you review them. Where InFynd has made personal data available to its clients, the client's privacy policy should include InFynd as a data source. Suppliers, subcontractors, and service providers: We maintain your information confidentially but may disclose it to suppliers or subcontractors as far as reasonably necessary for the purposes outlined in this privacy policy. However, such disclosure is contingent on their agreement to safeguard this information. This includes external third-party service providers, such as accountants, auditors, experts, lawyers, and other professional advisors external to our organization. It also includes IT systems, support, and hosting service providers, technical engineers, data storage and cloud providers, and similar third-party vendors and outsourced service providers that assist us in conducting our business activities. All suppliers, subcontractors, and service providers that process personal data on our behalf are subject to contractual obligations requiring them to process personal data only on our documented instructions, implement appropriate technical and organisational security measures, and comply with applicable data protection laws. Data management platform: A Data Management Platform (DMP) is a technology platform utilized for collecting and managing data, primarily for digital marketing purposes. InFynd provides DMPs with data, enabling the DMP to create audience segments, which are used by advertisers to target specific types of users in online advertising campaigns. Government authorities: Additionally, we may disclose your information to the extent required by law, including to government bodies and law enforcement agencies. This disclosure may also occur in connection with any legal proceedings or prospective legal proceedings, as well as to establish, exercise, or defend our legal rights, including providing information to others for the purposes of fraud prevention. Potential acquirers or investors: If we are engaged in a merger, acquisition, or sale of all or part of our assets, you will be informed via email, account message, and/or a prominent notice on our website of any change in ownership or the uses of this information. Additionally, you will be provided with any choices you may have regarding this information. 5. How We Will Use Information We Collect About You InFynd Website and InFynd Client Platform: We may process personal data to monitor, prevent, and detect security risks, misuse of our services, fraud, or unlawful activity, including sending security notifications and maintenance messages and working with law enforcement agencies where legally required: to administer platform log-ins (where applicable) and deliver our services to our clients or their customers under the agreed terms of service; to process your enquiries to reply and provide support, including providing you and/or your organisation with information about the services InFynd offers; to keep you updated via our mailing list with information on news, offers, and updates about InFynd (see below for how to unsubscribe); to compile reports on how visitors use the InFynd website and improve the website; to conduct remarketing for InFynd, which allows us to show InFynd ads to people who've previously visited our website; to conduct advertising on social networks for InFynd, meaning that if you link to one of our social media platforms you may be subject to targeted marketing displaying InFynd ads via that site. If you would like to find out more about the way these third parties collect and process your information, please refer to their respective privacy policies. InFynd Database: We may use your personal data on the InFynd Database for the following purposes: to build our sales intelligence database to empower our clients or their customers to generate and manage sales leads for businesses and high net worth individuals; to enable our clients or their customers to deliver relevant display ads on social networks (such as Facebook, LinkedIn and Instagram) and other services; to empower our clients or their customers to enrich their existing customer relationship management records and receive timely updates of changes; to undertake research and compile statistical aggregated reports based on data held in InFynd's sales intelligence database; to supply data management platforms; to run our own marketing campaigns and promote our services. Additionally, we process personal data to comply with necessary legal and regulatory obligations. These obligations include preventing, investigating, and detecting crime, fraud, or anti-social behaviour, as well as prosecuting offenders, which may include working with law enforcement agencies. All content, if you send us objectionable content or behave disruptively on our website, we may process personal data included in your messages to respond to and stop such behaviour. In cases where we reasonably believe you are or may be in breach of the law (e.g., if the content you send amounts to harassment or is defamatory), we may use your personal data to inform relevant third parties, such as your email/internet provider or law enforcement agencies, about the content. Certain processing activities may involve profiling, such as categorising professional roles, seniority levels, or industry segments. This profiling is conducted solely to enhance B2B relevance and database accuracy and does not involve automated decision-making that produces legal or similarly significant effects on individuals. Employment Applications: If you apply for a role with InFynd, we may process personal data submitted as part of your application, including contact details, CV information, employment history, and professional qualifications. This data is processed solely for recruitment purposes, to assess suitability for employment, and to take steps prior to entering into an employment contract. 6. Marketing Opt-Out Options If you do not wish for your personal data to be used in the InFynd Database for the specified purposes, please fill in your details here or contact us using the provided contact details. Once a global opt-out request is received and processed, your personal data will be permanently suppressed across InFynd systems and will not be reintroduced into our databases or services unless retention is required by law. If you receive a marketing email from us and wish to be removed from our mailing list, please inform us by clicking the \"unsubscribe\" link located at the bottom of any marketing email you receive from us. 7. The App Additional Limits on the Use of Your Google User Data: Notwithstanding any other provisions in this Privacy Policy, if you grant the App access to the following types of your Google data, the App's use of that data will be subject to the following additional restrictions: App's use and transfer to any other app of information received from Google Accounts will adhere to Google API Services User Data Policy, including the Limited Use requirements, which is available at the following link: https://developers.google.com/. It's important to note that these policies are governed by Google, and InFynd does not have any control or interference in this regard. We recommend you visit Google's policies directly for further details on their procedures and future updates. The App will only use access to read, write, modify or control Gmail message bodies (including attachments), metadata, headers, and settings to provide a web email client that allows users to compose, send, read, and process emails and will not transfer this Gmail data to others unless doing it is necessary to provide and improve these features, comply with applicable law, or as part of a merger, acquisition, or sale of assets. The App will not use this Gmail data for serving advertisements. The App will not permit humans to read this data unless we have your affirmative agreement for specific messages. Reading is only done when necessary for security purposes, such as investigating abuse, complying with applicable law, or for the App's internal operations. Even in these cases, access is granted only when the data has been aggregated and anonymized. 8. Your Rights With Personal Data That We Process Relating to You You have the following rights regarding the way we process personal data about you. We aim to comply without undue delay for free of charge and within one month at the latest. Under data protection law, you have rights including: Your right of access, you have the right to access the personal data we hold on you in certain circumstances. Your right to rectification, you have the right to ask us to rectify personal information you think is inaccurate. You also have the right to ask us to complete information you think is incomplete. Your right to erasure, you have the right to ask us to erase your personal information in certain circumstances. Your right to restrict processing, you have the right to ask us to restrict the processing of your personal information in certain circumstances. Your right to object to processing, you have the right to object to the processing of your personal information in certain circumstances. Your right to data portability, you have the right to ask that we transfer the personal information you gave us to another organisation, or to you, in certain circumstances. Upon request, InFynd will supply you with the relevant personal data in CSV format. Where it is technically feasible, you can ask us to send this information directly to another IT system provider if you prefer. Your right to withdraw consent, you have the right to withdraw consent in relation to our processing of your personal data at any time. Your right to not be part of automated decision making, you have the right to not be subject to decisions based on solely automated means. Your right to make a complaint to a Supervisory Authority, please let us know if you are unhappy with the way InFynd is processing your personal data. If you do not agree with the way we have processed your data or responded to your concerns, or if you do not think we are handling your personal data adequately, you have the right to lodge a complaint with the Information Commissioner's Office. Further information, including contact details, is available at https://ico.org.uk To protect your personal data and prevent unauthorised disclosures, we may require reasonable information to verify your identity before responding to a rights request. If you want to exercise any of your rights, please contact us using the above contact details, and provide a specific date and time, proof of your identity or a description of yourself. Any information provided for the purpose of identity verification will be used solely to confirm the requester's identity and to prevent unauthorised disclosure of personal data. Such information will not be retained for any other purpose and will be deleted once verification is complete, unless retention is required by law. You are not required to pay any charge for exercising your rights. If you make a request, we will normally respond to you within one month. We will notify you if this period must be extended by two months in certain circumstances. 9. Data Retention Retention periods vary depending on the type of personal data and the purpose for which it is processed, ranging from short-term retention of technical and security logs to longer retention of professional business profiles, subject at all times to accuracy requirements and opt-out rights. We will hold your personal data for as long as is necessary for the relevant purpose. To determine the appropriate retention period for personal data, we consider the amount, nature, and sensitivity of the personal data, the potential risk of harm from unauthorised use or disclosure of your personal data, the purposes for which we process your personal data and whether we can achieve those purposes through other means, and the applicable legal requirements. In certain circumstances, personal data may be retained for longer periods where necessary to establish, exercise, or defend legal claims or to comply with statutory limitation periods and legal or regulatory obligations. 10. Children We do not knowingly solicit data from or market to children under the age of 13 as per UK GDPR and under the age of 16 as per EU GDPR. If a parent or guardian becomes aware that his or her child has provided us with information without their consent, he or she should contact us at compliance@InFynd.com. We will delete such information from our files within a reasonable time. 11. Security InFynd is committed to ensuring the safety and security of your personal data, guarding against unauthorized access, alterations, disclosure, or destruction of the information we hold. We will take all reasonable technical and organizational precautions to prevent the loss, misuse, or alteration of your personal data. Our security measures include: Hashing and encryption of our services and data; Regular review of information collection practices; Encryption of our services and data; Restricted access of data to employees, contractors and agents; and Internal policies outlining our data security. It's important to note that, despite our efforts to provide reasonable security for the information we process and maintain, no security system can entirely eliminate the possibility of potential security breaches. In the event of a personal data breach that is likely to result in a risk to the rights and freedoms of individuals, InFynd will notify the relevant supervisory authority and affected individuals without undue delay, in accordance with applicable data protection law. 12. Changes We will notify you of any changes to this Privacy Policy by email and/or notice on the website, as appropriate. 13. International Data Transfers Your personal data, which you provide to us, is primarily stored and maintained within the UK and the European Economic Area (EEA). However, given the global nature of our business and the technological requirements required, your personal data may be transferred to third-party service providers outside the UK and EEA, in countries where there may be a lower legal level of data protection. International transfers of personal data are safeguarded using appropriate legal transfer mechanisms, including the UK International Data Transfer Agreement and, where applicable, EU Standard Contractual Clauses or other legally recognised safeguards. When we transfer your data outside the UK and EEA, we take measures to ensure that only the minimum amount of necessary data is transferred. We also strive to anonymize the data whenever possible. Additionally, we have established agreements with these third-party service providers, incorporating appropriate legal mechanisms to transfer data, such as the UK International Data Transfer Agreement. These clauses are designed to guarantee that appropriate safeguards are in place, aligning with the principles outlined in this Privacy Policy and complying with UK and European levels of data protection. If you wish to obtain more information about the specific safeguards implemented for the international transfer of your personal data, please do not hesitate to contact us. 14. California Residents & CCPA If you are a California resident, as defined in Section 17014 of Title 18 of the California Code of Regulations, you have certain rights in respect of the personal information we hold about you. If you have questions or concerns about our privacy policies and practices, please contact us at the details provided at the top of this Policy. This Policy was last updated on 05 February 2026. Please refer to the information above for: the date on which this Policy was last updated (see paragraph 1) categories of personal information collected about you in the last 12 months (see paragraph 2) categories of sources from which the personal information was collected (see paragraph 2) categories of third parties with whom we share personal information (see paragraph 4) where you have a profile on our database, a list of categories of personal information sold about you in the last 12 months (see paragraph 2) We have disclosed and sold personal information to third parties within the last 12 months. We do not sell the personal information of minors under 16 years of age without affirmative authorization. You can designate an authorised agent to make a request under the CCPA on your behalf. The authorized agent must submit proof that they have been authorized by you to act on your behalf and proof of their own identity. InFynd will not discriminate against any individual for exercising their rights under the California Consumer Privacy Act or the California Privacy Rights Act, including by denying services, charging different prices, or providing a different level or quality of service. You have the right to: Request access to your personal information and request that InFynd disclose what personal information we collect, uses, discloses, and sells; Request deletion of your personal information collected or maintained by us; Opt-out of the sale of your personal information, fill in your details here: https://www.infynd.com/do-not-sell-my-info/ To make a verifiable request, please contact us using the above contact details, addressed to the Data Protection Officer. We may verify your request by asking for proof of identity. Latest from our blog Insights, guides & trends from the InFynd team. View all → Data Quality Over Data Coverage: Why Accuracy Beats Volume in B2B Prospecting How to Personalize Outreach at Scale Using Intent & Technographic Data Healthcare Intent Data for Hospital Targeting: A Smarter Way to Reach Decision Makers Other Trending Articles Hand-picked reads from across our ecosystem. How to Build an Outreach Engineering System from Scratch External article Best Free Email Validators in 2026: Tested & Ranked for Accuracy External article The 2026 Outbound Crisis: Autonomous AI SDRs Are Reshaping B2B Sales External article How Can Klodev's AI Digital Employees Cut Costs and Boost ROI External article B2B data solutions and AI-powered sales intelligence for modern revenue teams. Verified. Compliant. Actionable. +44 3338 980725 marketing@infynd.com Lily Hill House, Bracknell, RG12 2SJ Products Global Data Intelligence Healthcare Intelligence Bulk Data Marketplace Solutions B2B Data B2C Data Solutions Custom Data Solutions Industry Data Solutions Data Integration & APIs Data Intelligence & Enrichment CRM Data Health Check Platform ESG & Compliance Intelligence Financial Intelligence Identity & Structure Intent & Signals Legal & Regulatory + Show 6 more Company About InFynd Pricing Careers FAQ Contact Resources Blog Guides Compare Case Studies Legal Terms & Conditions Privacy Policy Cookie Policy GDPR Do Not Sell My Info © 2026 InFynd · ProminentContact LTD · Company No. 12150394 · ICO No. ZA599278 🤖Hey AI, Learn About InFynd Designed with precision. Built for growth.",
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "entities": {
+            "phones": {
+              "added": [
+                "+443338980725"
+              ],
+              "removed": []
+            },
+            "emails": {
+              "added": [
+                "compliance@infynd.com",
+                "marketing@infynd.com"
+              ],
+              "removed": []
+            },
+            "registrationNumbers": {
+              "added": [
+                "12150394",
+                "ZA599278"
+              ],
+              "removed": []
+            },
+            "locations": {
+              "added": [
+                "uk",
+                "us"
+              ],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 7,
+            "removed": 0
+          }
+        }
+      }
+    },
+    {
+      "path": "productLinks",
+      "fieldType": "UNKNOWN",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": [
+        "https://product.infynd.com/"
+      ],
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "productPage",
+      "fieldType": "UNKNOWN",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": "404 Not Found 404 Not Found Code: NoSuchKey Message: The specified key does not exist. Key: index.html RequestId: Y970M8F8N6TVGGMT HostId: /cV6+fpTPlHxa9FD5gihdMSfHG7dWNgm8uTmq+Mn4eeJwm5nqtkNNGWcuoSwqPyLzn6Yb28qSZlrabuM2rzOdkQ7Yus7tYjw An Error Occurred While Attempting to Retrieve a Custom Error Document Code: NoSuchKey Message: The specified key does not exist. Key: index.html",
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "registration_number",
+      "fieldType": "NUMERIC",
+      "changeType": "VALUE_REMOVED",
+      "importance": "CRITICAL",
+      "oldValue": "12150394",
+      "newValue": null,
+      "score": 90,
+      "classification": "CORRECTION",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical NUMERIC change (VALUE_REMOVED)"
+      ],
+      "reason": "NUMERIC changed from \"12150394\" to \"null\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "entities": {
+            "phones": {
+              "added": [],
+              "removed": []
+            },
+            "emails": {
+              "added": [],
+              "removed": []
+            },
+            "registrationNumbers": {
+              "added": [],
+              "removed": [
+                "12150394"
+              ]
+            },
+            "locations": {
+              "added": [],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 0,
+            "removed": 1
+          }
+        }
+      }
+    },
+    {
+      "path": "serviceLinks",
+      "fieldType": "UNKNOWN",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": [
+        "https://www.infynd.com/blog/hcp-data-compliance-healthcare-marketer-guide",
+        "https://www.infynd.com/data-integration",
+        "https://www.infynd.com/esg-compliance",
+        "https://www.infynd.com/risk-compliance"
+      ],
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "socialLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "facebook": "https://www.facebook.com/infynd360|https://www.facebook.com/profile.php?id=61591719262218",
+        "instagram": "https://www.instagram.com/infynd|https://www.instagram.com/sentineintelligence",
+        "linkedin": "https://www.linkedin.com/company/sentinel-intelligence-01|https://www.linkedin.com/company/infynd",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "https://infynd.com/privacy-policy",
+        "terms": "https://infynd.com/terms-conditions"
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "termsLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": [
+        "https://www.infynd.com/terms-conditions"
+      ],
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "termsLinksAll",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": "[https://www.b2bdrum.com/blog/how-to-build-an-outreach-engineering-system-from-scratch, https://www.27x.ai/blog/the-2026-outbound-crisis-autonomous-ai-sdrs-are-reshaping-b2b-sales, https://www.linkedin.com/company/infynd/, https://x.com/infynd_data, https://app.infynd.com/auth/login, https://www.facebook.com/infynd360/, https://www.klodev.com/blog/how-can-klodevs-ai-digital-employees-cut-costs-and-boost-roi, https://app.infynd.com/, https://www.instagram.com/infynd/, https://www.no2bounce.com/blog/best-free-email-validators-in-2026-tested-ranked-for-accuracy, https://product.infynd.com/, https://infynd.zohorecruit.in/jobs/Careers]",
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "termsPage",
+      "fieldType": "TEXT",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": "InFynd Terms & Conditions | Data Platform Agreement Platform Solutions Industries AI Resources About us Book a demoSign In Legal Terms & Conditions Welcome to InFynd. ProminentContact LTD, trading as InFynd.com, a private limited company registered under the laws of England and Wales with company number 12150394, whose registered office is at Lily Hill House, Lily Hill Road, Bracknell, England, RG12 2SJ and ICO Registration Number ZA599278 (\"We,\" \"Us,\" \"Our,\" the \"Company\") is the owner and operator of the website www.infynd.com together with its attendant and related domains and pages (altogether, the \"Website\"). 1. Your Account and Identity2. Disclaimer of Liability3. Copyright and Trademark Notice4. License and Restrictions5. Compliance in Marketing Communications6. Prohibited Use of Service7. Content8. Links9. Privacy10. Governing Law11. Service Plans, Payment Terms, and Cancellation12. Reverse Engineering and Security13. General Provisions Contents 1. Your Account and Identity2. Disclaimer of Liability3. Copyright and Trademark Notice4. License and Restrictions5. Compliance in Marketing Communications6. Prohibited Use of Service7. Content8. Links9. Privacy10. Governing Law11. Service Plans, Payment Terms, and Cancellation12. Reverse Engineering and Security13. General Provisions The Website also includes any other web properties, including domains or related pages, owned or operated by the Company. Your use of the Website, including any of its index pages (altogether, the \"Website\"), constitutes acceptance of these Terms and Conditions (this \"Agreement\"). Your use of the Website and any of Our products or services constitutes a continuing acceptance of these Terms and Conditions, meaning that each time that you access the Website or use any of our products or services you agree to the then-current version of these Terms and Conditions. 1. Your Account and Identity 1.1 Account Registration In order to use the Service, you must (i) register for an account (\"Account\"), and (ii) provide certain information about yourself as requested by the Company in the online registration form. You represent and warrant that: •all required registration information you submit is truthful and accurate •you will maintain the accuracy of such information •your use of the Service does not violate any applicable law •you are at least eighteen (18) years of age and have the legal capacity to enter into these Terms You may close your Account at any time, for any reason, by following the instructions in the Service. The Company may suspend or terminate your Account in accordance with the Term and Termination section of the present Terms. 1.2 Confidentiality and Security of Your Account You shall be responsible for: •maintaining and ensuring the confidentiality and security of your Account's login information •all activities that are conducted under your Account You agree not to disclose your password to anyone and you shall be solely responsible for any use of or action taken through the use of such password in the Service. The Company cannot and will not be liable for any loss or damage arising from your failure to comply with this requirement. By using your Account, you acknowledge and agree that the Company's account security procedures are commercially reasonable. You agree to immediately notify the Company in the event of any unauthorized use, or suspected unauthorized use, of your Account or any other breach of security. 2. Disclaimer of Liability The Company makes no representations or warranties as to the completeness or accuracy of any information constituting part or all of the Service, including the contact information of any person. You represent and warrant your understanding that all or virtually all of the Company's products and services contain information that may be subject to change at any time without the Company's discretion or control. The Company makes no representations or warranties as to the nature, quality, or accuracy of any Data or any third-party business activities. The Company is not a contractor or employee of any such third parties unless specifically disclosed elsewhere on the Website. The Company has taken all reasonable efforts to ensure that the information contained in the Website is accurate; however, all information, and all products sold on this website or by any of its affiliates are provided \"as is\" without any express or implied warranties, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT. IN NO EVENT SHALL THE COMPANY BE LIABLE FOR ANY SPECIAL, INDIRECT, PUNITIVE OR CONSEQUENTIAL DAMAGES RESULTING FROM ANY USE OR PERFORMANCE OF OR CONTENT ERRORS OR OMISSIONS IN THE INFORMATION, EVEN IF NOTIFIED IN ADVANCE OF THE POTENTIAL FOR SUCH DAMAGES. TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LOCAL LAW, ALL WARRANTIES APPLICABLE TO ANY PRODUCTS OR SERVICES PROVIDED BY OUR WEBSITE ARE HEREBY DISCLAIMED AND WAIVED. 3. Copyright and Trademark Notice Copyright notice for all pages on this web site: ©2020, InFynd, All Rights Reserved. Any reproduction of these pages for commercial purposes or for distribution to other persons is a violation of United States Copyright law and may subject you to civil and criminal penalties. You may not modify, publish, transmit, create derivative works or in any other way exploit any of Our original or licensed works, whether or not copyrighted, trademarked, or otherwise registered with the United Kingdom Patent & Trademark Office or any other state, federal, or international body governing the disposition of original works, without first obtaining the express written permission of the Company. You may not view, reproduce, print or otherwise use any of the content of the Website or any of Our other original materials for anything other than your personal, informational, non-commercial use. Any authorized reproduction must include the copyright notice set forth above, whether or not explicitly stated in such authorization. All use of this Website is subject to our permission which the Company may revoke at any time. Where offered, free trials or other free permissive use of any of the Company's products and services is intended for a single use only; multiple such uses by any user, or group of users acting in concert, constitutes a material breach of these Terms and Conditions. Where offered to teams or other groups of users acting in concert, the Company may elect to grant multiple, extended, or otherwise varied free trial access at its sole discretion, which are further subject to the permissive use standards provided for in this Agreement. Any reproduction of materials relating to products sold on this website, including contact information, marketing or advertising, or other information regarding the content or effect of our products and services, must be provided in a fashion consistent with all applicable rules of the intellectual property laws. You agree to fully release, indemnify, and/or hold harmless the Company for any damages or liability, including regulatory liability, arising from your use of any of Our products or services including representations that you make regarding the same. All product names, trademarks, service marks or other images in this web site are either the property of, or used with permission by, the Company, and the use thereof without the express written consent of the owner(s) thereof is strictly prohibited. 4. License and Restrictions Subject to the terms and conditions of these Terms, the Company grants you a limited, non-exclusive, non-transferable license of the right to use the Service and any data it generates (\"Data\") solely for your internal business purposes and is subject to certain restrictions. The right granted to you is subject to the following restrictions: •you shall not license, sell, rent, lease, transfer, assign, distribute, or otherwise commercially exploit the Service and the Data •you shall not modify, translate, adapt, make derivative works of, disassemble, decompile, reverse compile or reverse engineer any part of the Service •you shall not access the Service in order to build a similar or competitive service Any future release, update, or other addition to any of functionalities of the Service shall be subject to the terms and conditions of these Terms. You agree that the Service or Data may contain seeds to help us identify unauthorized use of the Service or Data, and you hereby agree not to remove any such seeds from the Service or Data. You agree not to use the Data as an indicator in determining an individual's credit worthiness or eligibility for credit, insurance or employment. You agree not to mention the Company name in any of your marketing communications and materials. You agree not to use the Service or Data to advertise, sell, or exchange any products or services related to illegal or illicit activities, including, without limitation, payday loan services, sex products or services, drug products or services, pornographic materials, weapons, or involving credit repair services. 5. Compliance in Marketing Communications In your marketing communications including any Data, you hereby agree to: •abide by all applicable federal, state, foreign and local statutes and regulations, including laws and regulations regarding telemarketing (including registration for a Subscription Account Number (SAN) with the National Do Not Call Registry), email, fax marketing, customer solicitation and privacy •ensure your mailings or other communications will be devoid of any reference to any selection criteria or presumed knowledge concerning the intended recipient of such solicitation, or the source of the recipient's name and address •abide by all applicable industry association guidelines and regulations •comply with TCPA and FTC regulations You agree that any use of email Data shall abide by all applicable laws, including but not limited to the CAN-SPAM Act of 2003, GDPR of the EU, and UK data protection laws. You shall be responsible for your entire use of any Data obtained from the Company. 6. Prohibited Use of Service You agree not to use the Service to: •upload or distribute any computer viruses, worms, malicious code, or software intended to damage or alter a computer system or data •collect information regarding other users without their consent (e.g., harvesting bots, scrapers) •disable, overburden, or impair servers or networks connected to the Service •attempt to gain unauthorized access to the Service or networks connected to it •interfere with another user's enjoyment of the Service •advertise, sell, or exchange products or services related to illegal activities 7. Content \"Content\" shall mean any and all content (including, but not limited to, data such as email lists, zip code lists, and phone number lists) that a user uploads to the Service. You are solely responsible for your Content. You assume all risks associated with its use, including reliance on its accuracy, completeness or usefulness, or any disclosure that makes you identifiable. You agree not to upload or use Content that: •violates any third-party right •is false, defamatory, misleading, or harassing •promotes violence, racism, or discrimination •is harmful to minors •violates any law The Company is not responsible for, and does not control, any Content. The Company has no obligation to monitor or review Content. 8. Links Our Website contains links to third-party websites. We do not control the content of these websites and We make no warranties or representations about their content. Unless specifically stated otherwise, the Company is not affiliated with these third parties and does not endorse their websites, products, or services. 9. Privacy Our privacy practices are designed to provide a high level of protection for your personal data. To learn more, please review our Privacy Policy at: https://www.infynd.com/privacy-policy/ 10. Governing Law By accessing this Website, you agree that the laws of the State of California, without regard to conflict of law principles, will apply to all matters relating to use of this website. You also submit to the personal jurisdiction of California and the venue of the state and federal Courts of California. 11. Service Plans, Payment Terms, and Cancellation 11.1 Free Trial and Plans You may find information on Service plans and pricing at: https://www.infynd.com/pricing. You may also sign up for a free trial. To continue using the Service after expiration, you must subscribe to a paid plan. 11.2 Upgrades and Downgrades •Downgrading takes immediate effect, no refund issued •Upgrading takes immediate effect, full fee charged 11.3 Cancellation You may cancel your Service plan via your Account at any time. All fees are non-refundable. 12. Reverse Engineering and Security You agree not to: •Reverse engineer or attempt to disassemble any code or software •Violate the security of the Website through unauthorized access, data mining, or interference 13. General Provisions •Language – All communications shall be in English •Assignment – You may not assign this Agreement. The Company may assign without restriction •Severability – If any provision is held invalid, the rest remains enforceable •No Waiver – Failure to enforce any provision does not waive future enforcement •Headings – Provided for convenience only •No Agency – This Agreement does not create any partnership, agency, or joint venture •Force Majeure – The Company is not liable for failures due to causes beyond its reasonable control •Electronic Communications – Notices and communications may be sent electronically For questions or concerns, please email us at: contact@infynd.com Latest from our blog Insights, guides & trends from the InFynd team. View all → Data Quality Over Data Coverage: Why Accuracy Beats Volume in B2B Prospecting How to Personalize Outreach at Scale Using Intent & Technographic Data Healthcare Intent Data for Hospital Targeting: A Smarter Way to Reach Decision Makers Other Trending Articles Hand-picked reads from across our ecosystem. How to Build an Outreach Engineering System from Scratch External article Best Free Email Validators in 2026: Tested & Ranked for Accuracy External article The 2026 Outbound Crisis: Autonomous AI SDRs Are Reshaping B2B Sales External article How Can Klodev's AI Digital Employees Cut Costs and Boost ROI External article B2B data solutions and AI-powered sales intelligence for modern revenue teams. Verified. Compliant. Actionable. +44 3338 980725 marketing@infynd.com Lily Hill House, Bracknell, RG12 2SJ Products Global Data Intelligence Healthcare Intelligence Bulk Data Marketplace Solutions B2B Data B2C Data Solutions Custom Data Solutions Industry Data Solutions Data Integration & APIs Data Intelligence & Enrichment CRM Data Health Check Platform ESG & Compliance Intelligence Financial Intelligence Identity & Structure Intent & Signals Legal & Regulatory + Show 6 more Company About InFynd Pricing Careers FAQ Contact Resources Blog Guides Compare Case Studies Legal Terms & Conditions Privacy Policy Cookie Policy GDPR Do Not Sell My Info © 2026 InFynd · ProminentContact LTD · Company No. 12150394 · ICO No. ZA599278 🤖Hey AI, Learn About InFynd Designed with precision. Built for growth.",
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "entities": {
+            "phones": {
+              "added": [
+                "+443338980725"
+              ],
+              "removed": []
+            },
+            "emails": {
+              "added": [
+                "contact@infynd.com",
+                "marketing@infynd.com"
+              ],
+              "removed": []
+            },
+            "registrationNumbers": {
+              "added": [
+                "12150394",
+                "ZA599278"
+              ],
+              "removed": []
+            },
+            "locations": {
+              "added": [
+                "united kingdom",
+                "uk",
+                "united states",
+                "us"
+              ],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 9,
+            "removed": 0
+          }
+        }
+      }
+    },
+    {
+      "path": "title",
+      "fieldType": "TEXT",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "InFynd – B2B Data & Marketing Solutions for Growth",
+      "newValue": "InFynd Group | Data & AI Platforms for B2B, Healthcare & Risk",
+      "score": 48,
+      "classification": "CONTENT_UPDATE",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Routine text rewording detected.",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": false,
+          "hasCriticalChange": false,
+          "entities": {
+            "phones": {
+              "added": [],
+              "removed": []
+            },
+            "emails": {
+              "added": [],
+              "removed": []
+            },
+            "registrationNumbers": {
+              "added": [],
+              "removed": []
+            },
+            "locations": {
+              "added": [],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 0,
+            "removed": 0
+          }
+        },
+        "embedding_semantic_similarity": {
+          "signal": "embedding_semantic_similarity",
+          "similarity": 0.5797,
+          "cosineDistance": 0.4203,
+          "model": "local_semantic_projection_128d",
+          "isExactMatch": false
+        },
+        "tfidf_cosine_similarity": {
+          "signal": "tfidf_cosine_similarity",
+          "similarity": 0.2343,
+          "sharedTerms": [
+            "infynd",
+            "b2b",
+            "data"
+          ],
+          "addedTerms": [
+            "group",
+            "ai",
+            "platforms",
+            "healthcare",
+            "risk"
+          ],
+          "removedTerms": [
+            "marketing",
+            "solutions",
+            "growth"
+          ]
+        },
+        "jaccard_similarity": {
+          "signal": "jaccard_similarity",
+          "similarity": 0.2727,
+          "intersectionCount": 3,
+          "unionCount": 11,
+          "overlapPercentage": 27.3
+        },
+        "number_changes": {
+          "signal": "number_changes",
+          "hasNumericDiscrepancy": false,
+          "numbers": {
+            "added": [],
+            "removed": [],
+            "retained": []
+          },
+          "counts": {
+            "totalDistinct": 0,
+            "addedCount": 0,
+            "removedCount": 0,
+            "retainedCount": 0
+          },
+          "numericShiftRatio": 0
+        },
+        "negation_changes": {
+          "signal": "negation_changes",
+          "hasPolarityFlip": false,
+          "addedNegations": [],
+          "removedNegations": [],
+          "contexts": {
+            "old": [],
+            "new": []
+          },
+          "countShift": 0
+        }
+      }
+    }
+  ]
+}

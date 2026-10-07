@@ -1,0 +1,36 @@
+{
+  "status": 1,
+  "message": "Baseline extracted from PostgreSQL.",
+  "totalCount": 1,
+  "data": [
+    {
+      "processingId": "infynd.com",
+      "url": "https://infynd.com/",
+      "normalizedDomain": "infynd.com",
+      "redirection": "false",
+      "hostIp": "198.202.211.1",
+      "ipCountry": null,
+      "loadTimeMs": 227,
+      "responseCode": "200",
+      "domainStatus": "Valid",
+      "comments": "valid",
+      "webServer": "jsoup",
+      "homeContent": "InFynd Group | Data & AI Platforms for B2B, Healthcare & Risk One Group. Three Powerful Platforms. InFynd Group A family of data and AI platforms powering smarter B2B growth, healthcare intelligence, risk insight, and AI-driven execution. 01 Global B2B & Healthcare Data Intelligence Verified B2B and healthcare contact data in one platform. 240M+ contacts, 12M+ companies, and dedicated human support. Explore → 02 27x.ai AI agents that multiply your team's output across sales and marketing. Explore → 03 Continuous Risk Intelligence Continuous entity monitoring. Early warning signals. Digital outreach. Risk remediation. Explore →",
+      "title": "InFynd – B2B Data & Marketing Solutions for Growth",
+      "description": "Drive sales with clean B2B data, automated outreach, and real-time reporting. InFynd powers your pipeline with data-driven marketing solutions.",
+      "language": "en",
+      "companyName": "InFynd Group",
+      "name": "InFynd Group",
+      "phone": null,
+      "email": "marketing@infynd.com",
+      "address": null,
+      "country": null,
+      "registration_number": "12150394",
+      "homeLinks": "https://www.infynd.com/data-cleansing-infynd|https://www.infynd.com/industry-based-data|https://www.infynd.com/conversion-rate-optimization|https://www.infynd.com/llm-info|https://www.infynd.com/blog|https://www.infynd.com/demand-generation|https://www.infynd.com/gdpr|https://www.infynd.com/data-integration-api|https://www.infynd.com/ai-sdr|https://www.infynd.com/book-a-demo|https://www.instagram.com/infynd|https://www.infynd.com/personalized-custom-build-data|https://www.infynd.com/healthcare|https://www.infynd.com/martech|https://www.facebook.com/infynd360|https://www.infynd.com/do-not-sell-my-info|https://www.infynd.com/b2b-data|https://www.infynd.com/crm-data-health-check|https://app.infynd.com|https://www.infynd.com/privacy-policy|https://www.infynd.com/|https://www.infynd.com/social-media-marketing|https://x.com/infynd_data|https://www.infynd.com/blog/3-step-data-checklist-before-your-next-campaign-goes-live|https://www.infynd.com/social-media-strategy|https://www.infynd.com/terms-conditions|https://www.infynd.com/b2c-data|https://www.infynd.com/about-us|https://infynd.zohorecruit.in/jobs/Careers|https://www.infynd.com/paid-media-campaigns|https://www.infynd.com/#|https://www.infynd.com/data-solutions|https://www.infynd.com/blog/the-best-way-to-do-cold-email-and-cold-calling-right|https://www.infynd.com/brand-awareness|https://www.infynd.com/content-marketing|https://www.infynd.com/data-intelligence-and-enrichment|https://www.infynd.com/brand-messaging-and-positioning|https://www.infynd.com/pr-media-outreach|https://www.linkedin.com/company/infynd|https://www.infynd.com/contact|https://www.infynd.com/cookie-policy|https://www.infynd.com/data-appending-infynd",
+      "aboutLinksAll": "https://www.infynd.com/blog/the-best-way-to-do-cold-email-and-cold-calling-right|https://x.com/infynd_data|https://www.infynd.com/blog/3-step-data-checklist-before-your-next-campaign-goes-live|https://www.instagram.com/infynd|https://www.linkedin.com/company/infynd|https://ico.org.uk/|https://www.facebook.com/infynd360|https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes|https://infynd.com/do-not-sell-my-info/|https://infynd.zohorecruit.in/jobs/Careers|https://app.infynd.com|https://experian.co.uk/business-information/marketing-transparency-notice.html",
+      "contactLinksAll": "https://www.infynd.com/blog/the-best-way-to-do-cold-email-and-cold-calling-right|https://x.com/infynd_data|https://www.infynd.com/blog/3-step-data-checklist-before-your-next-campaign-goes-live|https://www.instagram.com/infynd|https://www.linkedin.com/company/infynd|https://www.facebook.com/infynd360|https://app.infynd.com|https://infynd.zohorecruit.in/jobs/Careers",
+      "aboutPage": null,
+      "contactPage": null
+    }
+  ]
+}

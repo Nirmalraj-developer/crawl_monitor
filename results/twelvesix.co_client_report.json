@@ -1,0 +1,172 @@
+{
+  "company": "twelvesix",
+  "domain": "twelvesix.co",
+  "overallStatus": "REVIEW",
+  "summary": "Several important company profile attributes changed or were omitted on the latest website crawl.",
+  "totalChanges": 16,
+  "changes": [
+    {
+      "field": "aboutLinks",
+      "path": "aboutLinks",
+      "previous": null,
+      "current": [
+        "https://www.twelvesix.co/about-us",
+        "https://twelvesix.co/about-us"
+      ],
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    },
+    {
+      "field": "aboutLinksAll",
+      "path": "aboutLinksAll",
+      "previous": "https://policies.google.com/privacy|https://www.linkedin.com/in/cristofano|https://policies.google.com/terms|https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base",
+      "current": "[https://policies.google.com/privacy, https://www.linkedin.com/in/cristofano, https://policies.google.com/terms, https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base]",
+      "importance": "LOW",
+      "reason": "Routine text rewording detected."
+    },
+    {
+      "field": "About Us Page Content",
+      "path": "aboutPage",
+      "previous": null,
+      "current": "About Us Home Our Approach Our Services About Us Connect More Home Our Approach Our Services About Us Connect Home Our Approach Our Services About Us Connect About Twelve Six Impact over Activity. At Twelve Six, we deliver strategy that scales and activation that matters—aligning brand, go-to-market, and marketing planning to help businesses accelerate and grow with differentiated precision and purpose. Meet Danny Cristofano, Founder & Principal Consultant Danny is a seasoned marketing executive with over 25 years of experience driving growth and transformation across diverse tech and lifestyle categories. Throughout his award-winning career, Danny has held pivotal roles working on behalf of and in partnership with many of the world's most iconic brands. At Intel, Danny led corporate initiatives and world-class marketing teams through life-changing technology inflection points. His deep and broad range of marketing expertise spans brand management, new product launches and category creation, go-to-market and marketing strategy, sponsorship marketing, global partner ecosystem orchestration and integrated marketing campaigns across Consumer Tech - including sports and entertainment, Enterprise B2B, Internet of Things, AR/VR/Wearables, Healthcare and SaaS, to today's breakneck AI transformation across virtually every industry. Known for his collaborative approach and commitment to excellence, Danny's superpower lies in \"seeing around corners\" - identifying market opportunities and preempting challenges. As the founder of Twelve Six, Danny leverages this unique blend of strategic insight with relentless creativity and innovation to provide fractional CMO and marketing consulting services tailored to the needs of founders, marketing leaders, private equity investors, and enterprise teams. By aligning business objectives with marketing strategies and ensuring that every initiative is purpose-driven and impact-oriented, Danny empowers organizations to overcome challenges and achieve sustained growth. Our Collaborators Start Now Want to move forward with focus, purpose, and results? Take the first step, and contact us to schedule a complimentary strategy consultation to discuss your marketing and business goals. Send us a message, and we will get back to you soon. Let’s talk. Let’s talk. Name Email* Attach Files Attachments (0) This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply. Send Cancel Let’s talk. Connect With Us Copyright © 2025 Twelve Six LLC - All Rights Reserved. Powered by This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept About Us Home Our Approach Our Services About Us Connect More Home Our Approach Our Services About Us Connect Home Our Approach Our Services About Us Connect About Twelve Six Impact over Activity. At Twelve Six, we deliver strategy that scales and activation that matters—aligning brand, go-to-market, and marketing planning to help businesses accelerate and grow with differentiated precision and purpose. Meet Danny Cristofano, Founder & Principal Consultant Danny is a seasoned marketing executive with over 25 years of experience driving growth and transformation across diverse tech and lifestyle categories. Throughout his award-winning career, Danny has held pivotal roles working on behalf of and in partnership with many of the world's most iconic brands. At Intel, Danny led corporate initiatives and world-class marketing teams through life-changing technology inflection points. His deep and broad range of marketing expertise spans brand management, new product launches and category creation, go-to-market and marketing strategy, sponsorship marketing, global partner ecosystem orchestration and integrated marketing campaigns across Consumer Tech - including sports and entertainment, Enterprise B2B, Internet of Things, AR/VR/Wearables, Healthcare and SaaS, to today's breakneck AI transformation across virtually every industry. Known for his collaborative approach and commitment to excellence, Danny's superpower lies in \"seeing around corners\" - identifying market opportunities and preempting challenges. As the founder of Twelve Six, Danny leverages this unique blend of strategic insight with relentless creativity and innovation to provide fractional CMO and marketing consulting services tailored to the needs of founders, marketing leaders, private equity investors, and enterprise teams. By aligning business objectives with marketing strategies and ensuring that every initiative is purpose-driven and impact-oriented, Danny empowers organizations to overcome challenges and achieve sustained growth. Our Collaborators Start Now Want to move forward with focus, purpose, and results? Take the first step, and contact us to schedule a complimentary strategy consultation to discuss your marketing and business goals. Send us a message, and we will get back to you soon. Let’s talk. Let’s talk. Name Email* Attach Files Attachments (0) This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply. Send Cancel Let’s talk. Connect With Us Copyright © 2025 Twelve Six LLC - All Rights Reserved. Powered by This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept",
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    },
+    {
+      "field": "clearbitName",
+      "path": "clearbitName",
+      "previous": null,
+      "current": "Twelvesix",
+      "importance": "CRITICAL",
+      "reason": "Identity shifted from \"\" to \"Twelvesix\""
+    },
+    {
+      "field": "Company Name",
+      "path": "companyName",
+      "previous": "twelvesix",
+      "current": null,
+      "importance": "CRITICAL",
+      "reason": "Identity shifted from \"twelvesix\" to \"\""
+    },
+    {
+      "field": "domainMatchedSocialLinks",
+      "path": "domainMatchedSocialLinks",
+      "previous": null,
+      "current": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "",
+        "terms": ""
+      },
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    },
+    {
+      "field": "genericEmail",
+      "path": "genericEmail",
+      "previous": null,
+      "current": "info@ndiscovered.com",
+      "importance": "HIGH",
+      "reason": "EMAIL channel changed from \"\" to \"info@ndiscovered.com\""
+    },
+    {
+      "field": "homeContent",
+      "path": "homeContent",
+      "previous": "Expert Fractional CMO and Marketing Consultancy Home Our Approach Our Services About Us Connect More Home Our Approach Our Services About Us Connect Home Our Approach Our Services About Us Connect Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Expert Marketing Solutions Accelerate and Scale with High-Impact Results Twelve Six helps companies bridge the gap between strategy and execution to scale with clarity and impact. We bring deep expertise in insights-led business, brand, go-to-market, and marketing strategy - paired with relentlessly creative and innovative marketing activation planning - to align big ideas with real-world momentum. When you're stuck in overthinking or lost in disconnected activity, we're the partner that gets things moving with focus and purpose. Why Twelve Six Strategic depth + execution focus We don’t just build plans - we build the right ones, and guide you in bringing them to life. Brand-first, customer-led We position brands to stand out and connect with the audiences who matter most. Fractional senior leadership Get CMO-level thinking without the full-time cost. We integrate quickly and deliver real momentum, fast. Start Now Want to move forward with focus, purpose, and results? Let’s talk. Name Email* Attach Files Attachments (0) Send This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply. Take the first step, and contact us to schedule a complimentary strategy consultation to discuss your marketing and business goals. Send us a message, and we will get back to you soon. Twelve Six 1750 E Sagittarius Pl Chandler AZ 85249 (480) 371-6387 Copyright © 2025 Twelve Six LLC - All Rights Reserved. Powered by This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept",
+      "current": "Expert Fractional CMO and Marketing Consultancy Home Our Approach Our Services About Us Connect More Home Our Approach Our Services About Us Connect Home Our Approach Our Services About Us Connect Strategy. Activation. Elevated. Strategy. Activation. Elevated.Strategy. Activation. Elevated.Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Strategy. Activation. Elevated. Strategy. Activation. Elevated.Strategy. Activation. Elevated.Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Expert Marketing Solutions Accelerate and Scale with High-Impact Results Twelve Six helps companies bridge the gap between strategy and execution to scale with clarity and impact. We bring deep expertise in insights-led business, brand, go-to-market, and marketing strategy - paired with relentlessly creative and innovative marketing activation planning - to align big ideas with real-world momentum. When you're stuck in overthinking or lost in disconnected activity, we're the partner that gets things moving with focus and purpose. Why Twelve Six Strategic depth + execution focus We don’t just build plans - we build the right ones, and guide you in bringing them to life. Brand-first, customer-led We position brands to stand out and connect with the audiences who matter most. Fractional senior leadership Get CMO-level thinking without the full-time cost. We integrate quickly and deliver real momentum, fast. Start Now Want to move forward with focus, purpose, and results? Let’s talk. Name Email* Attach Files Attachments (0) Send This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply. Take the first step, and contact us to schedule a complimentary strategy consultation to discuss your marketing and business goals. Send us a message, and we will get back to you soon. Twelve Six 1750 E Sagittarius Pl Chandler AZ 85249 (480) 371-6387 Copyright © 2025 Twelve Six LLC - All Rights Reserved. Powered by This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept",
+      "importance": "LOW",
+      "reason": "Routine text rewording detected."
+    },
+    {
+      "field": "homeLinks",
+      "path": "homeLinks",
+      "previous": "http://twelvesix.co/about-us|https://policies.google.com/privacy|http://twelvesix.co/#d48a92dd-9218-4ed5-9d8b-1f75504c4872|http://twelvesix.co/our-approach|http://twelvesix.co/#|http://twelvesix.co/our-services|http://twelvesix.co/connect|http://twelvesix.co/|https://policies.google.com/terms|https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base",
+      "current": "[https://policies.google.com/privacy, https://twelvesix.co/#d48a92dd-9218-4ed5-9d8b-1f75504c4872, https://twelvesix.co/connect, https://www.linkedin.com/in/cristofano, https://twelvesix.co/#, https://twelvesix.co/about-us, https://twelvesix.co/our-services, https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base, https://policies.google.com/terms, https://twelvesix.co/, https://twelvesix.co/our-approach]",
+      "importance": "LOW",
+      "reason": "Routine text rewording detected."
+    },
+    {
+      "field": "imageUrl",
+      "path": "imageUrl",
+      "previous": null,
+      "current": "https://img1.wsimg.com/isteam/ip/e402fbf4-ef18-4fb9-99e1-55d86a1c9976/LBRB-Creativity.png",
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    },
+    {
+      "field": "ipCountry",
+      "path": "ipCountry",
+      "previous": null,
+      "current": "United States of America",
+      "importance": "HIGH",
+      "reason": "Location shifted from \"\" to \"United States of America\""
+    },
+    {
+      "field": "name",
+      "path": "name",
+      "previous": "twelvesix",
+      "current": null,
+      "importance": "CRITICAL",
+      "reason": "Identity shifted from \"twelvesix\" to \"\""
+    },
+    {
+      "field": "nameFromCopyright",
+      "path": "nameFromCopyright",
+      "previous": null,
+      "current": "Twelve Six LLC",
+      "importance": "CRITICAL",
+      "reason": "Identity shifted from \"\" to \"Twelve Six LLC\""
+    },
+    {
+      "field": "otherLinks",
+      "path": "otherLinks",
+      "previous": null,
+      "current": {
+        "contactUs": null,
+        "team": null,
+        "blog": null,
+        "career": null
+      },
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    },
+    {
+      "field": "serviceLinks",
+      "path": "serviceLinks",
+      "previous": null,
+      "current": [
+        "https://twelvesix.co/our-services",
+        "https://www.twelvesix.co/our-services"
+      ],
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    },
+    {
+      "field": "socialLinks",
+      "path": "socialLinks",
+      "previous": null,
+      "current": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "https://www.linkedin.com/in/cristofano",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "https://policies.google.com/privacy",
+        "terms": "https://policies.google.com/terms"
+      },
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    }
+  ]
+}

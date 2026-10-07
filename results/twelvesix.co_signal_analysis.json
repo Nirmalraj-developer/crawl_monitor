@@ -1,0 +1,513 @@
+{
+  "company": {
+    "company_name": "twelvesix",
+    "domain": "twelvesix.co"
+  },
+  "evaluatedAt": "2026-10-07T12:33:50.394Z",
+  "summary": {
+    "totalChanges": 17,
+    "criticalChangesCount": 4,
+    "highChangesCount": 2,
+    "overallStatus": "REVIEW",
+    "finalAction": "REVIEW",
+    "escalatedToAi": false,
+    "escalatedCount": 0
+  },
+  "aiEscalation": null,
+  "fieldEvaluations": [
+    {
+      "path": "aboutLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": [
+        "https://www.twelvesix.co/about-us",
+        "https://twelvesix.co/about-us"
+      ],
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "aboutLinksAll",
+      "fieldType": "URL",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "https://policies.google.com/privacy|https://www.linkedin.com/in/cristofano|https://policies.google.com/terms|https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base",
+      "newValue": "[https://policies.google.com/privacy, https://www.linkedin.com/in/cristofano, https://policies.google.com/terms, https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base]",
+      "score": 0,
+      "classification": "CONTENT_UPDATE",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Routine text rewording detected.",
+      "signals": {}
+    },
+    {
+      "path": "aboutPage",
+      "fieldType": "TEXT",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": "About Us Home Our Approach Our Services About Us Connect More Home Our Approach Our Services About Us Connect Home Our Approach Our Services About Us Connect About Twelve Six Impact over Activity. At Twelve Six, we deliver strategy that scales and activation that matters—aligning brand, go-to-market, and marketing planning to help businesses accelerate and grow with differentiated precision and purpose. Meet Danny Cristofano, Founder & Principal Consultant Danny is a seasoned marketing executive with over 25 years of experience driving growth and transformation across diverse tech and lifestyle categories. Throughout his award-winning career, Danny has held pivotal roles working on behalf of and in partnership with many of the world's most iconic brands. At Intel, Danny led corporate initiatives and world-class marketing teams through life-changing technology inflection points. His deep and broad range of marketing expertise spans brand management, new product launches and category creation, go-to-market and marketing strategy, sponsorship marketing, global partner ecosystem orchestration and integrated marketing campaigns across Consumer Tech - including sports and entertainment, Enterprise B2B, Internet of Things, AR/VR/Wearables, Healthcare and SaaS, to today's breakneck AI transformation across virtually every industry. Known for his collaborative approach and commitment to excellence, Danny's superpower lies in \"seeing around corners\" - identifying market opportunities and preempting challenges. As the founder of Twelve Six, Danny leverages this unique blend of strategic insight with relentless creativity and innovation to provide fractional CMO and marketing consulting services tailored to the needs of founders, marketing leaders, private equity investors, and enterprise teams. By aligning business objectives with marketing strategies and ensuring that every initiative is purpose-driven and impact-oriented, Danny empowers organizations to overcome challenges and achieve sustained growth. Our Collaborators Start Now Want to move forward with focus, purpose, and results? Take the first step, and contact us to schedule a complimentary strategy consultation to discuss your marketing and business goals. Send us a message, and we will get back to you soon. Let’s talk. Let’s talk. Name Email* Attach Files Attachments (0) This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply. Send Cancel Let’s talk. Connect With Us Copyright © 2025 Twelve Six LLC - All Rights Reserved. Powered by This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept About Us Home Our Approach Our Services About Us Connect More Home Our Approach Our Services About Us Connect Home Our Approach Our Services About Us Connect About Twelve Six Impact over Activity. At Twelve Six, we deliver strategy that scales and activation that matters—aligning brand, go-to-market, and marketing planning to help businesses accelerate and grow with differentiated precision and purpose. Meet Danny Cristofano, Founder & Principal Consultant Danny is a seasoned marketing executive with over 25 years of experience driving growth and transformation across diverse tech and lifestyle categories. Throughout his award-winning career, Danny has held pivotal roles working on behalf of and in partnership with many of the world's most iconic brands. At Intel, Danny led corporate initiatives and world-class marketing teams through life-changing technology inflection points. His deep and broad range of marketing expertise spans brand management, new product launches and category creation, go-to-market and marketing strategy, sponsorship marketing, global partner ecosystem orchestration and integrated marketing campaigns across Consumer Tech - including sports and entertainment, Enterprise B2B, Internet of Things, AR/VR/Wearables, Healthcare and SaaS, to today's breakneck AI transformation across virtually every industry. Known for his collaborative approach and commitment to excellence, Danny's superpower lies in \"seeing around corners\" - identifying market opportunities and preempting challenges. As the founder of Twelve Six, Danny leverages this unique blend of strategic insight with relentless creativity and innovation to provide fractional CMO and marketing consulting services tailored to the needs of founders, marketing leaders, private equity investors, and enterprise teams. By aligning business objectives with marketing strategies and ensuring that every initiative is purpose-driven and impact-oriented, Danny empowers organizations to overcome challenges and achieve sustained growth. Our Collaborators Start Now Want to move forward with focus, purpose, and results? Take the first step, and contact us to schedule a complimentary strategy consultation to discuss your marketing and business goals. Send us a message, and we will get back to you soon. Let’s talk. Let’s talk. Name Email* Attach Files Attachments (0) This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply. Send Cancel Let’s talk. Connect With Us Copyright © 2025 Twelve Six LLC - All Rights Reserved. Powered by This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept",
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "entities": {
+            "phones": {
+              "added": [],
+              "removed": []
+            },
+            "emails": {
+              "added": [],
+              "removed": []
+            },
+            "registrationNumbers": {
+              "added": [],
+              "removed": []
+            },
+            "locations": {
+              "added": [
+                "us"
+              ],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 1,
+            "removed": 0
+          }
+        }
+      }
+    },
+    {
+      "path": "clearbitName",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_ADDED",
+      "importance": "CRITICAL",
+      "oldValue": null,
+      "newValue": "Twelvesix",
+      "score": 90,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_ADDED)"
+      ],
+      "reason": "Identity shifted from \"\" to \"Twelvesix\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": null,
+          "newEntity": "Twelvesix",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"\" to \"Twelvesix\""
+        }
+      }
+    },
+    {
+      "path": "companyName",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_REMOVED",
+      "importance": "CRITICAL",
+      "oldValue": "twelvesix",
+      "newValue": null,
+      "score": 90,
+      "classification": "CORRECTION",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_REMOVED)"
+      ],
+      "reason": "Identity shifted from \"twelvesix\" to \"\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": "twelvesix",
+          "newEntity": null,
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"twelvesix\" to \"\""
+        }
+      }
+    },
+    {
+      "path": "domainMatchedSocialLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "",
+        "terms": ""
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "genericEmail",
+      "fieldType": "CONTACT",
+      "changeType": "VALUE_ADDED",
+      "importance": "HIGH",
+      "oldValue": null,
+      "newValue": "info@ndiscovered.com",
+      "score": 75,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "High-importance CONTACT change (VALUE_ADDED)"
+      ],
+      "reason": "EMAIL channel changed from \"\" to \"info@ndiscovered.com\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "CONTACT",
+          "entityType": "EMAIL",
+          "oldEntity": null,
+          "newEntity": "info@ndiscovered.com",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "description": "EMAIL channel changed from \"\" to \"info@ndiscovered.com\""
+        }
+      }
+    },
+    {
+      "path": "homeContent",
+      "fieldType": "TEXT",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "Expert Fractional CMO and Marketing Consultancy Home Our Approach Our Services About Us Connect More Home Our Approach Our Services About Us Connect Home Our Approach Our Services About Us Connect Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Expert Marketing Solutions Accelerate and Scale with High-Impact Results Twelve Six helps companies bridge the gap between strategy and execution to scale with clarity and impact. We bring deep expertise in insights-led business, brand, go-to-market, and marketing strategy - paired with relentlessly creative and innovative marketing activation planning - to align big ideas with real-world momentum. When you're stuck in overthinking or lost in disconnected activity, we're the partner that gets things moving with focus and purpose. Why Twelve Six Strategic depth + execution focus We don’t just build plans - we build the right ones, and guide you in bringing them to life. Brand-first, customer-led We position brands to stand out and connect with the audiences who matter most. Fractional senior leadership Get CMO-level thinking without the full-time cost. We integrate quickly and deliver real momentum, fast. Start Now Want to move forward with focus, purpose, and results? Let’s talk. Name Email* Attach Files Attachments (0) Send This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply. Take the first step, and contact us to schedule a complimentary strategy consultation to discuss your marketing and business goals. Send us a message, and we will get back to you soon. Twelve Six 1750 E Sagittarius Pl Chandler AZ 85249 (480) 371-6387 Copyright © 2025 Twelve Six LLC - All Rights Reserved. Powered by This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept",
+      "newValue": "Expert Fractional CMO and Marketing Consultancy Home Our Approach Our Services About Us Connect More Home Our Approach Our Services About Us Connect Home Our Approach Our Services About Us Connect Strategy. Activation. Elevated. Strategy. Activation. Elevated.Strategy. Activation. Elevated.Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Strategy. Activation. Elevated. Strategy. Activation. Elevated.Strategy. Activation. Elevated.Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Expert Marketing Solutions Accelerate and Scale with High-Impact Results Twelve Six helps companies bridge the gap between strategy and execution to scale with clarity and impact. We bring deep expertise in insights-led business, brand, go-to-market, and marketing strategy - paired with relentlessly creative and innovative marketing activation planning - to align big ideas with real-world momentum. When you're stuck in overthinking or lost in disconnected activity, we're the partner that gets things moving with focus and purpose. Why Twelve Six Strategic depth + execution focus We don’t just build plans - we build the right ones, and guide you in bringing them to life. Brand-first, customer-led We position brands to stand out and connect with the audiences who matter most. Fractional senior leadership Get CMO-level thinking without the full-time cost. We integrate quickly and deliver real momentum, fast. Start Now Want to move forward with focus, purpose, and results? Let’s talk. Name Email* Attach Files Attachments (0) Send This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply. Take the first step, and contact us to schedule a complimentary strategy consultation to discuss your marketing and business goals. Send us a message, and we will get back to you soon. Twelve Six 1750 E Sagittarius Pl Chandler AZ 85249 (480) 371-6387 Copyright © 2025 Twelve Six LLC - All Rights Reserved. Powered by This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept",
+      "score": 0,
+      "classification": "CONTENT_UPDATE",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Routine text rewording detected.",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": false,
+          "hasCriticalChange": false,
+          "entities": {
+            "phones": {
+              "added": [],
+              "removed": []
+            },
+            "emails": {
+              "added": [],
+              "removed": []
+            },
+            "registrationNumbers": {
+              "added": [],
+              "removed": []
+            },
+            "locations": {
+              "added": [],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 0,
+            "removed": 0
+          }
+        },
+        "embedding_semantic_similarity": {
+          "signal": "embedding_semantic_similarity",
+          "similarity": 0.9993,
+          "cosineDistance": 0.0007,
+          "model": "local_semantic_projection_128d",
+          "isExactMatch": false
+        },
+        "tfidf_cosine_similarity": {
+          "signal": "tfidf_cosine_similarity",
+          "similarity": 1,
+          "sharedTerms": [
+            "371",
+            "480",
+            "1750",
+            "2025",
+            "6387",
+            "85249",
+            "expert",
+            "fractional",
+            "cmo",
+            "marketing"
+          ],
+          "addedTerms": [],
+          "removedTerms": []
+        },
+        "jaccard_similarity": {
+          "signal": "jaccard_similarity",
+          "similarity": 1,
+          "intersectionCount": 151,
+          "unionCount": 151,
+          "overlapPercentage": 100
+        },
+        "number_changes": {
+          "signal": "number_changes",
+          "hasNumericDiscrepancy": false,
+          "numbers": {
+            "added": [],
+            "removed": [],
+            "retained": [
+              "1750",
+              "85249",
+              "480",
+              "371",
+              "6387",
+              "2025"
+            ]
+          },
+          "counts": {
+            "totalDistinct": 6,
+            "addedCount": 0,
+            "removedCount": 0,
+            "retainedCount": 6
+          },
+          "numericShiftRatio": 0
+        },
+        "negation_changes": {
+          "signal": "negation_changes",
+          "hasPolarityFlip": false,
+          "addedNegations": [],
+          "removedNegations": [],
+          "contexts": {
+            "old": [],
+            "new": []
+          },
+          "countShift": 0
+        }
+      }
+    },
+    {
+      "path": "homeLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "http://twelvesix.co/about-us|https://policies.google.com/privacy|http://twelvesix.co/#d48a92dd-9218-4ed5-9d8b-1f75504c4872|http://twelvesix.co/our-approach|http://twelvesix.co/#|http://twelvesix.co/our-services|http://twelvesix.co/connect|http://twelvesix.co/|https://policies.google.com/terms|https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base",
+      "newValue": "[https://policies.google.com/privacy, https://twelvesix.co/#d48a92dd-9218-4ed5-9d8b-1f75504c4872, https://twelvesix.co/connect, https://www.linkedin.com/in/cristofano, https://twelvesix.co/#, https://twelvesix.co/about-us, https://twelvesix.co/our-services, https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base, https://policies.google.com/terms, https://twelvesix.co/, https://twelvesix.co/our-approach]",
+      "score": 0,
+      "classification": "CONTENT_UPDATE",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Routine text rewording detected.",
+      "signals": {}
+    },
+    {
+      "path": "imageUrl",
+      "fieldType": "UNKNOWN",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": "https://img1.wsimg.com/isteam/ip/e402fbf4-ef18-4fb9-99e1-55d86a1c9976/LBRB-Creativity.png",
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "ipCountry",
+      "fieldType": "LOCATION",
+      "changeType": "VALUE_ADDED",
+      "importance": "HIGH",
+      "oldValue": null,
+      "newValue": "United States of America",
+      "score": 75,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "High-importance LOCATION change (VALUE_ADDED)"
+      ],
+      "reason": "Location shifted from \"\" to \"United States of America\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "LOCATION",
+          "entityType": "LOCATION",
+          "oldEntity": null,
+          "newEntity": "United States of America",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Location shifted from \"\" to \"United States of America\""
+        }
+      }
+    },
+    {
+      "path": "language",
+      "fieldType": "TECHNICAL",
+      "changeType": "VALUE_ADDED",
+      "importance": "IGNORE",
+      "oldValue": null,
+      "newValue": "en-US",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Field classified as operational noise or telemetry.",
+      "signals": {}
+    },
+    {
+      "path": "name",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_REMOVED",
+      "importance": "CRITICAL",
+      "oldValue": "twelvesix",
+      "newValue": null,
+      "score": 90,
+      "classification": "CORRECTION",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_REMOVED)"
+      ],
+      "reason": "Identity shifted from \"twelvesix\" to \"\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": "twelvesix",
+          "newEntity": null,
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"twelvesix\" to \"\""
+        }
+      }
+    },
+    {
+      "path": "nameFromCopyright",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_ADDED",
+      "importance": "CRITICAL",
+      "oldValue": null,
+      "newValue": "Twelve Six LLC",
+      "score": 90,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_ADDED)"
+      ],
+      "reason": "Identity shifted from \"\" to \"Twelve Six LLC\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": null,
+          "newEntity": "Twelve Six LLC",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"\" to \"Twelve Six LLC\""
+        }
+      }
+    },
+    {
+      "path": "otherLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "contactUs": null,
+        "team": null,
+        "blog": null,
+        "career": null
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "serviceLinks",
+      "fieldType": "UNKNOWN",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": [
+        "https://twelvesix.co/our-services",
+        "https://www.twelvesix.co/our-services"
+      ],
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "socialLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "https://www.linkedin.com/in/cristofano",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "https://policies.google.com/privacy",
+        "terms": "https://policies.google.com/terms"
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    }
+  ]
+}

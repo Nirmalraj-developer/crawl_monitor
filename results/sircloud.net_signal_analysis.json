@@ -1,0 +1,612 @@
+{
+  "company": {
+    "company_name": "sircloud.net",
+    "domain": "sircloud.net"
+  },
+  "evaluatedAt": "2026-10-07T12:34:22.361Z",
+  "summary": {
+    "totalChanges": 15,
+    "criticalChangesCount": 4,
+    "highChangesCount": 4,
+    "overallStatus": "REVIEW",
+    "finalAction": "REVIEW",
+    "escalatedToAi": true,
+    "escalatedCount": 2
+  },
+  "aiEscalation": {
+    "escalationSummary": "Processed 2 escalated field(s) via signal arbitration.",
+    "overallVerdict": "REVIEW",
+    "overallConfidence": 0.91,
+    "decisions": [
+      {
+        "path": "description",
+        "classification": "CONTENT_UPDATE",
+        "action": "AUTO_ACCEPT",
+        "confidence": 0.85,
+        "reasoning": "Escalated based on score threshold."
+      },
+      {
+        "path": "homeContent",
+        "classification": "CORRECTION",
+        "action": "REVIEW",
+        "confidence": 0.92,
+        "reasoning": "High-importance entity change (undefined) on \"homeContent\"."
+      }
+    ]
+  },
+  "fieldEvaluations": [
+    {
+      "path": "companyName",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_REMOVED",
+      "importance": "CRITICAL",
+      "oldValue": "sircloud",
+      "newValue": null,
+      "score": 90,
+      "classification": "CORRECTION",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_REMOVED)"
+      ],
+      "reason": "Identity shifted from \"sircloud\" to \"\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": "sircloud",
+          "newEntity": null,
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"sircloud\" to \"\""
+        }
+      }
+    },
+    {
+      "path": "description",
+      "fieldType": "TEXT",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "#serviceprovider #webenabler #cloudevangelist",
+      "newValue": "Was mich auszeichnet:",
+      "score": 78,
+      "classification": "CONTENT_UPDATE",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": true,
+      "escalationReasons": [],
+      "reason": "Escalated based on score threshold.",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": false,
+          "hasCriticalChange": false,
+          "entities": {
+            "phones": {
+              "added": [],
+              "removed": []
+            },
+            "emails": {
+              "added": [],
+              "removed": []
+            },
+            "registrationNumbers": {
+              "added": [],
+              "removed": []
+            },
+            "locations": {
+              "added": [],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 0,
+            "removed": 0
+          }
+        },
+        "embedding_semantic_similarity": {
+          "signal": "embedding_semantic_similarity",
+          "similarity": 0.0702,
+          "cosineDistance": 0.9298,
+          "model": "local_semantic_projection_128d",
+          "isExactMatch": false
+        },
+        "tfidf_cosine_similarity": {
+          "signal": "tfidf_cosine_similarity",
+          "similarity": 0,
+          "sharedTerms": [],
+          "addedTerms": [
+            "mich",
+            "auszeichnet"
+          ],
+          "removedTerms": [
+            "serviceprovider",
+            "webenabler",
+            "cloudevangelist"
+          ]
+        },
+        "jaccard_similarity": {
+          "signal": "jaccard_similarity",
+          "similarity": 0,
+          "intersectionCount": 0,
+          "unionCount": 5,
+          "overlapPercentage": 0
+        },
+        "number_changes": {
+          "signal": "number_changes",
+          "hasNumericDiscrepancy": false,
+          "numbers": {
+            "added": [],
+            "removed": [],
+            "retained": []
+          },
+          "counts": {
+            "totalDistinct": 0,
+            "addedCount": 0,
+            "removedCount": 0,
+            "retainedCount": 0
+          },
+          "numericShiftRatio": 0
+        },
+        "negation_changes": {
+          "signal": "negation_changes",
+          "hasPolarityFlip": false,
+          "addedNegations": [],
+          "removedNegations": [],
+          "contexts": {
+            "old": [],
+            "new": []
+          },
+          "countShift": 0
+        }
+      }
+    },
+    {
+      "path": "domainMatchedSocialLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "",
+        "terms": ""
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "email",
+      "fieldType": "CONTACT",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "HIGH",
+      "oldValue": "connect@sircloud.net",
+      "newValue": "a.stuckert@theresa-pflege.de|connect@sircloud.net",
+      "score": 75,
+      "classification": "FACTUAL_CHANGE",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "High-importance CONTACT change (VALUE_MODIFIED)"
+      ],
+      "reason": "EMAIL channel changed from \"connect@sircloud.net\" to \"a.stuckert@theresa-pflege.de|connect@sircloud.net\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "CONTACT",
+          "entityType": "EMAIL",
+          "oldEntity": "connect@sircloud.net",
+          "newEntity": "a.stuckert@theresa-pflege.de|connect@sircloud.net",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "description": "EMAIL channel changed from \"connect@sircloud.net\" to \"a.stuckert@theresa-pflege.de|connect@sircloud.net\""
+        }
+      }
+    },
+    {
+      "path": "genericEmail",
+      "fieldType": "CONTACT",
+      "changeType": "VALUE_ADDED",
+      "importance": "HIGH",
+      "oldValue": null,
+      "newValue": "connect@sircloud.net",
+      "score": 75,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "High-importance CONTACT change (VALUE_ADDED)"
+      ],
+      "reason": "EMAIL channel changed from \"\" to \"connect@sircloud.net\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "CONTACT",
+          "entityType": "EMAIL",
+          "oldEntity": null,
+          "newEntity": "connect@sircloud.net",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "description": "EMAIL channel changed from \"\" to \"connect@sircloud.net\""
+        }
+      }
+    },
+    {
+      "path": "homeContent",
+      "fieldType": "TEXT",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "sircloud.net | IT-Partner & Service Provider #serviceprovider #webenabler #cloudevangelist    b Anschrift sircloud.net Kleine Gasse 25 71101 Schönaich  Konto Bank: Solaris Kontoinhaber: Matthias Vögele IBAN: DE43 1101 0100 2548 1341 87 BIC: SOBKDEBBXXX  Kontakt connect@sircloud.net +49 172 7180381 Haben Sie noch Fragen? Wir freuen uns darauf Sie kennenzulernen Jetzt anrufen Folgen Folgen Home Impressum Datenschutz Cookie-Richtlinie Support Privatkunden © 2024 sircloud.net | Webdesign und technische Umsetzung: sircloud.net Cookie-Zustimmung verwalten Wir verwenden Cookies, um unsere Website und unseren Service zu optimieren. Funktional Funktional Immer aktiv Die technische Speicherung oder der Zugang ist unbedingt erforderlich für den rechtmäßigen Zweck, die Nutzung eines bestimmten Dienstes zu ermöglichen, der vom Teilnehmer oder Nutzer ausdrücklich gewünscht wird, oder für den alleinigen Zweck, die Übertragung einer Nachricht über ein elektronisches Kommunikationsnetz durchzuführen. Vorlieben Vorlieben Die technische Speicherung oder der Zugriff ist für den rechtmäßigen Zweck der Speicherung von Präferenzen erforderlich, die nicht vom Abonnenten oder Benutzer angefordert wurden. Statistiken Statistiken Die technische Speicherung oder der Zugriff, der ausschließlich zu statistischen Zwecken erfolgt. Die technische Speicherung oder der Zugriff, der ausschließlich zu anonymen statistischen Zwecken verwendet wird. Ohne eine Vorladung, die freiwillige Zustimmung deines Internetdienstanbieters oder zusätzliche Aufzeichnungen von Dritten können die zu diesem Zweck gespeicherten oder abgerufenen Informationen allein in der Regel nicht dazu verwendet werden, dich zu identifizieren. Marketing Marketing Die technische Speicherung oder der Zugriff ist erforderlich, um Nutzerprofile zu erstellen, um Werbung zu versenden oder um den Nutzer auf einer Website oder über mehrere Websites hinweg zu ähnlichen Marketingzwecken zu verfolgen. Optionen verwalten Dienste verwalten Verwalten von {vendor_count}-Lieferanten Lese mehr über diese Zwecke Akzeptieren Ablehnen Vorlieben Einstellungen speichern Vorlieben {title} {title} {title} Zustimmung verwalten",
+      "newValue": "sircloud.net | IT-Partner & Service Provider    Ihr Erfolg beginnt mit der richtigen Strategie. Was mich auszeichnet: Eine Menge Erfahrung und Expertise – Cloud-Infrastruktur, Agentic AI, Hybrid-Architekturen, Middleware-Design: Ich bringe das technische Know-how mit, das komplexe Transformationsprojekte erfordern. Von der Strategie bis zur Umsetzung begleite ich Sie als verlässlicher Sparringspartner – strategisch denkend, technisch versiert, unternehmerisch handelnd. Future Sie möchten mehr erfahren? Ich freue mich auf den Austausch mit Ihnen. Jetzt anrufen Folgen Folgen Home Impressum Datenschutz Cookie-Richtlinie Support Privatkunden © 2026 sircloud.net | Webdesign und technische Umsetzung: sircloud.net Cookie-Zustimmung verwalten Wir verwenden Cookies, um unsere Website und unseren Service zu optimieren. Funktional Funktional Immer aktiv Die technische Speicherung oder der Zugang ist unbedingt erforderlich für den rechtmäßigen Zweck, die Nutzung eines bestimmten Dienstes zu ermöglichen, der vom Teilnehmer oder Nutzer ausdrücklich gewünscht wird, oder für den alleinigen Zweck, die Übertragung einer Nachricht über ein elektronisches Kommunikationsnetz durchzuführen. Vorlieben Vorlieben Die technische Speicherung oder der Zugriff ist für den rechtmäßigen Zweck der Speicherung von Präferenzen erforderlich, die nicht vom Abonnenten oder Benutzer angefordert wurden. Statistiken Statistiken Die technische Speicherung oder der Zugriff, der ausschließlich zu statistischen Zwecken erfolgt. Die technische Speicherung oder der Zugriff, der ausschließlich zu anonymen statistischen Zwecken verwendet wird. Ohne eine Vorladung, die freiwillige Zustimmung deines Internetdienstanbieters oder zusätzliche Aufzeichnungen von Dritten können die zu diesem Zweck gespeicherten oder abgerufenen Informationen allein in der Regel nicht dazu verwendet werden, dich zu identifizieren. Marketing Marketing Die technische Speicherung oder der Zugriff ist erforderlich, um Nutzerprofile zu erstellen, um Werbung zu versenden oder um den Nutzer auf einer Website oder über mehrere Websites hinweg zu ähnlichen Marketingzwecken zu verfolgen. Optionen verwalten Dienste verwalten Verwalten von {vendor_count}-Lieferanten Lese mehr über diese Zwecke Akzeptieren Ablehnen Vorlieben Einstellungen speichern Vorlieben {title} {title} {title} Zustimmung verwalten",
+      "score": 36,
+      "classification": "CORRECTION",
+      "action": "REVIEW",
+      "needsAiEscalation": true,
+      "escalationReasons": [
+        "Critical entity changed within text",
+        "Business numeric changes detected: added [2026], removed [25, 71101, 1101, 0100, 2548, 1341, 87, 49, 172, 7180381, 2024]"
+      ],
+      "reason": "High-importance entity change (undefined) on \"homeContent\".",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "entities": {
+            "phones": {
+              "added": [],
+              "removed": [
+                "+491727180381"
+              ]
+            },
+            "emails": {
+              "added": [],
+              "removed": [
+                "connect@sircloud.net"
+              ]
+            },
+            "registrationNumbers": {
+              "added": [],
+              "removed": []
+            },
+            "locations": {
+              "added": [],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 0,
+            "removed": 2
+          }
+        },
+        "embedding_semantic_similarity": {
+          "signal": "embedding_semantic_similarity",
+          "similarity": 0.989,
+          "cosineDistance": 0.011,
+          "model": "local_semantic_projection_128d",
+          "isExactMatch": false
+        },
+        "tfidf_cosine_similarity": {
+          "signal": "tfidf_cosine_similarity",
+          "similarity": 0.8641,
+          "sharedTerms": [
+            "sircloud",
+            "net",
+            "partner",
+            "service",
+            "provider",
+            "sie",
+            "wir",
+            "jetzt",
+            "anrufen",
+            "folgen"
+          ],
+          "addedTerms": [
+            "2026",
+            "ihr",
+            "erfolg",
+            "beginnt",
+            "mit",
+            "richtigen",
+            "strategie",
+            "mich",
+            "auszeichnet",
+            "menge"
+          ],
+          "removedTerms": [
+            "25",
+            "49",
+            "87",
+            "172",
+            "1101",
+            "1341",
+            "2024",
+            "2548",
+            "71101",
+            "7180381"
+          ]
+        },
+        "jaccard_similarity": {
+          "signal": "jaccard_similarity",
+          "similarity": 0.6164,
+          "intersectionCount": 135,
+          "unionCount": 219,
+          "overlapPercentage": 61.6
+        },
+        "number_changes": {
+          "signal": "number_changes",
+          "hasNumericDiscrepancy": true,
+          "numbers": {
+            "added": [
+              "2026"
+            ],
+            "removed": [
+              "25",
+              "71101",
+              "1101",
+              "0100",
+              "2548",
+              "1341",
+              "87",
+              "49",
+              "172",
+              "7180381",
+              "2024"
+            ],
+            "retained": []
+          },
+          "counts": {
+            "totalDistinct": 12,
+            "addedCount": 1,
+            "removedCount": 11,
+            "retainedCount": 0
+          },
+          "numericShiftRatio": 1
+        },
+        "negation_changes": {
+          "signal": "negation_changes",
+          "hasPolarityFlip": false,
+          "addedNegations": [],
+          "removedNegations": [],
+          "contexts": {
+            "old": [],
+            "new": []
+          },
+          "countShift": 0
+        }
+      }
+    },
+    {
+      "path": "homeLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "https://sircloud.net/impressum/|https://remotedesktop.google.com/support|https://sircloud.net/datenschutz/|https://sircloud.net/datenschutzrichtlinie/|https://www.linkedin.com/company/sircloud-net/?viewAsMember=true|https://sircloud.net/|https://cookiedatabase.org/tcf/purposes/|https://sircloud.net/#|https://wa.me/491727180381|https://sircloud.net/b2c/|https://sircloud.net|https://www.xing.com/profile/Matthias_Voegele",
+      "newValue": "[https://remotedesktop.google.com/support, https://sircloud.net/impressum/, https://sircloud.net/datenschutzrichtlinie/, https://www.linkedin.com/company/sircloud-net/?viewAsMember=true, https://ec.europa.eu/consumers/odr, https://sircloud.net/#, https://sircloud.net/b2c/, https://sircloud.net, https://sircloud.net/datenschutz/, https://sircloud.net/, https://cookiedatabase.org/tcf/purposes/, https://wa.me/491727180381, https://www.xing.com/profile/Matthias_Voegele]",
+      "score": 0,
+      "classification": "CONTENT_UPDATE",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Routine text rewording detected.",
+      "signals": {}
+    },
+    {
+      "path": "ipCountry",
+      "fieldType": "LOCATION",
+      "changeType": "VALUE_ADDED",
+      "importance": "HIGH",
+      "oldValue": null,
+      "newValue": "Germany",
+      "score": 75,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "High-importance LOCATION change (VALUE_ADDED)"
+      ],
+      "reason": "Location shifted from \"\" to \"Germany\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "LOCATION",
+          "entityType": "LOCATION",
+          "oldEntity": null,
+          "newEntity": "Germany",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Location shifted from \"\" to \"Germany\""
+        }
+      }
+    },
+    {
+      "path": "language",
+      "fieldType": "TECHNICAL",
+      "changeType": "VALUE_ADDED",
+      "importance": "IGNORE",
+      "oldValue": null,
+      "newValue": "de",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Field classified as operational noise or telemetry.",
+      "signals": {}
+    },
+    {
+      "path": "name",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_REMOVED",
+      "importance": "CRITICAL",
+      "oldValue": "sircloud",
+      "newValue": null,
+      "score": 90,
+      "classification": "CORRECTION",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_REMOVED)"
+      ],
+      "reason": "Identity shifted from \"sircloud\" to \"\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": "sircloud",
+          "newEntity": null,
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"sircloud\" to \"\""
+        }
+      }
+    },
+    {
+      "path": "nameFromCopyright",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_ADDED",
+      "importance": "CRITICAL",
+      "oldValue": null,
+      "newValue": "sircloud.net",
+      "score": 90,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_ADDED)"
+      ],
+      "reason": "Identity shifted from \"\" to \"sircloud.net\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": null,
+          "newEntity": "sircloud.net",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"\" to \"sircloud.net\""
+        }
+      }
+    },
+    {
+      "path": "nameFromTitle",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_ADDED",
+      "importance": "CRITICAL",
+      "oldValue": null,
+      "newValue": "sircloud.net",
+      "score": 90,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_ADDED)"
+      ],
+      "reason": "Identity shifted from \"\" to \"sircloud.net\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": null,
+          "newEntity": "sircloud.net",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"\" to \"sircloud.net\""
+        }
+      }
+    },
+    {
+      "path": "nonGenericEmail",
+      "fieldType": "CONTACT",
+      "changeType": "VALUE_ADDED",
+      "importance": "HIGH",
+      "oldValue": null,
+      "newValue": "a.stuckert@theresa-pflege.de",
+      "score": 75,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "High-importance CONTACT change (VALUE_ADDED)"
+      ],
+      "reason": "EMAIL channel changed from \"\" to \"a.stuckert@theresa-pflege.de\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "CONTACT",
+          "entityType": "EMAIL",
+          "oldEntity": null,
+          "newEntity": "a.stuckert@theresa-pflege.de",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "description": "EMAIL channel changed from \"\" to \"a.stuckert@theresa-pflege.de\""
+        }
+      }
+    },
+    {
+      "path": "otherLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "contactUs": null,
+        "team": null,
+        "blog": null,
+        "career": null
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "socialLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "https://www.linkedin.com/company/sircloud-net/?viewAsMember=true",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "",
+        "terms": ""
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    }
+  ]
+}

@@ -1,0 +1,407 @@
+{
+  "company": {
+    "company_name": "Sanctuary Cottages Townhomes Twin Church Townhouses For Sale",
+    "domain": "sanctuarycottages.net"
+  },
+  "evaluatedAt": "2026-10-07T12:34:11.995Z",
+  "summary": {
+    "totalChanges": 11,
+    "criticalChangesCount": 3,
+    "highChangesCount": 2,
+    "overallStatus": "REVIEW",
+    "finalAction": "REVIEW",
+    "escalatedToAi": true,
+    "escalatedCount": 1
+  },
+  "aiEscalation": {
+    "escalationSummary": "Processed 1 escalated field(s) via signal arbitration.",
+    "overallVerdict": "AUTO_ACCEPT",
+    "overallConfidence": 0.91,
+    "decisions": [
+      {
+        "path": "homeContent",
+        "classification": "CONTENT_UPDATE",
+        "action": "AUTO_ACCEPT",
+        "confidence": 0.85,
+        "reasoning": "Polarity reversal detected (negation change); Business numeric changes detected: added [2], removed []"
+      }
+    ]
+  },
+  "fieldEvaluations": [
+    {
+      "path": "companyName",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_REMOVED",
+      "importance": "CRITICAL",
+      "oldValue": "sanctuarycottages",
+      "newValue": null,
+      "score": 90,
+      "classification": "CORRECTION",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_REMOVED)"
+      ],
+      "reason": "Identity shifted from \"sanctuarycottages\" to \"\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": "sanctuarycottages",
+          "newEntity": null,
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"sanctuarycottages\" to \"\""
+        }
+      }
+    },
+    {
+      "path": "domainMatchedSocialLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "",
+        "terms": ""
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "genericEmail",
+      "fieldType": "CONTACT",
+      "changeType": "VALUE_ADDED",
+      "importance": "HIGH",
+      "oldValue": null,
+      "newValue": "Sales@LiveSanctuaryCottages.com",
+      "score": 75,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "High-importance CONTACT change (VALUE_ADDED)"
+      ],
+      "reason": "EMAIL channel changed from \"\" to \"sales@livesanctuarycottages.com\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "CONTACT",
+          "entityType": "EMAIL",
+          "oldEntity": null,
+          "newEntity": "sales@livesanctuarycottages.com",
+          "hasChanges": true,
+          "hasCriticalChange": false,
+          "description": "EMAIL channel changed from \"\" to \"sales@livesanctuarycottages.com\""
+        }
+      }
+    },
+    {
+      "path": "homeContent",
+      "fieldType": "TEXT",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "Sanctuary Cottages Townhomes Twin Church Townhouses For Sale Skip to content Schedule a Tour Floorplans Townhouses Community Schedule a Tour Floorplans Townhouses Community Contact Us Sanctuary Cottages Experience refined townhome living enriched by modern design and exceptional comfort in every detail. SCHEDULE-A-TOUR Our CommunitY Discover the modern lifestyle at Sanctuary Cottages with sophisticated townhome residences crafted for everyday luxury. Sanctuary Cottages offers exquisite townhomes with custom finishes, spacious layouts, and an inviting atmosphere. Each residence is designed to provide comfort and sophistication, creating the perfect setting for both relaxing evenings and vibrant social gatherings. The community features meticulously landscaped grounds and abundant natural light, accentuating the beauty of every detail. Located in Florence, South Carolina, our townhomes balance modern architecture with timeless charm. Residents enjoy access to nearby local amenities including high-end dining, boutique shopping, and recreational parks, making it a truly connected experience. Every element at Sanctuary Cottages reflects our commitment to quality, from the sleek finishes to well-planned layouts that offer both style and function. Living here means joining a welcoming community dedicated to excellence. With carefully designed floor plans, innovative energy-efficient solutions, and a focus on comfort and luxury, we offer a home that adapts to your lifestyle while exceeding your expectations. Discover a serene retreat where every day feels both invigorating and relaxing. Request A Property Tour Exclusive Townhomes – Own Luxury Today Every townhome is curated with modern finishes and innovative design, ensuring a living space that meets the highest standards of luxury and comfort. VIEW Townhome Ready for a New Home Experience? Our gated community is built on trust and commitment, offering homes that are move-in ready and designed for effortless living in a vibrant neighborhood. Call Now: (843) 773-5475 How the Purchase Process Unfolds Own Your Dream Home in 3 Simple Steps Step 1 Select a Townhome! Tour our meticulously designed townhomes that combine modern convenience and luxury within our private gated community.",
+      "newValue": "Sanctuary Cottages Townhomes Twin Church Townhouses For Sale Skip to content Schedule a Tour Floorplans Townhouses Community Schedule a Tour Floorplans Townhouses Community Contact Us Sanctuary Cottages Experience refined townhome living enriched by modern design and exceptional comfort in every detail. SCHEDULE-A-TOUR Our CommunitY Discover the modern lifestyle at Sanctuary Cottages with sophisticated townhome residences crafted for everyday luxury. Sanctuary Cottages offers exquisite townhomes with custom finishes, spacious layouts, and an inviting atmosphere. Each residence is designed to provide comfort and sophistication, creating the perfect setting for both relaxing evenings and vibrant social gatherings. The community features meticulously landscaped grounds and abundant natural light, accentuating the beauty of every detail. Located in Florence, South Carolina, our townhomes balance modern architecture with timeless charm. Residents enjoy access to nearby local amenities including high-end dining, boutique shopping, and recreational parks, making it a truly connected experience. Every element at Sanctuary Cottages reflects our commitment to quality, from the sleek finishes to well-planned layouts that offer both style and function. Living here means joining a welcoming community dedicated to excellence. With carefully designed floor plans, innovative energy-efficient solutions, and a focus on comfort and luxury, we offer a home that adapts to your lifestyle while exceeding your expectations. Discover a serene retreat where every day feels both invigorating and relaxing. Request A Property Tour Exclusive Townhomes – Own Luxury Today Every townhome is curated with modern finishes and innovative design, ensuring a living space that meets the highest standards of luxury and comfort. VIEW Townhome Ready for a New Home Experience? Our gated community is built on trust and commitment, offering homes that are move-in ready and designed for effortless living in a vibrant neighborhood. Call Now: (843) 773-5475 How the Purchase Process Unfolds Own Your Dream Home in 3 Simple Steps Step 1 Select a Townhome! Tour our meticulously designed townhomes that combine modern convenience and luxury within our private gated community. Step 2 Secure Your Purchase with Transparent Pricing Enjoy an uncomplicated buying experience with clear, competitive pricing and no hidden surcharges, making your decision both smart and secure.",
+      "score": 68,
+      "classification": "CONTENT_UPDATE",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": true,
+      "escalationReasons": [
+        "Polarity reversal detected (negation change)",
+        "Business numeric changes detected: added [2], removed []"
+      ],
+      "reason": "Polarity reversal detected (negation change); Business numeric changes detected: added [2], removed []",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "TEXT",
+          "hasChanges": false,
+          "hasCriticalChange": false,
+          "entities": {
+            "phones": {
+              "added": [],
+              "removed": []
+            },
+            "emails": {
+              "added": [],
+              "removed": []
+            },
+            "registrationNumbers": {
+              "added": [],
+              "removed": []
+            },
+            "locations": {
+              "added": [],
+              "removed": []
+            }
+          },
+          "counts": {
+            "added": 0,
+            "removed": 0
+          }
+        },
+        "embedding_semantic_similarity": {
+          "signal": "embedding_semantic_similarity",
+          "similarity": 0.9983,
+          "cosineDistance": 0.0017,
+          "model": "local_semantic_projection_128d",
+          "isExactMatch": false
+        },
+        "tfidf_cosine_similarity": {
+          "signal": "tfidf_cosine_similarity",
+          "similarity": 0.9566,
+          "sharedTerms": [
+            "773",
+            "843",
+            "5475",
+            "sanctuary",
+            "cottages",
+            "townhomes",
+            "twin",
+            "church",
+            "townhouses",
+            "sale"
+          ],
+          "addedTerms": [
+            "secure",
+            "transparent",
+            "pricing",
+            "uncomplicated",
+            "buying",
+            "clear",
+            "competitive",
+            "no",
+            "hidden",
+            "surcharges"
+          ],
+          "removedTerms": []
+        },
+        "jaccard_similarity": {
+          "signal": "jaccard_similarity",
+          "similarity": 0.9286,
+          "intersectionCount": 156,
+          "unionCount": 168,
+          "overlapPercentage": 92.9
+        },
+        "number_changes": {
+          "signal": "number_changes",
+          "hasNumericDiscrepancy": true,
+          "numbers": {
+            "added": [
+              "2"
+            ],
+            "removed": [],
+            "retained": [
+              "843",
+              "773",
+              "5475",
+              "3"
+            ]
+          },
+          "counts": {
+            "totalDistinct": 5,
+            "addedCount": 1,
+            "removedCount": 0,
+            "retainedCount": 4
+          },
+          "numericShiftRatio": 0.2
+        },
+        "negation_changes": {
+          "signal": "negation_changes",
+          "hasPolarityFlip": true,
+          "addedNegations": [
+            "no"
+          ],
+          "removedNegations": [],
+          "contexts": {
+            "old": [],
+            "new": [
+              {
+                "term": "no",
+                "context": "pricing and no hidden surcharges"
+              }
+            ]
+          },
+          "countShift": 1
+        }
+      }
+    },
+    {
+      "path": "homeLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_MODIFIED",
+      "importance": "LOW",
+      "oldValue": "https://sctwinchurch.com/gated-community/|https://sanctuarycottages.net/|https://sctwinchurch.com/vip-signup/|https://sanctuarycottages.net/#content|https://sctwinchurch.com/townhouse-floorplans/|https://sctwinchurch.com/exterior-features/|https://sctwinchurch.com/interior-features/",
+      "newValue": "[https://sctwinchurch.com/gated-community/, https://sanctuarycottages.net/, https://sctwinchurch.com/vip-signup/, https://sanctuarycottages.net/#content, https://sctwinchurch.com/townhouse-floorplans/, https://sctwinchurch.com/exterior-features/, https://sctwinchurch.com/interior-features/]",
+      "score": 0,
+      "classification": "CONTENT_UPDATE",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Routine text rewording detected.",
+      "signals": {}
+    },
+    {
+      "path": "ipCountry",
+      "fieldType": "LOCATION",
+      "changeType": "VALUE_ADDED",
+      "importance": "HIGH",
+      "oldValue": null,
+      "newValue": "United Kingdom of Great Britain and Northern Ireland",
+      "score": 75,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "High-importance LOCATION change (VALUE_ADDED)"
+      ],
+      "reason": "Location shifted from \"\" to \"United Kingdom of Great Britain and Northern Ireland\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "LOCATION",
+          "entityType": "LOCATION",
+          "oldEntity": null,
+          "newEntity": "United Kingdom of Great Britain and Northern Ireland",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Location shifted from \"\" to \"United Kingdom of Great Britain and Northern Ireland\""
+        }
+      }
+    },
+    {
+      "path": "language",
+      "fieldType": "TECHNICAL",
+      "changeType": "VALUE_ADDED",
+      "importance": "IGNORE",
+      "oldValue": null,
+      "newValue": "en-US",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Field classified as operational noise or telemetry.",
+      "signals": {}
+    },
+    {
+      "path": "name",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_REMOVED",
+      "importance": "CRITICAL",
+      "oldValue": "sanctuarycottages",
+      "newValue": null,
+      "score": 90,
+      "classification": "CORRECTION",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_REMOVED)"
+      ],
+      "reason": "Identity shifted from \"sanctuarycottages\" to \"\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": "sanctuarycottages",
+          "newEntity": null,
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"sanctuarycottages\" to \"\""
+        }
+      }
+    },
+    {
+      "path": "nameFromTitle",
+      "fieldType": "IDENTITY",
+      "changeType": "VALUE_ADDED",
+      "importance": "CRITICAL",
+      "oldValue": null,
+      "newValue": "Sanctuary Cottages Townhomes Twin Church Townhouses For Sale",
+      "score": 90,
+      "classification": "ENRICHMENT",
+      "action": "REVIEW",
+      "needsAiEscalation": false,
+      "escalationReasons": [
+        "Critical IDENTITY change (VALUE_ADDED)"
+      ],
+      "reason": "Identity shifted from \"\" to \"Sanctuary Cottages Townhomes Twin Church Townhouses For Sale\"",
+      "signals": {
+        "entity_changes": {
+          "signal": "entity_changes",
+          "fieldType": "IDENTITY",
+          "entityType": "COMPANY",
+          "oldEntity": null,
+          "newEntity": "Sanctuary Cottages Townhomes Twin Church Townhouses For Sale",
+          "hasChanges": true,
+          "hasCriticalChange": true,
+          "description": "Identity shifted from \"\" to \"Sanctuary Cottages Townhomes Twin Church Townhouses For Sale\""
+        }
+      }
+    },
+    {
+      "path": "otherLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "contactUs": null,
+        "team": null,
+        "blog": null,
+        "career": null
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    },
+    {
+      "path": "socialLinks",
+      "fieldType": "URL",
+      "changeType": "VALUE_ADDED",
+      "importance": "LOW",
+      "oldValue": null,
+      "newValue": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "",
+        "terms": ""
+      },
+      "score": 15,
+      "classification": "ENRICHMENT",
+      "action": "AUTO_ACCEPT",
+      "needsAiEscalation": false,
+      "escalationReasons": [],
+      "reason": "Newly discovered data attribute enriched from crawl.",
+      "signals": {}
+    }
+  ]
+}

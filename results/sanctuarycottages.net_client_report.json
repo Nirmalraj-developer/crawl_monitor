@@ -1,0 +1,118 @@
+{
+  "company": "Sanctuary Cottages Townhomes Twin Church Townhouses For Sale",
+  "domain": "sanctuarycottages.net",
+  "overallStatus": "REVIEW",
+  "summary": "Several important company profile attributes changed or were omitted on the latest website crawl.",
+  "totalChanges": 10,
+  "changes": [
+    {
+      "field": "Company Name",
+      "path": "companyName",
+      "previous": "sanctuarycottages",
+      "current": null,
+      "importance": "CRITICAL",
+      "reason": "Identity shifted from \"sanctuarycottages\" to \"\""
+    },
+    {
+      "field": "domainMatchedSocialLinks",
+      "path": "domainMatchedSocialLinks",
+      "previous": null,
+      "current": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "",
+        "terms": ""
+      },
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    },
+    {
+      "field": "genericEmail",
+      "path": "genericEmail",
+      "previous": null,
+      "current": "Sales@LiveSanctuaryCottages.com",
+      "importance": "HIGH",
+      "reason": "EMAIL channel changed from \"\" to \"sales@livesanctuarycottages.com\""
+    },
+    {
+      "field": "homeContent",
+      "path": "homeContent",
+      "previous": "Sanctuary Cottages Townhomes Twin Church Townhouses For Sale Skip to content Schedule a Tour Floorplans Townhouses Community Schedule a Tour Floorplans Townhouses Community Contact Us Sanctuary Cottages Experience refined townhome living enriched by modern design and exceptional comfort in every detail. SCHEDULE-A-TOUR Our CommunitY Discover the modern lifestyle at Sanctuary Cottages with sophisticated townhome residences crafted for everyday luxury. Sanctuary Cottages offers exquisite townhomes with custom finishes, spacious layouts, and an inviting atmosphere. Each residence is designed to provide comfort and sophistication, creating the perfect setting for both relaxing evenings and vibrant social gatherings. The community features meticulously landscaped grounds and abundant natural light, accentuating the beauty of every detail. Located in Florence, South Carolina, our townhomes balance modern architecture with timeless charm. Residents enjoy access to nearby local amenities including high-end dining, boutique shopping, and recreational parks, making it a truly connected experience. Every element at Sanctuary Cottages reflects our commitment to quality, from the sleek finishes to well-planned layouts that offer both style and function. Living here means joining a welcoming community dedicated to excellence. With carefully designed floor plans, innovative energy-efficient solutions, and a focus on comfort and luxury, we offer a home that adapts to your lifestyle while exceeding your expectations. Discover a serene retreat where every day feels both invigorating and relaxing. Request A Property Tour Exclusive Townhomes – Own Luxury Today Every townhome is curated with modern finishes and innovative design, ensuring a living space that meets the highest standards of luxury and comfort. VIEW Townhome Ready for a New Home Experience? Our gated community is built on trust and commitment, offering homes that are move-in ready and designed for effortless living in a vibrant neighborhood. Call Now: (843) 773-5475 How the Purchase Process Unfolds Own Your Dream Home in 3 Simple Steps Step 1 Select a Townhome! Tour our meticulously designed townhomes that combine modern convenience and luxury within our private gated community.",
+      "current": "Sanctuary Cottages Townhomes Twin Church Townhouses For Sale Skip to content Schedule a Tour Floorplans Townhouses Community Schedule a Tour Floorplans Townhouses Community Contact Us Sanctuary Cottages Experience refined townhome living enriched by modern design and exceptional comfort in every detail. SCHEDULE-A-TOUR Our CommunitY Discover the modern lifestyle at Sanctuary Cottages with sophisticated townhome residences crafted for everyday luxury. Sanctuary Cottages offers exquisite townhomes with custom finishes, spacious layouts, and an inviting atmosphere. Each residence is designed to provide comfort and sophistication, creating the perfect setting for both relaxing evenings and vibrant social gatherings. The community features meticulously landscaped grounds and abundant natural light, accentuating the beauty of every detail. Located in Florence, South Carolina, our townhomes balance modern architecture with timeless charm. Residents enjoy access to nearby local amenities including high-end dining, boutique shopping, and recreational parks, making it a truly connected experience. Every element at Sanctuary Cottages reflects our commitment to quality, from the sleek finishes to well-planned layouts that offer both style and function. Living here means joining a welcoming community dedicated to excellence. With carefully designed floor plans, innovative energy-efficient solutions, and a focus on comfort and luxury, we offer a home that adapts to your lifestyle while exceeding your expectations. Discover a serene retreat where every day feels both invigorating and relaxing. Request A Property Tour Exclusive Townhomes – Own Luxury Today Every townhome is curated with modern finishes and innovative design, ensuring a living space that meets the highest standards of luxury and comfort. VIEW Townhome Ready for a New Home Experience? Our gated community is built on trust and commitment, offering homes that are move-in ready and designed for effortless living in a vibrant neighborhood. Call Now: (843) 773-5475 How the Purchase Process Unfolds Own Your Dream Home in 3 Simple Steps Step 1 Select a Townhome! Tour our meticulously designed townhomes that combine modern convenience and luxury within our private gated community. Step 2 Secure Your Purchase with Transparent Pricing Enjoy an uncomplicated buying experience with clear, competitive pricing and no hidden surcharges, making your decision both smart and secure.",
+      "importance": "LOW",
+      "reason": "Polarity reversal detected (negation change); Business numeric changes detected: added [2], removed []"
+    },
+    {
+      "field": "homeLinks",
+      "path": "homeLinks",
+      "previous": "https://sctwinchurch.com/gated-community/|https://sanctuarycottages.net/|https://sctwinchurch.com/vip-signup/|https://sanctuarycottages.net/#content|https://sctwinchurch.com/townhouse-floorplans/|https://sctwinchurch.com/exterior-features/|https://sctwinchurch.com/interior-features/",
+      "current": "[https://sctwinchurch.com/gated-community/, https://sanctuarycottages.net/, https://sctwinchurch.com/vip-signup/, https://sanctuarycottages.net/#content, https://sctwinchurch.com/townhouse-floorplans/, https://sctwinchurch.com/exterior-features/, https://sctwinchurch.com/interior-features/]",
+      "importance": "LOW",
+      "reason": "Routine text rewording detected."
+    },
+    {
+      "field": "ipCountry",
+      "path": "ipCountry",
+      "previous": null,
+      "current": "United Kingdom of Great Britain and Northern Ireland",
+      "importance": "HIGH",
+      "reason": "Location shifted from \"\" to \"United Kingdom of Great Britain and Northern Ireland\""
+    },
+    {
+      "field": "name",
+      "path": "name",
+      "previous": "sanctuarycottages",
+      "current": null,
+      "importance": "CRITICAL",
+      "reason": "Identity shifted from \"sanctuarycottages\" to \"\""
+    },
+    {
+      "field": "nameFromTitle",
+      "path": "nameFromTitle",
+      "previous": null,
+      "current": "Sanctuary Cottages Townhomes Twin Church Townhouses For Sale",
+      "importance": "CRITICAL",
+      "reason": "Identity shifted from \"\" to \"Sanctuary Cottages Townhomes Twin Church Townhouses For Sale\""
+    },
+    {
+      "field": "otherLinks",
+      "path": "otherLinks",
+      "previous": null,
+      "current": {
+        "contactUs": null,
+        "team": null,
+        "blog": null,
+        "career": null
+      },
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    },
+    {
+      "field": "socialLinks",
+      "path": "socialLinks",
+      "previous": null,
+      "current": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "",
+        "terms": ""
+      },
+      "importance": "LOW",
+      "reason": "Newly discovered data attribute enriched from crawl."
+    }
+  ]
+}
