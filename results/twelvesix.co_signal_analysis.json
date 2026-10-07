@@ -3,7 +3,7 @@
     "company_name": "twelvesix",
     "domain": "twelvesix.co"
   },
-  "evaluatedAt": "2026-10-07T12:33:50.394Z",
+  "evaluatedAt": "2026-10-07T12:55:31.646Z",
   "summary": {
     "totalChanges": 17,
     "criticalChangesCount": 4,
@@ -17,35 +17,35 @@
   "fieldEvaluations": [
     {
       "path": "aboutLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": [
         "https://www.twelvesix.co/about-us",
         "https://twelvesix.co/about-us"
       ],
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
       "path": "aboutLinksAll",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_MODIFIED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": "https://policies.google.com/privacy|https://www.linkedin.com/in/cristofano|https://policies.google.com/terms|https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base",
       "newValue": "[https://policies.google.com/privacy, https://www.linkedin.com/in/cristofano, https://policies.google.com/terms, https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base]",
       "score": 0,
-      "classification": "CONTENT_UPDATE",
-      "action": "AUTO_ACCEPT",
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Routine text rewording detected.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
@@ -152,9 +152,9 @@
     },
     {
       "path": "domainMatchedSocialLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": {
         "facebook": "",
@@ -169,12 +169,12 @@
         "privacy": "",
         "terms": ""
       },
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
@@ -317,17 +317,17 @@
     },
     {
       "path": "homeLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_MODIFIED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": "http://twelvesix.co/about-us|https://policies.google.com/privacy|http://twelvesix.co/#d48a92dd-9218-4ed5-9d8b-1f75504c4872|http://twelvesix.co/our-approach|http://twelvesix.co/#|http://twelvesix.co/our-services|http://twelvesix.co/connect|http://twelvesix.co/|https://policies.google.com/terms|https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base",
       "newValue": "[https://policies.google.com/privacy, https://twelvesix.co/#d48a92dd-9218-4ed5-9d8b-1f75504c4872, https://twelvesix.co/connect, https://www.linkedin.com/in/cristofano, https://twelvesix.co/#, https://twelvesix.co/about-us, https://twelvesix.co/our-services, https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base, https://policies.google.com/terms, https://twelvesix.co/, https://twelvesix.co/our-approach]",
       "score": 0,
-      "classification": "CONTENT_UPDATE",
-      "action": "AUTO_ACCEPT",
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Routine text rewording detected.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
@@ -446,9 +446,9 @@
     },
     {
       "path": "otherLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": {
         "contactUs": null,
@@ -456,12 +456,12 @@
         "blog": null,
         "career": null
       },
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
@@ -484,9 +484,9 @@
     },
     {
       "path": "socialLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": {
         "facebook": "",
@@ -501,12 +501,12 @@
         "privacy": "https://policies.google.com/privacy",
         "terms": "https://policies.google.com/terms"
       },
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     }
   ]

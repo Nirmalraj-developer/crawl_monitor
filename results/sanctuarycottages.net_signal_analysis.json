@@ -3,7 +3,7 @@
     "company_name": "Sanctuary Cottages Townhomes Twin Church Townhouses For Sale",
     "domain": "sanctuarycottages.net"
   },
-  "evaluatedAt": "2026-10-07T12:34:11.995Z",
+  "evaluatedAt": "2026-10-07T12:55:31.658Z",
   "summary": {
     "totalChanges": 11,
     "criticalChangesCount": 3,
@@ -58,9 +58,9 @@
     },
     {
       "path": "domainMatchedSocialLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": {
         "facebook": "",
@@ -75,12 +75,12 @@
         "privacy": "",
         "terms": ""
       },
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
@@ -244,17 +244,17 @@
     },
     {
       "path": "homeLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_MODIFIED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": "https://sctwinchurch.com/gated-community/|https://sanctuarycottages.net/|https://sctwinchurch.com/vip-signup/|https://sanctuarycottages.net/#content|https://sctwinchurch.com/townhouse-floorplans/|https://sctwinchurch.com/exterior-features/|https://sctwinchurch.com/interior-features/",
       "newValue": "[https://sctwinchurch.com/gated-community/, https://sanctuarycottages.net/, https://sctwinchurch.com/vip-signup/, https://sanctuarycottages.net/#content, https://sctwinchurch.com/townhouse-floorplans/, https://sctwinchurch.com/exterior-features/, https://sctwinchurch.com/interior-features/]",
       "score": 0,
-      "classification": "CONTENT_UPDATE",
-      "action": "AUTO_ACCEPT",
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Routine text rewording detected.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
@@ -358,9 +358,9 @@
     },
     {
       "path": "otherLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": {
         "contactUs": null,
@@ -368,19 +368,19 @@
         "blog": null,
         "career": null
       },
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
       "path": "socialLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": {
         "facebook": "",
@@ -395,12 +395,12 @@
         "privacy": "",
         "terms": ""
       },
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     }
   ]

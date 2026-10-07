@@ -3,27 +3,8 @@
   "domain": "twelvesix.co",
   "overallStatus": "REVIEW",
   "summary": "Several important company profile attributes changed or were omitted on the latest website crawl.",
-  "totalChanges": 16,
+  "totalChanges": 10,
   "changes": [
-    {
-      "field": "aboutLinks",
-      "path": "aboutLinks",
-      "previous": null,
-      "current": [
-        "https://www.twelvesix.co/about-us",
-        "https://twelvesix.co/about-us"
-      ],
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "aboutLinksAll",
-      "path": "aboutLinksAll",
-      "previous": "https://policies.google.com/privacy|https://www.linkedin.com/in/cristofano|https://policies.google.com/terms|https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base",
-      "current": "[https://policies.google.com/privacy, https://www.linkedin.com/in/cristofano, https://policies.google.com/terms, https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base]",
-      "importance": "LOW",
-      "reason": "Routine text rewording detected."
-    },
     {
       "field": "About Us Page Content",
       "path": "aboutPage",
@@ -49,26 +30,6 @@
       "reason": "Identity shifted from \"twelvesix\" to \"\""
     },
     {
-      "field": "domainMatchedSocialLinks",
-      "path": "domainMatchedSocialLinks",
-      "previous": null,
-      "current": {
-        "facebook": "",
-        "instagram": "",
-        "linkedin": "",
-        "twitter": "",
-        "youtube": "",
-        "pinterest": "",
-        "vimeo": "",
-        "googlePlus": "",
-        "slideshare": "",
-        "privacy": "",
-        "terms": ""
-      },
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
       "field": "genericEmail",
       "path": "genericEmail",
       "previous": null,
@@ -81,14 +42,6 @@
       "path": "homeContent",
       "previous": "Expert Fractional CMO and Marketing Consultancy Home Our Approach Our Services About Us Connect More Home Our Approach Our Services About Us Connect Home Our Approach Our Services About Us Connect Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Expert Marketing Solutions Accelerate and Scale with High-Impact Results Twelve Six helps companies bridge the gap between strategy and execution to scale with clarity and impact. We bring deep expertise in insights-led business, brand, go-to-market, and marketing strategy - paired with relentlessly creative and innovative marketing activation planning - to align big ideas with real-world momentum. When you're stuck in overthinking or lost in disconnected activity, we're the partner that gets things moving with focus and purpose. Why Twelve Six Strategic depth + execution focus We don’t just build plans - we build the right ones, and guide you in bringing them to life. Brand-first, customer-led We position brands to stand out and connect with the audiences who matter most. Fractional senior leadership Get CMO-level thinking without the full-time cost. We integrate quickly and deliver real momentum, fast. Start Now Want to move forward with focus, purpose, and results? Let’s talk. Name Email* Attach Files Attachments (0) Send This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply. Take the first step, and contact us to schedule a complimentary strategy consultation to discuss your marketing and business goals. Send us a message, and we will get back to you soon. Twelve Six 1750 E Sagittarius Pl Chandler AZ 85249 (480) 371-6387 Copyright © 2025 Twelve Six LLC - All Rights Reserved. Powered by This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept",
       "current": "Expert Fractional CMO and Marketing Consultancy Home Our Approach Our Services About Us Connect More Home Our Approach Our Services About Us Connect Home Our Approach Our Services About Us Connect Strategy. Activation. Elevated. Strategy. Activation. Elevated.Strategy. Activation. Elevated.Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Strategy. Activation. Elevated. Strategy. Activation. Elevated.Strategy. Activation. Elevated.Strategy. Activation. Elevated. Fractional CMO and Marketing Consultancy Start Now Expert Marketing Solutions Accelerate and Scale with High-Impact Results Twelve Six helps companies bridge the gap between strategy and execution to scale with clarity and impact. We bring deep expertise in insights-led business, brand, go-to-market, and marketing strategy - paired with relentlessly creative and innovative marketing activation planning - to align big ideas with real-world momentum. When you're stuck in overthinking or lost in disconnected activity, we're the partner that gets things moving with focus and purpose. Why Twelve Six Strategic depth + execution focus We don’t just build plans - we build the right ones, and guide you in bringing them to life. Brand-first, customer-led We position brands to stand out and connect with the audiences who matter most. Fractional senior leadership Get CMO-level thinking without the full-time cost. We integrate quickly and deliver real momentum, fast. Start Now Want to move forward with focus, purpose, and results? Let’s talk. Name Email* Attach Files Attachments (0) Send This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply. Take the first step, and contact us to schedule a complimentary strategy consultation to discuss your marketing and business goals. Send us a message, and we will get back to you soon. Twelve Six 1750 E Sagittarius Pl Chandler AZ 85249 (480) 371-6387 Copyright © 2025 Twelve Six LLC - All Rights Reserved. Powered by This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept",
-      "importance": "LOW",
-      "reason": "Routine text rewording detected."
-    },
-    {
-      "field": "homeLinks",
-      "path": "homeLinks",
-      "previous": "http://twelvesix.co/about-us|https://policies.google.com/privacy|http://twelvesix.co/#d48a92dd-9218-4ed5-9d8b-1f75504c4872|http://twelvesix.co/our-approach|http://twelvesix.co/#|http://twelvesix.co/our-services|http://twelvesix.co/connect|http://twelvesix.co/|https://policies.google.com/terms|https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base",
-      "current": "[https://policies.google.com/privacy, https://twelvesix.co/#d48a92dd-9218-4ed5-9d8b-1f75504c4872, https://twelvesix.co/connect, https://www.linkedin.com/in/cristofano, https://twelvesix.co/#, https://twelvesix.co/about-us, https://twelvesix.co/our-services, https://www.godaddy.com/websites/website-builder?isc=pwugc&utm_source=wsb&utm_medium=applications&utm_campaign=en-us_corp_applications_base, https://policies.google.com/terms, https://twelvesix.co/, https://twelvesix.co/our-approach]",
       "importance": "LOW",
       "reason": "Routine text rewording detected."
     },
@@ -125,19 +78,6 @@
       "reason": "Identity shifted from \"\" to \"Twelve Six LLC\""
     },
     {
-      "field": "otherLinks",
-      "path": "otherLinks",
-      "previous": null,
-      "current": {
-        "contactUs": null,
-        "team": null,
-        "blog": null,
-        "career": null
-      },
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
       "field": "serviceLinks",
       "path": "serviceLinks",
       "previous": null,
@@ -145,26 +85,6 @@
         "https://twelvesix.co/our-services",
         "https://www.twelvesix.co/our-services"
       ],
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "socialLinks",
-      "path": "socialLinks",
-      "previous": null,
-      "current": {
-        "facebook": "",
-        "instagram": "",
-        "linkedin": "https://www.linkedin.com/in/cristofano",
-        "twitter": "",
-        "youtube": "",
-        "pinterest": "",
-        "vimeo": "",
-        "googlePlus": "",
-        "slideshare": "",
-        "privacy": "https://policies.google.com/privacy",
-        "terms": "https://policies.google.com/terms"
-      },
       "importance": "LOW",
       "reason": "Newly discovered data attribute enriched from crawl."
     }

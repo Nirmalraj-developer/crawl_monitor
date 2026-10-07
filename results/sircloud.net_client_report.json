@@ -3,7 +3,7 @@
   "domain": "sircloud.net",
   "overallStatus": "REVIEW",
   "summary": "Several important company profile attributes changed or were omitted on the latest website crawl.",
-  "totalChanges": 14,
+  "totalChanges": 10,
   "changes": [
     {
       "field": "Company Name",
@@ -20,26 +20,6 @@
       "current": "Was mich auszeichnet:",
       "importance": "LOW",
       "reason": "Escalated based on score threshold."
-    },
-    {
-      "field": "domainMatchedSocialLinks",
-      "path": "domainMatchedSocialLinks",
-      "previous": null,
-      "current": {
-        "facebook": "",
-        "instagram": "",
-        "linkedin": "",
-        "twitter": "",
-        "youtube": "",
-        "pinterest": "",
-        "vimeo": "",
-        "googlePlus": "",
-        "slideshare": "",
-        "privacy": "",
-        "terms": ""
-      },
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
     },
     {
       "field": "Email Address",
@@ -64,14 +44,6 @@
       "current": "sircloud.net | IT-Partner & Service Provider    Ihr Erfolg beginnt mit der richtigen Strategie. Was mich auszeichnet: Eine Menge Erfahrung und Expertise – Cloud-Infrastruktur, Agentic AI, Hybrid-Architekturen, Middleware-Design: Ich bringe das technische Know-how mit, das komplexe Transformationsprojekte erfordern. Von der Strategie bis zur Umsetzung begleite ich Sie als verlässlicher Sparringspartner – strategisch denkend, technisch versiert, unternehmerisch handelnd. Future Sie möchten mehr erfahren? Ich freue mich auf den Austausch mit Ihnen. Jetzt anrufen Folgen Folgen Home Impressum Datenschutz Cookie-Richtlinie Support Privatkunden © 2026 sircloud.net | Webdesign und technische Umsetzung: sircloud.net Cookie-Zustimmung verwalten Wir verwenden Cookies, um unsere Website und unseren Service zu optimieren. Funktional Funktional Immer aktiv Die technische Speicherung oder der Zugang ist unbedingt erforderlich für den rechtmäßigen Zweck, die Nutzung eines bestimmten Dienstes zu ermöglichen, der vom Teilnehmer oder Nutzer ausdrücklich gewünscht wird, oder für den alleinigen Zweck, die Übertragung einer Nachricht über ein elektronisches Kommunikationsnetz durchzuführen. Vorlieben Vorlieben Die technische Speicherung oder der Zugriff ist für den rechtmäßigen Zweck der Speicherung von Präferenzen erforderlich, die nicht vom Abonnenten oder Benutzer angefordert wurden. Statistiken Statistiken Die technische Speicherung oder der Zugriff, der ausschließlich zu statistischen Zwecken erfolgt. Die technische Speicherung oder der Zugriff, der ausschließlich zu anonymen statistischen Zwecken verwendet wird. Ohne eine Vorladung, die freiwillige Zustimmung deines Internetdienstanbieters oder zusätzliche Aufzeichnungen von Dritten können die zu diesem Zweck gespeicherten oder abgerufenen Informationen allein in der Regel nicht dazu verwendet werden, dich zu identifizieren. Marketing Marketing Die technische Speicherung oder der Zugriff ist erforderlich, um Nutzerprofile zu erstellen, um Werbung zu versenden oder um den Nutzer auf einer Website oder über mehrere Websites hinweg zu ähnlichen Marketingzwecken zu verfolgen. Optionen verwalten Dienste verwalten Verwalten von {vendor_count}-Lieferanten Lese mehr über diese Zwecke Akzeptieren Ablehnen Vorlieben Einstellungen speichern Vorlieben {title} {title} {title} Zustimmung verwalten",
       "importance": "LOW",
       "reason": "High-importance entity change (undefined) on \"homeContent\"."
-    },
-    {
-      "field": "homeLinks",
-      "path": "homeLinks",
-      "previous": "https://sircloud.net/impressum/|https://remotedesktop.google.com/support|https://sircloud.net/datenschutz/|https://sircloud.net/datenschutzrichtlinie/|https://www.linkedin.com/company/sircloud-net/?viewAsMember=true|https://sircloud.net/|https://cookiedatabase.org/tcf/purposes/|https://sircloud.net/#|https://wa.me/491727180381|https://sircloud.net/b2c/|https://sircloud.net|https://www.xing.com/profile/Matthias_Voegele",
-      "current": "[https://remotedesktop.google.com/support, https://sircloud.net/impressum/, https://sircloud.net/datenschutzrichtlinie/, https://www.linkedin.com/company/sircloud-net/?viewAsMember=true, https://ec.europa.eu/consumers/odr, https://sircloud.net/#, https://sircloud.net/b2c/, https://sircloud.net, https://sircloud.net/datenschutz/, https://sircloud.net/, https://cookiedatabase.org/tcf/purposes/, https://wa.me/491727180381, https://www.xing.com/profile/Matthias_Voegele]",
-      "importance": "LOW",
-      "reason": "Routine text rewording detected."
     },
     {
       "field": "ipCountry",
@@ -112,39 +84,6 @@
       "current": "a.stuckert@theresa-pflege.de",
       "importance": "HIGH",
       "reason": "EMAIL channel changed from \"\" to \"a.stuckert@theresa-pflege.de\""
-    },
-    {
-      "field": "otherLinks",
-      "path": "otherLinks",
-      "previous": null,
-      "current": {
-        "contactUs": null,
-        "team": null,
-        "blog": null,
-        "career": null
-      },
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "socialLinks",
-      "path": "socialLinks",
-      "previous": null,
-      "current": {
-        "facebook": "",
-        "instagram": "",
-        "linkedin": "https://www.linkedin.com/company/sircloud-net/?viewAsMember=true",
-        "twitter": "",
-        "youtube": "",
-        "pinterest": "",
-        "vimeo": "",
-        "googlePlus": "",
-        "slideshare": "",
-        "privacy": "",
-        "terms": ""
-      },
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
     }
   ]
 }

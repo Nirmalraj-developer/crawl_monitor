@@ -3,7 +3,7 @@
     "company_name": "White Studio Bridal",
     "domain": "whitestudiolondon.com"
   },
-  "evaluatedAt": "2026-10-07T12:33:42.661Z",
+  "evaluatedAt": "2026-10-07T12:55:31.633Z",
   "summary": {
     "totalChanges": 18,
     "criticalChangesCount": 5,
@@ -30,19 +30,19 @@
   "fieldEvaluations": [
     {
       "path": "aboutLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": [
         "https://www.whitestudiolondon.com/about"
       ],
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
@@ -103,19 +103,19 @@
     },
     {
       "path": "contactLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": [
         "https://www.whitestudiolondon.com/contact"
       ],
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
@@ -282,9 +282,9 @@
     },
     {
       "path": "domainMatchedSocialLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": {
         "facebook": "",
@@ -299,31 +299,31 @@
         "privacy": "",
         "terms": ""
       },
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
       "path": "ecommerceLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": [
         "https://www.whitestudiolondon.com/shop",
         "https://www.whitestudiolondon.com/shop-5",
         "https://www.whitestudiolondon.com/shop-1"
       ],
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
@@ -483,9 +483,9 @@
     },
     {
       "path": "otherLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": {
         "contactUs": null,
@@ -493,12 +493,12 @@
         "blog": null,
         "career": null
       },
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     },
     {
@@ -579,9 +579,9 @@
     },
     {
       "path": "socialLinks",
-      "fieldType": "URL",
+      "fieldType": "TECHNICAL",
       "changeType": "VALUE_ADDED",
-      "importance": "LOW",
+      "importance": "IGNORE",
       "oldValue": null,
       "newValue": {
         "facebook": "",
@@ -596,12 +596,12 @@
         "privacy": "",
         "terms": ""
       },
-      "score": 15,
-      "classification": "ENRICHMENT",
-      "action": "AUTO_ACCEPT",
+      "score": 0,
+      "classification": "NOISE",
+      "action": "IGNORE",
       "needsAiEscalation": false,
       "escalationReasons": [],
-      "reason": "Newly discovered data attribute enriched from crawl.",
+      "reason": "Field classified as operational noise or telemetry.",
       "signals": {}
     }
   ]

@@ -3,27 +3,8 @@
   "domain": "infynd.com",
   "overallStatus": "REVIEW",
   "summary": "Several important company profile attributes changed or were omitted on the latest website crawl.",
-  "totalChanges": 31,
+  "totalChanges": 18,
   "changes": [
-    {
-      "field": "aboutLinks",
-      "path": "aboutLinks",
-      "previous": null,
-      "current": [
-        "https://www.infynd.com/about",
-        "https://www.infynd.com/about-us"
-      ],
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "aboutLinksAll",
-      "path": "aboutLinksAll",
-      "previous": "https://www.infynd.com/blog/the-best-way-to-do-cold-email-and-cold-calling-right|https://x.com/infynd_data|https://www.infynd.com/blog/3-step-data-checklist-before-your-next-campaign-goes-live|https://www.instagram.com/infynd|https://www.linkedin.com/company/infynd|https://ico.org.uk/|https://www.facebook.com/infynd360|https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes|https://infynd.com/do-not-sell-my-info/|https://infynd.zohorecruit.in/jobs/Careers|https://app.infynd.com|https://experian.co.uk/business-information/marketing-transparency-notice.html",
-      "current": "[https://www.27x.ai/blog/the-2026-outbound-crisis-autonomous-ai-sdrs-are-reshaping-b2b-sales, https://www.linkedin.com/company/infynd/, https://27x.ai, https://x.com/infynd_data, https://www.facebook.com/infynd360/, https://www.klodev.com/blog/how-can-klodevs-ai-digital-employees-cut-costs-and-boost-roi, https://www.instagram.com/infynd/, https://www.no2bounce.com/blog/best-free-email-validators-in-2026-tested-ranked-for-accuracy, https://product.infynd.com/, https://infynd.zohorecruit.in/jobs/Careers, https://www.b2bdrum.com/blog/how-to-build-an-outreach-engineering-system-from-scratch, https://app.infynd.com/auth/login, https://app.infynd.com/]",
-      "importance": "LOW",
-      "reason": "Routine text rewording detected."
-    },
     {
       "field": "About Us Page Content",
       "path": "aboutPage",
@@ -49,24 +30,6 @@
       "reason": "Identity shifted from \"InFynd Group\" to \"\""
     },
     {
-      "field": "contactLinks",
-      "path": "contactLinks",
-      "previous": null,
-      "current": [
-        "https://www.infynd.com/contact"
-      ],
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "contactLinksAll",
-      "path": "contactLinksAll",
-      "previous": "https://www.infynd.com/blog/the-best-way-to-do-cold-email-and-cold-calling-right|https://x.com/infynd_data|https://www.infynd.com/blog/3-step-data-checklist-before-your-next-campaign-goes-live|https://www.instagram.com/infynd|https://www.linkedin.com/company/infynd|https://www.facebook.com/infynd360|https://app.infynd.com|https://infynd.zohorecruit.in/jobs/Careers",
-      "current": "[https://www.27x.ai/blog/the-2026-outbound-crisis-autonomous-ai-sdrs-are-reshaping-b2b-sales, https://www.linkedin.com/company/infynd/, https://x.com/infynd_data, https://www.facebook.com/infynd360/, https://www.klodev.com/blog/how-can-klodevs-ai-digital-employees-cut-costs-and-boost-roi, https://www.instagram.com/infynd/, https://www.no2bounce.com/blog/best-free-email-validators-in-2026-tested-ranked-for-accuracy, https://product.infynd.com/, https://www.google.com/maps/search/?api=1&query=Lily+Hill+House+Lily+Hill+Road+Bracknell+RG12+2SJ, https://infynd.zohorecruit.in/jobs/Careers, https://www.b2bdrum.com/blog/how-to-build-an-outreach-engineering-system-from-scratch, https://app.infynd.com/auth/login, https://app.infynd.com/]",
-      "importance": "LOW",
-      "reason": "Routine text rewording detected."
-    },
-    {
       "field": "contactPage",
       "path": "contactPage",
       "previous": null,
@@ -83,37 +46,6 @@
       "reason": "Significant divergence between semantic embedding and keyword similarity"
     },
     {
-      "field": "domainMatchedSocialLinks",
-      "path": "domainMatchedSocialLinks",
-      "previous": null,
-      "current": {
-        "facebook": "",
-        "instagram": "",
-        "linkedin": "",
-        "twitter": "",
-        "youtube": "",
-        "pinterest": "",
-        "vimeo": "",
-        "googlePlus": "",
-        "slideshare": "",
-        "privacy": "https://infynd.com/privacy-policy",
-        "terms": "https://infynd.com/terms-conditions"
-      },
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "ecommerceLinks",
-      "path": "ecommerceLinks",
-      "previous": null,
-      "current": [
-        "https://www.infynd.com/pricing",
-        "https://product.infynd.com/"
-      ],
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
       "field": "Email Address",
       "path": "email",
       "previous": "marketing@infynd.com",
@@ -128,14 +60,6 @@
       "current": "sales@infynd.com|marketing@infynd.com|contact@infynd.com",
       "importance": "HIGH",
       "reason": "EMAIL channel changed from \"\" to \"sales@infynd.com|marketing@infynd.com|contact@infynd.com\""
-    },
-    {
-      "field": "homeLinks",
-      "path": "homeLinks",
-      "previous": "https://www.infynd.com/data-cleansing-infynd|https://www.infynd.com/industry-based-data|https://www.infynd.com/conversion-rate-optimization|https://www.infynd.com/llm-info|https://www.infynd.com/blog|https://www.infynd.com/demand-generation|https://www.infynd.com/gdpr|https://www.infynd.com/data-integration-api|https://www.infynd.com/ai-sdr|https://www.infynd.com/book-a-demo|https://www.instagram.com/infynd|https://www.infynd.com/personalized-custom-build-data|https://www.infynd.com/healthcare|https://www.infynd.com/martech|https://www.facebook.com/infynd360|https://www.infynd.com/do-not-sell-my-info|https://www.infynd.com/b2b-data|https://www.infynd.com/crm-data-health-check|https://app.infynd.com|https://www.infynd.com/privacy-policy|https://www.infynd.com/|https://www.infynd.com/social-media-marketing|https://x.com/infynd_data|https://www.infynd.com/blog/3-step-data-checklist-before-your-next-campaign-goes-live|https://www.infynd.com/social-media-strategy|https://www.infynd.com/terms-conditions|https://www.infynd.com/b2c-data|https://www.infynd.com/about-us|https://infynd.zohorecruit.in/jobs/Careers|https://www.infynd.com/paid-media-campaigns|https://www.infynd.com/#|https://www.infynd.com/data-solutions|https://www.infynd.com/blog/the-best-way-to-do-cold-email-and-cold-calling-right|https://www.infynd.com/brand-awareness|https://www.infynd.com/content-marketing|https://www.infynd.com/data-intelligence-and-enrichment|https://www.infynd.com/brand-messaging-and-positioning|https://www.infynd.com/pr-media-outreach|https://www.linkedin.com/company/infynd|https://www.infynd.com/contact|https://www.infynd.com/cookie-policy|https://www.infynd.com/data-appending-infynd",
-      "current": "[https://www.27x.ai/blog/the-2026-outbound-crisis-autonomous-ai-sdrs-are-reshaping-b2b-sales, https://www.linkedin.com/company/infynd/, https://beta-sentinel.27x.ai/login, https://27x.ai, https://x.com/infynd_data, https://www.instagram.com/sentineintelligence/, https://www.facebook.com/infynd360/, https://www.klodev.com/blog/how-can-klodevs-ai-digital-employees-cut-costs-and-boost-roi, https://x.com/sentinelcrp, https://www.instagram.com/infynd/, https://product.infynd.com/, https://www.no2bounce.com/blog/best-free-email-validators-in-2026-tested-ranked-for-accuracy, https://www.google.com/maps/search/?api=1&query=Lily+Hill+House+Lily+Hill+Road+Bracknell+RG12+2SJ, https://www.facebook.com/profile.php?id=61591719262218, https://infynd.zohorecruit.in/jobs/Careers, https://infynd.com/, https://www.b2bdrum.com/blog/how-to-build-an-outreach-engineering-system-from-scratch, https://app.infynd.com/auth/login, https://www.27x.ai/, https://infynd.com/b2b, https://app.infynd.com/, https://www.linkedin.com/company/sentinel-intelligence-01/, https://sentinel.infynd.com/, https://app.infynd.com]",
-      "importance": "LOW",
-      "reason": "Routine text rewording detected."
     },
     {
       "field": "imageUrl",
@@ -168,37 +92,6 @@
       "current": "InFynd Group",
       "importance": "CRITICAL",
       "reason": "Identity shifted from \"\" to \"InFynd Group\""
-    },
-    {
-      "field": "otherLinks",
-      "path": "otherLinks",
-      "previous": null,
-      "current": {
-        "contactUs": "https://sentinel.infynd.com/",
-        "team": null,
-        "blog": "https://infynd.com/blog",
-        "career": "https://infynd.zohorecruit.in/jobs/Careers"
-      },
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "privacyLinks",
-      "path": "privacyLinks",
-      "previous": null,
-      "current": [
-        "https://www.infynd.com/privacy-policy"
-      ],
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "privacyLinksAll",
-      "path": "privacyLinksAll",
-      "previous": null,
-      "current": "[https://www.b2bdrum.com/blog/how-to-build-an-outreach-engineering-system-from-scratch, https://www.27x.ai/blog/the-2026-outbound-crisis-autonomous-ai-sdrs-are-reshaping-b2b-sales, https://www.linkedin.com/company/infynd/, https://x.com/infynd_data, https://app.infynd.com/auth/login, https://www.facebook.com/infynd360/, https://www.klodev.com/blog/how-can-klodevs-ai-digital-employees-cut-costs-and-boost-roi, https://app.infynd.com/, https://www.instagram.com/infynd/, https://www.no2bounce.com/blog/best-free-email-validators-in-2026-tested-ranked-for-accuracy, https://product.infynd.com/, https://infynd.zohorecruit.in/jobs/Careers]",
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
     },
     {
       "field": "privacyPage",
@@ -244,44 +137,6 @@
         "https://www.infynd.com/esg-compliance",
         "https://www.infynd.com/risk-compliance"
       ],
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "socialLinks",
-      "path": "socialLinks",
-      "previous": null,
-      "current": {
-        "facebook": "https://www.facebook.com/infynd360|https://www.facebook.com/profile.php?id=61591719262218",
-        "instagram": "https://www.instagram.com/infynd|https://www.instagram.com/sentineintelligence",
-        "linkedin": "https://www.linkedin.com/company/sentinel-intelligence-01|https://www.linkedin.com/company/infynd",
-        "twitter": "",
-        "youtube": "",
-        "pinterest": "",
-        "vimeo": "",
-        "googlePlus": "",
-        "slideshare": "",
-        "privacy": "https://infynd.com/privacy-policy",
-        "terms": "https://infynd.com/terms-conditions"
-      },
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "termsLinks",
-      "path": "termsLinks",
-      "previous": null,
-      "current": [
-        "https://www.infynd.com/terms-conditions"
-      ],
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "termsLinksAll",
-      "path": "termsLinksAll",
-      "previous": null,
-      "current": "[https://www.b2bdrum.com/blog/how-to-build-an-outreach-engineering-system-from-scratch, https://www.27x.ai/blog/the-2026-outbound-crisis-autonomous-ai-sdrs-are-reshaping-b2b-sales, https://www.linkedin.com/company/infynd/, https://x.com/infynd_data, https://app.infynd.com/auth/login, https://www.facebook.com/infynd360/, https://www.klodev.com/blog/how-can-klodevs-ai-digital-employees-cut-costs-and-boost-roi, https://app.infynd.com/, https://www.instagram.com/infynd/, https://www.no2bounce.com/blog/best-free-email-validators-in-2026-tested-ranked-for-accuracy, https://product.infynd.com/, https://infynd.zohorecruit.in/jobs/Careers]",
       "importance": "LOW",
       "reason": "Newly discovered data attribute enriched from crawl."
     },

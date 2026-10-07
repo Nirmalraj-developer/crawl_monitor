@@ -141,6 +141,7 @@ const FIELD_DEFINITIONS = [
   },
 
   // 6. URL & SOCIAL MEDIA
+  // 6. URL & SOCIAL MEDIA (Direct primary profile URLs)
   {
     pattern: /^(website|url)$/i,
     fieldType: FIELD_TYPES.URL,
@@ -149,18 +150,22 @@ const FIELD_DEFINITIONS = [
     label: 'Website URL'
   },
   {
-    pattern: /^(linkedin|facebook|instagram|twitter|youtube|tiktok|socialLinks.*|domainMatchedSocialLinks.*)$/i,
+    pattern: /^(linkedin|facebook|instagram|twitter|youtube|tiktok)$/i,
     fieldType: FIELD_TYPES.URL,
     importance: IMPORTANCE_LEVELS.LOW,
     allowedSignals: [],
-    label: 'Social Link'
+    label: 'Social Profile'
   },
+
+  // 7. INTERNAL LINK POOLS & NAVIGATION LISTS (Treated as technical crawl telemetry)
+  // Raw <a> tag arrays from page footers/headers (blog links, internal routes) are internal crawl artifacts,
+  // not business profile attributes for clients.
   {
-    pattern: /^(aboutLinks.*|contactLinks.*|termsLinks.*|privacyLinks.*|ecommerceLinks.*|homeLinks.*|otherLinks.*)$/i,
-    fieldType: FIELD_TYPES.URL,
-    importance: IMPORTANCE_LEVELS.LOW,
+    pattern: /^(aboutLinksAll|contactLinksAll|termsLinksAll|privacyLinksAll|homeLinks|otherLinks.*|aboutLinks|contactLinks|termsLinks|privacyLinks|ecommerceLinks.*|domainMatchedSocialLinks.*|socialLinks.*)$/i,
+    fieldType: FIELD_TYPES.TECHNICAL,
+    importance: IMPORTANCE_LEVELS.IGNORE,
     allowedSignals: [],
-    label: 'Site Navigation Link'
+    label: 'Internal Navigation Link Pool'
   },
 
   // 7. TECHNICAL / TELEMETRY (Ignore as noise)

@@ -3,18 +3,8 @@
   "domain": "whitestudiolondon.com",
   "overallStatus": "REVIEW",
   "summary": "Several important company profile attributes changed or were omitted on the latest website crawl.",
-  "totalChanges": 18,
+  "totalChanges": 12,
   "changes": [
-    {
-      "field": "aboutLinks",
-      "path": "aboutLinks",
-      "previous": null,
-      "current": [
-        "https://www.whitestudiolondon.com/about"
-      ],
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
     {
       "field": "Physical Address",
       "path": "address",
@@ -32,16 +22,6 @@
       "reason": "Identity shifted from \"White Studio\" to \"\""
     },
     {
-      "field": "contactLinks",
-      "path": "contactLinks",
-      "previous": null,
-      "current": [
-        "https://www.whitestudiolondon.com/contact"
-      ],
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
       "field": "Operating Country",
       "path": "country",
       "previous": "United Kingdom",
@@ -56,38 +36,6 @@
       "current": "White Studio Bridal, your destination for affordable wedding dresses. Explore our exquisite wedding gowns, each meticulously crafted with passion and dedication, as we honour the legacy of White Rose Bridal tradition. Find 'the one' that perfectly celebrates your love story at White Studio Bridal – where includes options for plus size wedding dresses.",
       "importance": "LOW",
       "reason": "High-importance entity change (undefined) on \"description\"."
-    },
-    {
-      "field": "domainMatchedSocialLinks",
-      "path": "domainMatchedSocialLinks",
-      "previous": null,
-      "current": {
-        "facebook": "",
-        "instagram": "",
-        "linkedin": "",
-        "twitter": "",
-        "youtube": "",
-        "pinterest": "",
-        "vimeo": "",
-        "googlePlus": "",
-        "slideshare": "",
-        "privacy": "",
-        "terms": ""
-      },
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
-      "field": "ecommerceLinks",
-      "path": "ecommerceLinks",
-      "previous": null,
-      "current": [
-        "https://www.whitestudiolondon.com/shop",
-        "https://www.whitestudiolondon.com/shop-5",
-        "https://www.whitestudiolondon.com/shop-1"
-      ],
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
     },
     {
       "field": "genericEmail",
@@ -138,19 +86,6 @@
       "reason": "Identity shifted from \"\" to \"White Studio Bridal\""
     },
     {
-      "field": "otherLinks",
-      "path": "otherLinks",
-      "previous": null,
-      "current": {
-        "contactUs": null,
-        "team": null,
-        "blog": null,
-        "career": null
-      },
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
-    },
-    {
       "field": "Phone Number",
       "path": "phone",
       "previous": "020 8368 1500",
@@ -165,26 +100,6 @@
       "current": null,
       "importance": "CRITICAL",
       "reason": "NUMERIC changed from \"08742433\" to \"null\""
-    },
-    {
-      "field": "socialLinks",
-      "path": "socialLinks",
-      "previous": null,
-      "current": {
-        "facebook": "",
-        "instagram": "https://www.instagram.com/whitestudiolondon/profilecard/?igsh=MWx4Ym53M2R5emRobQ==",
-        "linkedin": "https://www.linkedin.com/in/white-studio-9a68a9288?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B2hfe6sxITXGRTLKX82jJIw%3D%3D",
-        "twitter": "",
-        "youtube": "",
-        "pinterest": "",
-        "vimeo": "",
-        "googlePlus": "",
-        "slideshare": "",
-        "privacy": "",
-        "terms": ""
-      },
-      "importance": "LOW",
-      "reason": "Newly discovered data attribute enriched from crawl."
     }
   ]
 }
