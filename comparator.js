@@ -3558,14 +3558,27 @@ async function main() {
     const newPath = path.resolve(process.cwd(), 'data', 'new', `${targetDomain}.json`);
     const oldPath = path.resolve(process.cwd(), 'data', 'old', `${targetDomain}.json`);
 
-    if (!fs.existsSync(newPath)) {
-      console.error(`[Comparator Error] New snapshot data/new/${targetDomain}.json does not exist to accept.`);
-      process.exit(1);
+    let newData;
+    if (fs.existsSync(newPath)) {
+      newData = JSON.parse(fs.readFileSync(newPath, 'utf8'));
+    } else {
+      console.log(`[Comparator] Snapshot data/new/${targetDomain}.json not found locally.`);
+      console.log(`[Comparator] Fetching fresh live crawl for ${targetDomain} via Crawler API...`);
+      if (!crawlerService) crawlerService = require('./crawler_service');
+      try {
+        newData = await crawlerService.crawlDomain(targetDomain);
+        atomicWriteJson(newPath, newData);
+        console.log(`[Comparator] Live crawl saved to: data/new/${targetDomain}.json`);
+      } catch (err) {
+        console.error(`[Comparator Error] Failed to crawl ${targetDomain}: ${err.message}`);
+        console.error(`[Tip] Make sure crawler service is reachable or run 'node index.js ${targetDomain}' first.`);
+        process.exit(1);
+      }
     }
 
-    const newData = JSON.parse(fs.readFileSync(newPath, 'utf8'));
     atomicWriteJson(oldPath, newData);
-    console.log(`[Comparator] Successfully promoted data/new/${targetDomain}.json to baseline data/old/${targetDomain}.json`);
+    console.log(`[Comparator] Successfully promoted snapshot to baseline data/old/${targetDomain}.json`);
+    console.log(`[Comparator] Baseline for ${targetDomain} is now refreshed.`);
     return;
   }
 

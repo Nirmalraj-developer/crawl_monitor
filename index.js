@@ -370,7 +370,30 @@ async function processDomain(domain, dbClient = null) {
  */
 async function main() {
   const args = process.argv.slice(2);
-  let domainsToProcess = [];
+  // Mode: --accept <domain> (Promotes live crawl to baseline data/old/<domain>.json)
+  const acceptIdx = args.indexOf('--accept');
+  if (acceptIdx !== -1 && args[acceptIdx + 1]) {
+    const targetDomain = cleanDomain(args[acceptIdx + 1].trim());
+    console.log(`[Accept] Refreshing baseline for ${targetDomain}...`);
+    const newPath = path.resolve(process.cwd(), 'data', 'new', `${targetDomain}.json`);
+    const oldPath = path.resolve(process.cwd(), 'data', 'old', `${targetDomain}.json`);
+
+    let newData;
+    if (fs.existsSync(newPath)) {
+      console.log(`[Accept] Using existing snapshot: data/new/${targetDomain}.json`);
+      newData = JSON.parse(fs.readFileSync(newPath, 'utf8'));
+    } else {
+      console.log(`[Accept] Snapshot not found locally. Crawling ${targetDomain} live...`);
+      newData = await crawlDomain(targetDomain);
+      atomicWriteJson(newPath, newData);
+      console.log(`[Accept] Fresh live crawl saved to: data/new/${targetDomain}.json`);
+    }
+
+    atomicWriteJson(oldPath, newData);
+    console.log(`[Accept] Baseline successfully updated at: data/old/${targetDomain}.json`);
+    console.log(`[Accept] Future runs of 'node index.js ${targetDomain}' will compare against this refreshed baseline.`);
+    return;
+  }
 
   // Parse arguments
   const fileIdx = args.indexOf('--file');
