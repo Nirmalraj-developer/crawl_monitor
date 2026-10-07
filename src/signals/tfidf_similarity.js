@@ -10,10 +10,16 @@
  * - top shifted terms (added/removed)
  */
 
+// Pure grammatical stop words (strictly excludes negations like 'not', 'no', 'never'
+// and business action terms to preserve polarity and material change signals)
 const STOP_WORDS = new Set([
-  'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from',
-  'has', 'he', 'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the',
-  'to', 'was', 'were', 'will', 'with'
+  'a', 'an', 'the', 'and', 'or', 'but',
+  'in', 'on', 'at', 'to', 'for', 'from', 'with', 'by', 'of', 'into', 'across', 'over',
+  'is', 'am', 'are', 'was', 'were', 'be', 'been', 'being',
+  'have', 'has', 'had', 'do', 'does', 'did',
+  'will', 'would', 'shall', 'should', 'can', 'could', 'may', 'might', 'must',
+  'that', 'this', 'these', 'those', 'which', 'who', 'whom', 'whose', 'what', 'when', 'where', 'how',
+  'it', 'its', 'he', 'she', 'they', 'them', 'their', 'we', 'our', 'you', 'your'
 ]);
 
 function tokenizeWords(text) {
