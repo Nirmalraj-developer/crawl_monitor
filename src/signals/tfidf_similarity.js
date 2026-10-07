@@ -10,10 +10,9 @@
  * - top shifted terms (added/removed)
  */
 
-// Pure grammatical stop words (strictly excludes negations like 'not', 'no', 'never'
-// and business action terms to preserve polarity and material change signals)
+// Pure grammatical stop words
 const STOP_WORDS = new Set([
-  'a', 'an', 'the', 'and', 'or', 'but',
+  'a', 'an', 'the', 'and', 'or', 'but', 'not',
   'in', 'on', 'at', 'to', 'for', 'from', 'with', 'by', 'of', 'into', 'across', 'over',
   'is', 'am', 'are', 'was', 'were', 'be', 'been', 'being',
   'have', 'has', 'had', 'do', 'does', 'did',
