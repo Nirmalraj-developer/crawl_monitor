@@ -131,7 +131,7 @@ const CONFIG = {
     'the', 'and', 'for', 'with', 'that', 'this', 'from', 'our', 'all', 'more',
     'your', 'you', 'are', 'was', 'were', 'been', 'will', 'have', 'has', 'had',
     'about', 'into', 'across', 'their', 'one', 'two', 'three', 'out', 'what',
-    'over', 'when', 'which', 'who', 'how', 'its', 'not', 'can', 'than', 'them'
+    'over', 'when', 'which', 'who', 'how', 'its', 'can', 'than', 'them'
   ]),
 
   COMMERCIAL_KEYWORDS: [
@@ -3864,6 +3864,18 @@ async function main() {
 
       recordResult(result);
       console.log(JSON.stringify(result, null, 2));
+
+      if (args.includes('--report')) {
+        const { buildReport } = require('./report_builder');
+        const rep = buildReport(result, oldJson, liveCrawl);
+        const outDir = path.resolve(process.cwd(), 'results');
+        if (!fs.existsSync(outDir)) {
+          fs.mkdirSync(outDir, { recursive: true });
+        }
+        const outPath = path.join(outDir, `${targetDomain}_report.json`);
+        fs.writeFileSync(outPath, JSON.stringify(rep, null, 2), 'utf8');
+        console.log(`\n[Report] JSON report saved to: ${outPath}`);
+      }
     } catch (err) {
       const reason = classifyErrorReason(err);
       console.error(`[Comparator Error] Failed to process ${targetDomain} (${reason}): ${err.message}`);
@@ -4015,10 +4027,13 @@ async function main() {
     return;
   }
 
-  // Mode: node comparator.js <old.json> <new.json>
-  if (args.length >= 2 && !args[0].startsWith('--')) {
-    const oldPath = path.resolve(process.cwd(), args[0]);
-    const newPath = path.resolve(process.cwd(), args[1]);
+  const wantReport = args.includes('--report');
+
+  // Mode: node comparator.js <old.json> <new.json> [--report]
+  const fileArgs = args.filter(a => !a.startsWith('--'));
+  if (fileArgs.length >= 2) {
+    const oldPath = path.resolve(process.cwd(), fileArgs[0]);
+    const newPath = path.resolve(process.cwd(), fileArgs[1]);
 
     if (!fs.existsSync(oldPath) || !fs.existsSync(newPath)) {
       console.error('[Comparator Error] One or both input files do not exist.');
@@ -4029,14 +4044,27 @@ async function main() {
     const newJson = JSON.parse(fs.readFileSync(newPath, 'utf8'));
     const result = compareCrawls(oldJson, newJson);
     console.log(JSON.stringify(result, null, 2));
+
+    if (wantReport) {
+      const { buildReport } = require('./report_builder');
+      const rep = buildReport(result, oldJson, newJson);
+      const targetDomain = result.domain || rep.domain || 'report';
+      const outDir = path.resolve(process.cwd(), 'results');
+      if (!fs.existsSync(outDir)) {
+        fs.mkdirSync(outDir, { recursive: true });
+      }
+      const outPath = path.join(outDir, `${targetDomain}_report.json`);
+      fs.writeFileSync(outPath, JSON.stringify(rep, null, 2), 'utf8');
+      console.log(`\n[Report] JSON report saved to: ${outPath}`);
+    }
     return;
   }
 
   console.log(`
 Usage:
   node comparator.js --selftest
-  node comparator.js <old.json> <new.json>
-  node comparator.js --domain <domain> [--save-baseline]
+  node comparator.js <old.json> <new.json> [--report]
+  node comparator.js --domain <domain> [--save-baseline] [--report]
   node comparator.js --batch <domains.txt> [--concurrency <num>] [--save-baseline]
   node comparator.js --confirm [--confirm-delay <sec>] [--domain <domain>]
   node comparator.js --accept <domain>

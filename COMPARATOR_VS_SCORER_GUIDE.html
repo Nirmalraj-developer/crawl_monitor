@@ -1292,6 +1292,46 @@
           <div class="result-pill comparator">Verdict: [LOG_ONLY] Cosmetic JSON structure shift</div>
         </div>
       </div>
+    <!-- Section: Executive Banking Report Layer -->
+    <div id="report-layer" style="margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color);">
+      <div style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(192, 132, 252, 0.08)); border: 1px solid var(--border-color); border-radius: 14px; padding: 30px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+          <div>
+            <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 4px;">Executive Banking Report Layer (report_builder.js)</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Automated, print-ready, plain-language reporting designed specifically for bank relationship managers.</p>
+          </div>
+          <span class="badge" style="background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); font-size: 0.85rem; padding: 6px 14px;">CLI: --report</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 24px;">
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px;">
+            <h4 style="color: var(--accent-blue); margin-bottom: 10px; font-size: 1.05rem;">1. Plain-Language Translation</h4>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+              Translates technical crawl metrics and Jaccard similarity into non-technical corporate banking terms. Replaces technical terms (e.g. "Previous record" instead of baseline, "Today's check" instead of live crawl). Enforces a strict ban list preventing internal jargon from reaching bank members.
+            </p>
+          </div>
+
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px;">
+            <h4 style="color: var(--accent-purple); margin-bottom: 10px; font-size: 1.05rem;">2. Word-Level Inline Diffs</h4>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+              Utilizes the <code>diff</code> engine (<code>diffWords</code>) on descriptions and titles. Highlights additions in soft green (<ins style="background: rgba(52, 211, 153, 0.2); color: #34d399; text-decoration: none; padding: 1px 4px; border-radius: 3px;">added</ins>) and removals in struck-through red (<del style="background: rgba(251, 113, 133, 0.2); color: #fb7185; padding: 1px 4px; border-radius: 3px;">removed</del>).
+            </p>
+          </div>
+
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px;">
+            <h4 style="color: var(--accent-emerald); margin-bottom: 10px; font-size: 1.05rem;">3. Banking Risk Context &amp; Actions</h4>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+              Maps detected changes to bank-specific "Why it matters" and "Recommended action" guidance (e.g., triggering mandatory callback verification on telephone adjustments, or certificate of incorporation review on rebrands).
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; background: var(--code-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--text-main);">
+          <div style="color: var(--text-muted); margin-bottom: 6px;"># Generate self-contained HTML report saved to results/reports/&lt;domain&gt;_&lt;date&gt;.html:</div>
+          <div>node comparator.js data/old/whitestudiolondon.com.json data/new/whitestudiolondon.com.json --report</div>
+          <div style="margin-top: 6px;">node comparator.js --domain whitestudiolondon.com --report</div>
+        </div>
+      </div>
     </div>
 
   </div>

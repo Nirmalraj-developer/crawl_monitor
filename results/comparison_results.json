@@ -1,11 +1,11 @@
 [
   {
     "domain": "whitestudiolondon.com",
-    "compared_at": "2026-10-07T07:31:59.310Z",
+    "compared_at": "2026-10-07T08:47:18.997Z",
     "total_change_score": 60,
     "change_level": "HIGH",
     "has_meaningful_change": true,
-    "summary": "Changed: description, social links, catalog routes, ip country, load time_ms, name from_title, other links | Not found in crawl: company name, phone, address, registration number, clearbit name",
+    "summary": "Changed: description, social links, catalog routes, host ip, ip country, load time_ms, name from_title, other links | Not found in crawl: company name, phone, address, registration number, clearbit name",
     "fields": {
       "company_name": {
         "old": "White Studio",
@@ -374,20 +374,20 @@
       },
       "host_ip": {
         "old": "172.66.3.8",
-        "new": "172.66.3.8",
-        "status": "UNCHANGED",
+        "new": "162.159.143.12",
+        "status": "MODIFIED",
         "score": 0,
         "similarity": null,
         "independent": {
           "score": 0,
-          "status": "UNCHANGED",
-          "verdict": "Host IP matches (\"172.66.3.8\")."
+          "status": "MODIFIED",
+          "verdict": "Host IP shifted from \"172.66.3.8\" to \"162.159.143.12\"."
         },
         "dependent": {
-          "tier": "unchanged",
-          "corroborated": true,
-          "confidence": 1,
-          "evidence": "Field verified unchanged across records and page text.",
+          "tier": "log_only",
+          "corroborated": false,
+          "confidence": 0.5,
+          "evidence": "Host IP shifted from \"172.66.3.8\" to \"162.159.143.12\".",
           "needs_confirmation": false
         }
       },
@@ -450,20 +450,20 @@
       },
       "load_time_ms": {
         "old": 131,
-        "new": 249,
+        "new": 170,
         "status": "MODIFIED",
         "score": 0,
         "similarity": null,
         "independent": {
           "score": 0,
           "status": "MODIFIED",
-          "verdict": "Load Time shifted from \"131\" to \"249\"."
+          "verdict": "Load Time shifted from \"131\" to \"170\"."
         },
         "dependent": {
           "tier": "log_only",
           "corroborated": false,
           "confidence": 0.5,
-          "evidence": "Load Time shifted from \"131\" to \"249\".",
+          "evidence": "Load Time shifted from \"131\" to \"170\".",
           "needs_confirmation": false
         }
       },
@@ -675,8 +675,8 @@
       },
       "baseline_gaps": [],
       "http_response_code": "200",
-      "host_ip": "172.66.3.8",
-      "load_time_ms": 249,
+      "host_ip": "162.159.143.12",
+      "load_time_ms": 170,
       "home_content_length": 2775
     },
     "db_baseline_profile": {

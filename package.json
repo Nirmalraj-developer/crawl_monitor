@@ -8,6 +8,7 @@
     "test": "node comparator.js --selftest"
   },
   "dependencies": {
+    "diff": "^9.0.0",
     "libphonenumber-js": "1.11.18",
     "pg": "^8.23.1",
     "tldts": "6.1.65"

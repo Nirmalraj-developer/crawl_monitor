@@ -1,0 +1,147 @@
+{
+  "verdicts": {
+    "action_needed": {
+      "badge": "Action Needed",
+      "summary": "Critical updates detected that may affect account verification or risk status.",
+      "class": "verdict-action"
+    },
+    "review_recommended": {
+      "badge": "Review Recommended",
+      "summary": "Noteworthy updates observed. Review during the next customer contact.",
+      "class": "verdict-review"
+    },
+    "no_material_change": {
+      "badge": "No Material Change",
+      "summary": "Customer details remain consistent with previous records.",
+      "class": "verdict-stable"
+    },
+    "could_not_verify": {
+      "badge": "Could Not Verify",
+      "summary": "Today's check could not reach the website or retrieve sufficient details.",
+      "class": "verdict-unverified"
+    }
+  },
+  "confidence_levels": {
+    "high": "High confidence",
+    "moderate": "Moderate confidence",
+    "low": "Preliminary observation"
+  },
+  "change_categories": {
+    "registration_number": {
+      "label": "Company Registration",
+      "why_it_matters": "A change in registered company number indicates a possible corporate restructuring, change of legal entity, or change of ownership that requires statutory verification.",
+      "recommended_action": "Request updated corporate documentation or official registrar extract before processing account changes."
+    },
+    "legal_entity": {
+      "label": "Legal Entity Name",
+      "why_it_matters": "A modification in legal entity or corporate designation directly affects account mandates, invoicing, and legal agreements.",
+      "recommended_action": "Obtain updated certificate of incorporation and refresh client verification documents."
+    },
+    "rebrand": {
+      "label": "Brand / Trading Name",
+      "why_it_matters": "A new trading name affects payment routing, brand identity, and anti-fraud naming checks.",
+      "recommended_action": "Confirm registered trade names with the business owner and update account trading aliases."
+    },
+    "office_relocated": {
+      "label": "Operating Address",
+      "why_it_matters": "Relocation alters geographic risk ratings, jurisdiction, and legal notice delivery.",
+      "recommended_action": "Obtain current proof of address (such as a utility invoice or registered office filing) prior to record update."
+    },
+    "address": {
+      "label": "Business Address",
+      "why_it_matters": "Physical location adjustments impact compliance jurisdiction and operational risk profile.",
+      "recommended_action": "Request proof of address to confirm new premises."
+    },
+    "phone": {
+      "label": "Telephone Number",
+      "why_it_matters": "Telephone numbers serve as primary verification channels. Unannounced changes may present communication or fraud risks.",
+      "recommended_action": "Execute callback verification using previously authorized contact numbers before changing bank records."
+    },
+    "email": {
+      "label": "Email Address",
+      "why_it_matters": "Email addresses are used for transactional notices and account authentication. Unverified changes increase security risks.",
+      "recommended_action": "Send confirmation request through authorized secondary channels."
+    },
+    "domain_redirect": {
+      "label": "Website Redirection",
+      "why_it_matters": "The company website redirects to an alternate domain, which can signal a corporate merger, rebranding, or domain lapse.",
+      "recommended_action": "Verify domain ownership and whether banking relationships extend to the destination domain."
+    },
+    "site_down": {
+      "label": "Website Availability",
+      "why_it_matters": "The site is unreachable or displays connection failures, which may indicate operational disruption or trading cessation.",
+      "recommended_action": "Reach out to the relationship team and evaluate recent transaction velocity."
+    },
+    "site_parked": {
+      "label": "Parked Domain",
+      "why_it_matters": "The website shows a placeholder or domain-for-sale notice, indicating the business may have ceased online operations.",
+      "recommended_action": "Initiate an urgent account review to determine business trading continuity."
+    },
+    "catalog_expanded": {
+      "label": "Commercial Catalog Offerings",
+      "why_it_matters": "Significant expansion in product or service offerings may indicate diversification or expansion into new business sectors.",
+      "recommended_action": "Record changes in relationship notes for upcoming periodic review."
+    },
+    "subdomain": {
+      "label": "Connected Web Platform",
+      "why_it_matters": "New client portals or login platforms indicate expanded digital operations.",
+      "recommended_action": "Note newly identified client platform in relationship file."
+    },
+    "description": {
+      "label": "Business Summary",
+      "why_it_matters": "Updates to business summary reflect evolving market positioning or product scope.",
+      "recommended_action": "Keep for background information during periodic account reviews."
+    },
+    "general": {
+      "label": "General Profile Detail",
+      "why_it_matters": "Informational adjustment reflecting public website maintenance.",
+      "recommended_action": "Save to client file for future reference."
+    }
+  },
+  "reasons": {
+    "legal_suffix": "Standard corporate designation update (e.g., Ltd, Inc)",
+    "wording_edit": "Minor wording adjustment",
+    "tracking_param": "Web link tracking parameter update",
+    "whitespace": "Spacing or layout formatting adjustment",
+    "baseline_stale_meta": "Routine website refresh with consistent core content",
+    "coverage_difference": "Navigation variance between website sections",
+    "structure_shift": "Page layout adjustment",
+    "cosmetic": "Minor stylistic revision"
+  },
+  "labels": {
+    "companyName": "Legal company name",
+    "company_name": "Company name",
+    "name": "Company name",
+    "nameFromTitle": "Website title company name",
+    "nameFromCopyright": "Copyright owner name",
+    "clearbitName": "Brand name",
+    "phone": "Telephone number",
+    "phoneFormatted": "Formatted telephone number",
+    "email": "Primary email address",
+    "genericEmail": "General inquiry email",
+    "nonGenericEmail": "Direct contact email",
+    "address": "Registered / operating address",
+    "postal_code": "Postal code",
+    "registration_number": "Company registration number",
+    "title": "Website page title",
+    "description": "Business description",
+    "language": "Website language",
+    "domainStatus": "Website availability status",
+    "url": "Website address",
+    "redirection": "Web redirection destination",
+    "responseCode": "Server connection status",
+    "subdomain": "Connected web platform",
+    "socialLinks": "Social media presence",
+    "social_facebook": "Facebook account",
+    "social_instagram": "Instagram account",
+    "social_linkedin": "LinkedIn profile",
+    "social_twitter": "X (Twitter) profile",
+    "productLinks": "Product offerings",
+    "serviceLinks": "Service offerings",
+    "catalog_routes": "Product and service offerings",
+    "homeContent": "Homepage text content",
+    "imageUrl": "Company brand logo",
+    "fax": "Fax number"
+  }
+}
+

@@ -252,24 +252,30 @@ async function processDomain(domain, dbClient = null) {
     atomicWriteJson(newSnapshotPath, liveCrawlJson);
     console.log(`[Crawler] Live crawl saved to: data/new/${targetDomain}.json`);
   } catch (crawlErr) {
-    console.error(`[Crawler Error] Failed to crawl ${targetDomain}: ${crawlErr.message}`);
-    const errReport = {
-      domain: targetDomain,
-      compared_at: new Date().toISOString(),
-      status: 'error',
-      reason: crawlErr.message,
-      has_meaningful_change: false,
-      has_pending_confirmation: false,
-      summary: `Live crawl failed: ${crawlErr.message}`,
-      changes: [],
-      noise_detected: [],
-      unchanged_fields: [],
-      not_found_fields: [],
-    };
+    const localNewPath = path.resolve(process.cwd(), 'data', 'new', `${targetDomain}.json`);
+    if (fs.existsSync(localNewPath)) {
+      console.log(`[Crawler Fallback] API unavailable (${crawlErr.message}). Using local snapshot: data/new/${targetDomain}.json`);
+      liveCrawlJson = JSON.parse(fs.readFileSync(localNewPath, 'utf8'));
+    } else {
+      console.error(`[Crawler Error] Failed to crawl ${targetDomain}: ${crawlErr.message}`);
+      const errReport = {
+        domain: targetDomain,
+        compared_at: new Date().toISOString(),
+        status: 'error',
+        reason: crawlErr.message,
+        has_meaningful_change: false,
+        has_pending_confirmation: false,
+        summary: `Live crawl failed: ${crawlErr.message}`,
+        changes: [],
+        noise_detected: [],
+        unchanged_fields: [],
+        not_found_fields: [],
+      };
 
-    const errReportPath = path.resolve(process.cwd(), 'results', `${targetDomain}_report.json`);
-    atomicWriteJson(errReportPath, errReport);
-    return errReport;
+      const errReportPath = path.resolve(process.cwd(), 'results', `${targetDomain}_report.json`);
+      atomicWriteJson(errReportPath, errReport);
+      return errReport;
+    }
   }
 
   // If no baseline was found on DB or locally, save fresh crawl as the initial baseline
