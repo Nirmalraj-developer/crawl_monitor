@@ -257,6 +257,106 @@ function scoreTitle(oldVal, newVal) {
 }
 
 /**
+ * Evaluates tagline
+ */
+function scoreTagline(oldVal, newVal) {
+  const oldT = cleanStr(oldVal);
+  const newT = cleanStr(newVal);
+  if (!oldT && !newT) return { status: 'UNCHANGED', score: 0, description: 'No tagline in old or new record.' };
+  if (!oldT && newT) return { status: 'ADDED', score: 5, description: `Tagline newly added: "${newVal}"` };
+  if (oldT && !newT) return { status: 'NOT_FOUND_IN_CRAWL', score: 5, description: `Tagline "${oldVal}" not found in live crawl.` };
+  if (oldT.toLowerCase() === newT.toLowerCase()) return { status: 'UNCHANGED', score: 0, description: 'Tagline matches.' };
+  return { status: 'MODIFIED', score: 5, description: `Tagline updated from "${oldVal}" to "${newVal}".` };
+}
+
+/**
+ * Evaluates registration number
+ */
+function scoreRegistrationNumber(oldVal, newVal) {
+  const oldReg = cleanStr(oldVal).replace(/\s+/g, '');
+  const newReg = cleanStr(newVal).replace(/\s+/g, '');
+  if (!oldReg && !newReg) return { status: 'UNCHANGED', score: 0, description: 'No registration number in old or new record.' };
+  if (!oldReg && newReg) return { status: 'ADDED', score: 5, description: `Registration number newly found: "${newVal}"` };
+  if (oldReg && !newReg) return { status: 'NOT_FOUND_IN_CRAWL', score: 5, description: `Registration number "${oldVal}" not found in live crawl.` };
+  if (oldReg.toLowerCase() === newReg.toLowerCase()) return { status: 'UNCHANGED', score: 0, description: 'Registration number matches.' };
+  return { status: 'MODIFIED', score: 25, description: `Registration number changed from "${oldVal}" to "${newVal}".` };
+}
+
+/**
+ * Evaluates postal code
+ */
+function scorePostalCode(oldVal, newVal) {
+  const oldP = cleanStr(oldVal).toUpperCase().replace(/\s+/g, '');
+  const newP = cleanStr(newVal).toUpperCase().replace(/\s+/g, '');
+  if (!oldP && !newP) return { status: 'UNCHANGED', score: 0, description: 'No postal code in old or new record.' };
+  if (!oldP && newP) return { status: 'ADDED', score: 5, description: `Postal code newly found: "${newVal}"` };
+  if (oldP && !newP) return { status: 'NOT_FOUND_IN_CRAWL', score: 5, description: `Postal code "${oldVal}" not found in live crawl.` };
+  if (oldP === newP) return { status: 'UNCHANGED', score: 0, description: 'Postal code matches.' };
+  return { status: 'MODIFIED', score: 10, description: `Postal code changed from "${oldVal}" to "${newVal}".` };
+}
+
+/**
+ * Evaluates social links
+ */
+function scoreSocialLinks(oldLinks = {}, newLinks = {}) {
+  const platforms = ['linkedin', 'twitter', 'facebook', 'instagram', 'youtube', 'github'];
+  const oldClean = oldLinks || {};
+  const newClean = newLinks || {};
+  let changed = [];
+  let added = [];
+  let matching = 0;
+
+  for (const p of platforms) {
+    const o = cleanStr(oldClean[p]);
+    const n = cleanStr(newClean[p]);
+    if (o && n) {
+      if (o.toLowerCase() === n.toLowerCase()) matching++;
+      else changed.push(p);
+    } else if (!o && n) {
+      added.push(p);
+    }
+  }
+
+  if (changed.length > 0) {
+    return { status: 'MODIFIED', score: 5, description: `Social profile handle changed for: ${changed.join(', ')}.` };
+  }
+  if (added.length > 0) {
+    return { status: 'ADDED', score: 5, description: `New social profile links discovered: ${added.join(', ')}.` };
+  }
+  return { status: 'UNCHANGED', score: 0, description: 'Social profiles match baseline or remain steady.' };
+}
+
+/**
+ * Evaluates catalog routes
+ */
+function scoreCatalogRoutes(oldRoutes = [], newRoutes = []) {
+  const oldSet = new Set((oldRoutes || []).map((r) => String(r).toLowerCase().replace(/\/$/, '')));
+  const newSet = new Set((newRoutes || []).map((r) => String(r).toLowerCase().replace(/\/$/, '')));
+
+  if (oldSet.size === 0 && newSet.size === 0) {
+    return { status: 'UNCHANGED', score: 0, description: 'No catalog routes listed in old or new record.' };
+  }
+
+  let added = 0;
+  for (const r of newSet) {
+    if (!oldSet.has(r)) added++;
+  }
+  let removed = 0;
+  for (const r of oldSet) {
+    if (!newSet.has(r)) removed++;
+  }
+
+  if (added === 0 && removed === 0) {
+    return { status: 'UNCHANGED', score: 0, description: `All ${oldSet.size} catalog routes match.` };
+  }
+  return {
+    status: 'MODIFIED',
+    score: 10,
+    description: `Catalog routes updated (${added} new routes discovered, ${removed} removed).`,
+  };
+}
+
+/**
  * Evaluates URL / Website redirection
  * Weight: 20 pts max
  */
@@ -287,12 +387,18 @@ function scoreUrl(oldUrl, newUrl) {
 /**
  * Main Direct Field Scorer
  * Takes the old record and new record (from crawler data[0] or DB profile)
- * and returns a clear, transparent scored report.
+ * and returns a clear, transparent scored report for ALL fields.
  */
 function scoreCompanyChanges(oldRecord = {}, newRecord = {}) {
   // Extract values directly for each field
   const oldCompany = oldRecord.companyName || oldRecord.name || oldRecord.company_name || null;
   const newCompany = newRecord.companyName || newRecord.name || newRecord.company_name || null;
+
+  const oldTitle = oldRecord.title || null;
+  const newTitle = newRecord.title || null;
+
+  const oldTagline = oldRecord.tagline || null;
+  const newTagline = newRecord.tagline || null;
 
   const oldDesc = oldRecord.description || oldRecord.summary || null;
   const newDesc = newRecord.description || newRecord.summary || null;
@@ -306,18 +412,45 @@ function scoreCompanyChanges(oldRecord = {}, newRecord = {}) {
   const oldAddress = oldRecord.address || null;
   const newAddress = newRecord.address || null;
 
-  const oldTitle = oldRecord.title || null;
-  const newTitle = newRecord.title || null;
+  const oldPostal = oldRecord.postal_code || oldRecord.postalCode || null;
+  const newPostal = newRecord.postal_code || newRecord.postalCode || null;
+
+  const oldReg = oldRecord.registration_number || oldRecord.companyNumber || null;
+  const newReg = newRecord.registration_number || newRecord.companyNumber || null;
 
   const oldUrl = oldRecord.url || oldRecord.website || null;
   const newUrl = newRecord.url || newRecord.website || null;
 
-  // Compute field scores directly
+  const oldSocial = oldRecord.socialLinks || {};
+  const newSocial = newRecord.socialLinks || {};
+
+  const oldCatalog = [
+    ...(oldRecord.productLinks || []),
+    ...(oldRecord.serviceLinks || []),
+    ...(oldRecord.ecommerceLinks || []),
+  ];
+  const newCatalog = [
+    ...(newRecord.productLinks || []),
+    ...(newRecord.serviceLinks || []),
+    ...(newRecord.ecommerceLinks || []),
+  ];
+
+  // Compute field scores directly for ALL fields
   const fields = {
     company_name: {
       old: oldCompany,
       new: newCompany,
       ...scoreCompanyName(oldCompany, newCompany),
+    },
+    title: {
+      old: oldTitle,
+      new: newTitle,
+      ...scoreTitle(oldTitle, newTitle),
+    },
+    tagline: {
+      old: oldTagline,
+      new: newTagline,
+      ...scoreTagline(oldTagline, newTagline),
     },
     description: {
       old: oldDesc,
@@ -339,15 +472,30 @@ function scoreCompanyChanges(oldRecord = {}, newRecord = {}) {
       new: newAddress,
       ...scoreAddress(oldAddress, newAddress),
     },
-    title: {
-      old: oldTitle,
-      new: newTitle,
-      ...scoreTitle(oldTitle, newTitle),
+    postal_code: {
+      old: oldPostal,
+      new: newPostal,
+      ...scorePostalCode(oldPostal, newPostal),
+    },
+    registration_number: {
+      old: oldReg,
+      new: newReg,
+      ...scoreRegistrationNumber(oldReg, newReg),
     },
     website: {
       old: oldUrl,
       new: newUrl,
       ...scoreUrl(oldUrl, newUrl),
+    },
+    social_links: {
+      old: oldSocial,
+      new: newSocial,
+      ...scoreSocialLinks(oldSocial, newSocial),
+    },
+    catalog_routes: {
+      old: oldCatalog,
+      new: newCatalog,
+      ...scoreCatalogRoutes(oldCatalog, newCatalog),
     },
   };
 
