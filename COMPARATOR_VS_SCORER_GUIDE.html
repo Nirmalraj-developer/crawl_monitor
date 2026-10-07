@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparator vs Scorer: Complete Functional Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #24344d;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --code-bg: #090d16;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    header h1 {
+      font-size: 2.75rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    header p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 50px;
+    }
+
+    .concept-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .concept-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+
+    .concept-card.scorer::before {
+      background: linear-gradient(90deg, #38bdf8, #3b82f6);
+    }
+
+    .concept-card.comparator::before {
+      background: linear-gradient(90deg, #c084fc, #a855f7);
+    }
+
+    .concept-card h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .badge.scorer { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge.comparator { background: rgba(192, 132, 252, 0.15); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.3); }
+    .badge.unchanged { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+    .badge.modified { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+    .badge.not-found { background: rgba(251, 113, 133, 0.15); color: #fb7185; }
+
+    .field-section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #e2e8f0;
+    }
+
+    .field-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      margin-bottom: 24px;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .field-card:hover {
+      border-color: #475569;
+    }
+
+    .field-header {
+      padding: 20px 24px;
+      background: rgba(15, 23, 42, 0.6);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .field-name {
+      font-family: 'Fira Code', monospace;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #38bdf8;
+    }
+
+    .field-body {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .concept-grid, .field-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .op-box {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .op-box h4 {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .op-box.scorer h4 { color: #38bdf8; }
+    .op-box.comparator h4 { color: #c084fc; }
+
+    .step-list {
+      list-style: none;
+    }
+
+    .step-list li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+      font-size: 0.92rem;
+      color: #cbd5e1;
+    }
+
+    .step-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent-blue);
+      font-weight: bold;
+    }
+
+    .op-box.comparator .step-list li::before {
+      color: var(--accent-purple);
+    }
+
+    .example-box {
+      margin-top: 16px;
+      background: var(--code-bg);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      border: 1px solid #1e293b;
+    }
+
+    .example-title {
+      color: #64748b;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .example-val {
+      color: #e2e8f0;
+      margin-bottom: 4px;
+      word-break: break-all;
+    }
+
+    .example-val span {
+      color: #94a3b8;
+    }
+
+    .result-pill {
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .result-pill.scorer {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: #bae6fd;
+    }
+
+    .result-pill.comparator {
+      background: rgba(192, 132, 252, 0.1);
+      border: 1px solid rgba(192, 132, 252, 0.25);
+      color: #e9d5ff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    th, td {
+      padding: 14px 18px;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+
+    th {
+      background: rgba(15, 23, 42, 0.8);
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    td {
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .callout {
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 4px solid #3b82f6;
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 30px;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Comparator vs Field Scorer</h1>
+      <p>A complete operational explanation of how both engines evaluate each company field, step by step, using <strong>whitestudiolondon.com</strong> as a live reference.</p>
+    </header>
+
+    <div class="callout">
+      <strong>Core Purpose:</strong> The <strong>Field Scorer</strong> provides a clean, independent 0–100 mathematical business score for every field. The <strong>Comparator</strong> performs deep technical checks, corroborating signals across multiple pages to reject scraping artifacts and noise. Both run together to output a single unified verdict.
+    </div>
+
+    <!-- High-level Concept Grid -->
+    <div class="concept-grid">
+      <div class="concept-card scorer">
+        <h2>
+          <span>Field Scorer</span>
+          <span class="badge scorer">Independent Math</span>
+        </h2>
+        <p style="color: var(--text-muted); margin-bottom: 16px;">
+          <strong>What it is:</strong> A pure 1-to-1 evaluator. It takes the previous DB baseline value and compares it solely to the crawled value of the same field.
+        </p>
+        <ul class="step-list">
+          <li><strong>No cross-field noise:</strong> Never checks secondary fields or outside tags.</li>
+          <li><strong>Deterministic Points:</strong> Assigns scores (0 to 25 pts) based on exact string match, Levenshtein/Jaccard similarity, or absence.</li>
+          <li><strong>Unchanged Guarantee:</strong> If a field is identical, it always yields 0 pts with status <code>UNCHANGED</code>.</li>
+        </ul>
+      </div>
+
+      <div class="concept-card comparator">
+        <h2>
+          <span>Comparator Engine</span>
+          <span class="badge comparator">Deep Corroboration</span>
+        </h2>
+        <p style="color: var(--text-muted); margin-bottom: 16px;">
+          <strong>What it is:</strong> A forensic validator. It checks whether a detected field difference is real, corroborated by other pages, or just scraping noise.
+        </p>
+        <ul class="step-list">
+          <li><strong>Cross-field validation:</strong> Validates brand from title, copyright, and Clearbit.</li>
+          <li><strong>Noise Guards:</strong> Caps uncorroborated rewrites at <code>log_only</code> if the underlying page content didn't change.</li>
+          <li><strong>Baseline Quality Detection:</strong> Flags when the DB baseline was missing pages or links.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FIELD BY FIELD DETAILED BREAKDOWN -->
+    <div class="field-section">
+      <h2 class="section-title">Field-by-Field Operational Breakdown</h2>
+
+      <!-- 1. COMPANY NAME -->
+      <div class="field-card">
+        <div class="field-header">
+          <div>
+            <span class="field-name">company_name</span>
+            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Max Weight: 25 pts)</span>
+          </div>
+          <div>
+            <span class="badge not-found">NOT_FOUND_IN_CRAWL</span>
+            <span class="badge scorer" style="margin-left: 6px;">Score: 10 / 25</span>
+          </div>
+        </div>
+        <div class="field-body">
+          <div class="op-box scorer">
+            <h4>Field Scorer Operation</h4>
+            <ul class="step-list">
+              <li>Reads <code>old.companyName</code> ("White Studio") and <code>new.companyName</code> (null).</li>
+              <li>Checks if both are non-empty. Since <code>new.companyName</code> is null, direct match fails.</li>
+              <li>Detects that the company name was previously known but missing in the live crawl.</li>
+              <li>Assigns <strong>10 points</strong> change penalty with status <code>NOT_FOUND_IN_CRAWL</code>.</li>
+            </ul>
+            <div class="result-pill scorer">
+              <span>Independent Verdict:</span>
+              <strong>Company name not found in live crawl header (+10 pts)</strong>
+            </div>
+          </div>
+
+          <div class="op-box comparator">
+            <h4>Comparator Operation</h4>
+            <ul class="step-list">
+              <li>Inspects fallback signals: <code>nameFromCopyright</code>, <code>nameFromTitle</code>, <code>clearbitName</code>.</li>
+              <li>Discovers <code>nameFromCopyright: "White Studio"</code> in the crawl footer.</li>
+              <li>Determines that the company did <strong>NOT</strong> rebrand (it's still White Studio), but the crawler's heuristic merely failed to set the top-level name header.</li>
+              <li>Labels it <code>[NOT_FOUND]</code> and suppresses high-priority rebrand alert.</li>
+            </ul>
+            <div class="result-pill comparator">
+              <span>Dependent Verdict:</span>
+              <strong>[NOT_FOUND] Rebrand alert avoided (footer copyright matches)</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. DESCRIPTION -->
+      <div class="field-card">
+        <div class="field-header">
+          <div>
+            <span class="field-name">description</span>
+            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Max Weight: 20 pts)</span>
+          </div>
+          <div>
+            <span class="badge modified">MAJOR_CHANGE</span>
+            <span class="badge scorer" style="margin-left: 6px;">Score: 20 / 20</span>
+          </div>
+        </div>
+        <div class="field-body">
+          <div class="op-box scorer">
+            <h4>Field Scorer Operation</h4>
+            <ul class="step-list">
+              <li>Tokenizes old description (662 chars) and new description (353 chars) into unique words.</li>
+              <li>Calculates Jaccard word-overlap similarity: (Intersection / Union) = <strong>19% similarity</strong>.</li>
+              <li>Applies threshold: similarity &lt; 45% triggers <code>MAJOR_CHANGE</code>.</li>
+              <li>Assigns max weight: <strong>20 points</strong>.</li>
+            </ul>
+            <div class="result-pill scorer">
+              <span>Independent Verdict:</span>
+              <strong>Substantially rewritten (19% similarity) (+20 pts)</strong>
+            </div>
+          </div>
+
+          <div class="op-box comparator">
+            <h4>Comparator Operation</h4>
+            <ul class="step-list">
+              <li>Applies <strong>Non-Circular Corroboration Rule</strong>: a description change is only trusted if corroborated by a thematic change in <code>homeContent</code> or commercial links.</li>
+              <li>Compares <code>homeContent</code>: detects the homepage body text is <strong>100% identical</strong>.</li>
+              <li>Concludes the change is purely meta-tag restyling, not a company pivot.</li>
+              <li>Downgrades priority tier to <code>[LOG_ONLY]</code> (reason: <code>baseline_stale_meta</code>).</li>
+            </ul>
+            <div class="result-pill comparator">
+              <span>Dependent Verdict:</span>
+              <strong>[LOG_ONLY] Uncorroborated by homepage body</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. PHONE -->
+      <div class="field-card">
+        <div class="field-header">
+          <div>
+            <span class="field-name">phone</span>
+            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Max Weight: 15 pts)</span>
+          </div>
+          <div>
+            <span class="badge not-found">NOT_FOUND_IN_CRAWL</span>
+            <span class="badge scorer" style="margin-left: 6px;">Score: 5 / 15</span>
+          </div>
+        </div>
+        <div class="field-body">
+          <div class="op-box scorer">
+            <h4>Field Scorer Operation</h4>
+            <ul class="step-list">
+              <li>Normalizes old phone <code>"020 8368 1500"</code> to raw digits <code>2083681500</code>.</li>
+              <li>Checks new crawl header: returns null.</li>
+              <li>Flags that existing baseline phone was not extracted in live crawl.</li>
+              <li>Assigns <strong>5 points</strong> penalty with status <code>NOT_FOUND_IN_CRAWL</code>.</li>
+            </ul>
+            <div class="result-pill scorer">
+              <span>Independent Verdict:</span>
+              <strong>Phone "020 8368 1500" not found in live header (+5 pts)</strong>
+            </div>
+          </div>
+
+          <div class="op-box comparator">
+            <h4>Comparator Operation</h4>
+            <ul class="step-list">
+              <li>Contextual regex scan: searches crawl page HTML for <code>tel:</code> links or nearby labels ("phone", "call", "t:").</li>
+              <li>Checks registration number guard: rejects any number matching UK legal company ID <code>08742433</code>.</li>
+              <li>Requires 2+ independent sources to confirm a phone alteration before alerting.</li>
+              <li>Labels header status <code>[NOT_FOUND]</code>.</li>
+            </ul>
+            <div class="result-pill comparator">
+              <span>Dependent Verdict:</span>
+              <strong>[NOT_FOUND] Missing from structured contact endpoints</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. EMAIL -->
+      <div class="field-card">
+        <div class="field-header">
+          <div>
+            <span class="field-name">email</span>
+            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Max Weight: 15 pts)</span>
+          </div>
+          <div>
+            <span class="badge unchanged">UNCHANGED</span>
+            <span class="badge scorer" style="margin-left: 6px;">Score: 0 / 15</span>
+          </div>
+        </div>
+        <div class="field-body">
+          <div class="op-box scorer">
+            <h4>Field Scorer Operation</h4>
+            <ul class="step-list">
+              <li>Cleans and lowercases: <code>"info@whitestudiolondon.com"</code> on both sides.</li>
+              <li>Checks string equality: Exact match!</li>
+              <li>Status: <code>UNCHANGED</code>, assigns <strong>0 points</strong>.</li>
+            </ul>
+            <div class="result-pill scorer">
+              <span>Independent Verdict:</span>
+              <strong>Email address matches perfectly (0 pts)</strong>
+            </div>
+          </div>
+
+          <div class="op-box comparator">
+            <h4>Comparator Operation</h4>
+            <ul class="step-list">
+              <li>Classifies email type: identified as a generic domain-matched address (<code>info@</code>).</li>
+              <li>Verifies domain alignment: domain matches <code>whitestudiolondon.com</code>.</li>
+              <li>Marks as confirmed unchanged across both database and crawl snapshots.</li>
+            </ul>
+            <div class="result-pill comparator">
+              <span>Dependent Verdict:</span>
+              <strong>[UNCHANGED] Confirmed identical across records</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. ADDRESS & REGISTRATION -->
+      <div class="field-card">
+        <div class="field-header">
+          <div>
+            <span class="field-name">address & registration_number</span>
+            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Weights: 15 & 25 pts)</span>
+          </div>
+          <div>
+            <span class="badge not-found">NOT_FOUND_IN_CRAWL</span>
+            <span class="badge scorer" style="margin-left: 6px;">Score: 5 + 5 pts</span>
+          </div>
+        </div>
+        <div class="field-body">
+          <div class="op-box scorer">
+            <h4>Field Scorer Operation</h4>
+            <ul class="step-list">
+              <li>Old DB address: <code>"Unit D3 Friarsgate, Park Royal London, NW10 7SE"</code>.</li>
+              <li>Old DB registration number: <code>"08742433"</code>.</li>
+              <li>New crawl header returns null for both fields.</li>
+              <li>Assigns <strong>5 pts</strong> each with status <code>NOT_FOUND_IN_CRAWL</code>.</li>
+            </ul>
+            <div class="result-pill scorer">
+              <span>Independent Verdict:</span>
+              <strong>Fields missing in live crawl header (+10 pts)</strong>
+            </div>
+          </div>
+
+          <div class="op-box comparator">
+            <h4>Comparator Operation</h4>
+            <ul class="step-list">
+              <li>Full text regex scan of contact and about page bodies for 8-digit company numbers.</li>
+              <li>Relocation check: verifies whether Google Maps links (<code>maps.google.com</code>) changed.</li>
+              <li>Since no new address was found to contradict the old one, marks as <code>[NOT_FOUND]</code> without raising a relocation alarm.</li>
+            </ul>
+            <div class="result-pill comparator">
+              <span>Dependent Verdict:</span>
+              <strong>[NOT_FOUND] No conflicting relocation detected</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. WEBSITE & TITLE -->
+      <div class="field-card">
+        <div class="field-header">
+          <div>
+            <span class="field-name">website & title</span>
+            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Weights: 20 & 10 pts)</span>
+          </div>
+          <div>
+            <span class="badge unchanged">UNCHANGED</span>
+            <span class="badge scorer" style="margin-left: 6px;">Score: 0 + 0 pts</span>
+          </div>
+        </div>
+        <div class="field-body">
+          <div class="op-box scorer">
+            <h4>Field Scorer Operation</h4>
+            <ul class="step-list">
+              <li>Website: extracts hostnames <code>whitestudiolondon.com</code> from both URLs. Exact match $\rightarrow$ <strong>0 pts</strong>.</li>
+              <li>Title: compares full title string: <code>"Wedding dress | White Studio Bridal | United Kingdom"</code>. Exact match $\rightarrow$ <strong>0 pts</strong>.</li>
+            </ul>
+            <div class="result-pill scorer">
+              <span>Independent Verdict:</span>
+              <strong>Website host and page title match completely (0 pts)</strong>
+            </div>
+          </div>
+
+          <div class="op-box comparator">
+            <h4>Comparator Operation</h4>
+            <ul class="step-list">
+              <li>Inspects HTTP response status (<code>200 OK</code>).</li>
+              <li>Verifies domain canonicalization (https vs non-www): safe apex mapping.</li>
+              <li>Marks both fields verified unchanged.</li>
+            </ul>
+            <div class="result-pill comparator">
+              <span>Dependent Verdict:</span>
+              <strong>[UNCHANGED] Verified canonical domain & title</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. SOCIAL LINKS & CATALOG -->
+      <div class="field-card">
+        <div class="field-header">
+          <div>
+            <span class="field-name">social_links & catalog_routes</span>
+            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Weights: 5 & 10 pts)</span>
+          </div>
+          <div>
+            <span class="badge modified">MODIFIED</span>
+            <span class="badge scorer" style="margin-left: 6px;">Score: 5 + 10 pts</span>
+          </div>
+        </div>
+        <div class="field-body">
+          <div class="op-box scorer">
+            <h4>Field Scorer Operation</h4>
+            <ul class="step-list">
+              <li>Social: LinkedIn handle had a tracking query parameter added (<code>?lipi=...</code>) $\rightarrow$ <strong>5 pts</strong>.</li>
+              <li>Catalog: Live crawl discovered 3 collection routes (<code>/collections/white-studio</code>) where DB array was empty $\rightarrow$ <strong>10 pts</strong>.</li>
+            </ul>
+            <div class="result-pill scorer">
+              <span>Independent Verdict:</span>
+              <strong>LinkedIn URL adjusted & catalog routes discovered (+15 pts)</strong>
+            </div>
+          </div>
+
+          <div class="op-box comparator">
+            <h4>Comparator Operation</h4>
+            <ul class="step-list">
+              <li>Applies <strong>Coverage Guard</strong>: recognizes that old DB had an unclassified catalog array due to pipeline differences.</li>
+              <li>Caps catalog change at <code>[LOG_ONLY]</code> (reason: <code>baseline_catalog_unclassified</code>).</li>
+            </ul>
+            <div class="result-pill comparator">
+              <span>Dependent Verdict:</span>
+              <strong>[LOG_ONLY] Suppressed as baseline coverage difference</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY TABLE -->
+    <h2 class="section-title">Final Scoring Matrix & Unified Output</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Weight</th>
+          <th>Old Value (DB Baseline)</th>
+          <th>New Value (Live Crawl)</th>
+          <th>Independent Score</th>
+          <th>Comparator Tier</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>company_name</strong></td>
+          <td>25 pts</td>
+          <td>"White Studio"</td>
+          <td>null</td>
+          <td><span class="badge not-found">Score: 10</span> (Missing in header)</td>
+          <td><span class="badge comparator">NOT_FOUND</span> (Copyright matches)</td>
+        </tr>
+        <tr>
+          <td><strong>description</strong></td>
+          <td>20 pts</td>
+          <td>"At White Studio London..." (662 ch)</td>
+          <td>"White Studio Bridal..." (353 ch)</td>
+          <td><span class="badge modified">Score: 20</span> (19% similarity)</td>
+          <td><span class="badge comparator">LOG_ONLY</span> (homeContent identical)</td>
+        </tr>
+        <tr>
+          <td><strong>phone</strong></td>
+          <td>15 pts</td>
+          <td>"020 8368 1500"</td>
+          <td>null</td>
+          <td><span class="badge not-found">Score: 5</span> (Missing in header)</td>
+          <td><span class="badge comparator">NOT_FOUND</span></td>
+        </tr>
+        <tr>
+          <td><strong>email</strong></td>
+          <td>15 pts</td>
+          <td>"info@whitestudiolondon.com"</td>
+          <td>"info@whitestudiolondon.com"</td>
+          <td><span class="badge unchanged">Score: 0</span> (Exact match)</td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
+        <tr>
+          <td><strong>address</strong></td>
+          <td>15 pts</td>
+          <td>"Unit D3 Friarsgate..."</td>
+          <td>null</td>
+          <td><span class="badge not-found">Score: 5</span></td>
+          <td><span class="badge comparator">NOT_FOUND</span></td>
+        </tr>
+        <tr>
+          <td><strong>registration_number</strong></td>
+          <td>25 pts</td>
+          <td>"08742433"</td>
+          <td>null</td>
+          <td><span class="badge not-found">Score: 5</span></td>
+          <td><span class="badge comparator">NOT_FOUND</span></td>
+        </tr>
+        <tr>
+          <td><strong>title</strong></td>
+          <td>10 pts</td>
+          <td>"Wedding dress | White Studio..."</td>
+          <td>"Wedding dress | White Studio..."</td>
+          <td><span class="badge unchanged">Score: 0</span></td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
+        <tr>
+          <td><strong>website</strong></td>
+          <td>20 pts</td>
+          <td>https://www.whitestudiolondon.com</td>
+          <td>https://www.whitestudiolondon.com/</td>
+          <td><span class="badge unchanged">Score: 0</span></td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
+        <tr>
+          <td><strong>social_links</strong></td>
+          <td>5 pts</td>
+          <td>LinkedIn URL clean</td>
+          <td>LinkedIn URL with query param</td>
+          <td><span class="badge modified">Score: 5</span></td>
+          <td><span class="badge comparator">LOG_ONLY</span></td>
+        </tr>
+        <tr>
+          <td><strong>catalog_routes</strong></td>
+          <td>10 pts</td>
+          <td>[] (Unclassified in DB)</td>
+          <td>3 routes discovered</td>
+          <td><span class="badge modified">Score: 10</span></td>
+          <td><span class="badge comparator">LOG_ONLY</span></td>
+        </tr>
+        <tr style="background: rgba(15, 23, 42, 0.9); font-weight: bold;">
+          <td colspan="4" style="text-align: right; text-transform: uppercase;">Total Change Score:</td>
+          <td><span style="font-size: 1.1rem; color: #fb7185;">60 / 100</span></td>
+          <td><span class="badge comparator">HIGH CHANGE</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>

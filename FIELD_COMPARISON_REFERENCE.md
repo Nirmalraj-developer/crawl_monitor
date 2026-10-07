@@ -283,3 +283,4 @@ flowchart LR
 
 - **Total Company Score**: Sum of field scores (clamped to max 100).
 - **Unchanged Fields**: Always returned as-is with original values, `status: "UNCHANGED"`, and `score: 0`.
+
