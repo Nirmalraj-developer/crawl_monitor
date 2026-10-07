@@ -1,286 +1,192 @@
-# Comprehensive Field-by-Field Comparison Reference
+# Complete Reference: All Fields, Scoring Math & Status Types
 
-This document explains in detail how **every single field** is evaluated in both the **Independent Field Scorer** and the **Dependent Comparator Engine**, using the real-world company **`whitestudiolondon.com`** as our primary example.
+This document provides the definitive guide for **all 30+ fields** found in the company crawl snapshot JSON, explaining:
+1. How every field is categorized.
+2. What operations the **Field Scorer** and **Comparator Engine** perform on each field.
+3. The exact types of scores, weights, and status values.
+4. How the **Total Change Score** is calculated.
 
 ---
 
-## 1. Overview: The Dual Evaluation Architecture
+## 1. Field Categorization Architecture
 
-Every field is evaluated through two complementary lenses simultaneously:
+The 30+ fields in the snapshot are organized into **5 functional tiers**:
 
-```mermaid
-flowchart LR
-    A["Raw Field Value<br>(Old DB vs Live Crawl)"] --> B["1. Independent Field Scorer<br>(field_scorer.js)"]
-    A --> C["2. Dependent Comparator<br>(comparator.js)"]
-    
-    B -->|Direct 1-to-1 Match| D["Score (0 - 25 pts)<br>Status (UNCHANGED, MODIFIED, NOT_FOUND)"]
-    C -->|Corroboration & Guards| E["Tier (ALERT, LOG_ONLY)<br>Evidence & Quality Flags"]
-    
-    D --> F["Unified Field Object<br>(results/domain_report.json)"]
-    E --> F
+| Category | Fields | Role in Scoring |
+| :--- | :--- | :--- |
+| **Tier 1: Core Business Profile** | `company_name`, `title`, `description`, `phone`, `email`, `address`, `postal_code`, `registration_number`, `website`, `tagline`, `social_links`, `catalog_routes` | **Direct Impact on Total Score (0–100 pts)**. Represents legal, contact, and commercial changes. |
+| **Tier 2: Content Page Bodies** | `home_content`, `about_page`, `contact_page`, `privacy_page`, `terms_page` | **Text Similarity Tracking (0–100%)**. Used by Comparator to corroborate or reject claim of rebrand/pivot. |
+| **Tier 3: Technical Infrastructure** | `response_code`, `host_ip`, `ip_country`, `web_server`, `load_time_ms`, `domain_status` | **Network & Site Health**. Tracks CDN routing, DNS, and server software changes (0 pts penalty). |
+| **Tier 4: Auxiliary Identity Signals** | `name_from_title`, `name_from_copyright`, `clearbit_name`, `image_url`, `language` | **Fallback Brand Verification**. Used by Comparator to detect whether brand name is still in footer copyright. |
+| **Tier 5: Navigation & Link Pools** | `home_links`, `contact_links`, `about_links`, `other_links` | **Link Discovery & Coverage Guard**. Validates route additions vs baseline pipeline gaps. |
+
+---
+
+## 2. Status Types and Definitions
+
+Every single field produces an exact status:
+
+| Status Code | Meaning | Score Impact | Returned Value |
+| :--- | :--- | :---: | :--- |
+| **`UNCHANGED`** | Values match exactly across baseline and crawl (or within $\ge 85\%$ word similarity for text). | **0 pts** | Returns original value as-is. |
+| **`MODIFIED`** | Value changed to a different value (or text similarity $< 85\%$). | **5 to 25 pts** | Returns both `old` and `new` values. |
+| **`NOT_FOUND_IN_CRAWL`** | Field existed in the DB baseline, but the crawler did not extract it. | **5 to 10 pts** | Returns `old` value and `new: null`. |
+| **`ADDED`** | Field was null in DB baseline, but newly extracted in live crawl. | **5 pts** | Returns `old: null` and `new` value. |
+| **`REDIRECTED`** | Website URL redirected to another domain. | **20 pts** | Returns original domain and target domain. |
+
+---
+
+## 3. How the Total Change Score is Calculated
+
+The **Total Change Score** is a weighted sum between **0 and 100 points**:
+
+$$\text{Total Change Score} = \min\left(100, \sum \text{Core Field Scores}\right)$$
+
+### Scoring Table:
+
+| Field | Weight | If `UNCHANGED` | If `MODIFIED` | If `NOT_FOUND_IN_CRAWL` | If `ADDED` |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **`company_name`** | **25 pts** | 0 | 25 (Rebrand) | 10 | 5 |
+| **`registration_number`** | **25 pts** | 0 | 25 (Legal CRN change) | 5 | 5 |
+| **`description`** | **20 pts** | 0 | 5 (Minor) / 20 (Major) | 10 | 5 |
+| **`website`** | **20 pts** | 0 | 20 (External Redirect) | 0 | 0 |
+| **`phone`** | **15 pts** | 0 | 15 (Phone changed) | 5 | 5 |
+| **`email`** | **15 pts** | 0 | 15 (Email changed) | 5 | 5 |
+| **`address`** | **15 pts** | 0 | 15 (Relocation) | 5 | 5 |
+| **`catalog_routes`** | **10 pts** | 0 | 10 (Catalog routes shift) | 0 | 5 |
+| **`title`** | **10 pts** | 0 | 10 (Title changed) | 5 | 5 |
+| **`postal_code`** | **10 pts** | 0 | 10 (Postcode changed) | 5 | 5 |
+| **`social_links`** | **5 pts** | 0 | 5 (Social handle shift) | 0 | 5 |
+| **`tagline`** | **5 pts** | 0 | 5 (Tagline changed) | 5 | 5 |
+
+### Change Level Thresholds:
+- **`0 - 15`**: **LOW CHANGE** (Cosmetic updates, minor wording adjustments)
+- **`16 - 39`**: **MEDIUM CHANGE** (Single contact update or moderate description rewrite)
+- **`40 - 100`**: **HIGH CHANGE** (Meaningful business change: rebrand, relocation, or legal number change)
+
+---
+
+## 4. Operation-by-Operation Breakdown for All 30+ Fields
+
+Using **`whitestudiolondon.com`** as our live reference:
+
+### Tier 1: Core Business Profile Fields
+
+#### 1. `company_name`
+- **Field Scorer**: Checks `old.companyName` ("White Studio") vs `new.companyName` (null). Detects missing value in crawl header $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 10**.
+- **Comparator**: Cross-checks footer copyright (`nameFromCopyright: "White Studio"`). Concludes the brand did **not** change, suppressing false rebrand alerts.
+
+#### 2. `description`
+- **Field Scorer**: Word-overlap Jaccard similarity between old (662 ch) and new (353 ch) descriptions is **19%**. Since $19\% < 45\%$, flags `status: "MAJOR_CHANGE"`, **Score: 20**.
+- **Comparator**: Non-circular corroboration check — compares `home_content`. Since homepage body text is **100% identical**, marks `[LOG_ONLY]`.
+
+#### 3. `phone`
+- **Field Scorer**: Cleans digits (`2083681500`). Missing in crawl header $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 5**.
+- **Comparator**: Scans page bodies for `tel:` links; rejects numbers matching UK registration number `08742433`.
+
+#### 4. `email`
+- **Field Scorer**: Lowercases `info@whitestudiolondon.com` on both sides. Exact match $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+- **Comparator**: Verifies domain alignment and marks confirmed unchanged.
+
+#### 5. `address`
+- **Field Scorer**: Old had `"Unit D3 Friarsgate..."`, new header is null $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 5**.
+- **Comparator**: Checks Google Maps links (`maps.google.com`) on contact page to verify no office relocation occurred.
+
+#### 6. `registration_number`
+- **Field Scorer**: Old had `"08742433"`, new header is null $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 5**.
+- **Comparator**: Regex scan for 8-digit legal company numbers in contact and about page footers.
+
+#### 7. `website`
+- **Field Scorer**: Compares hostname `whitestudiolondon.com` $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+- **Comparator**: Inspects HTTP status (200 OK) and ensures canonical redirect is valid.
+
+#### 8. `title`
+- **Field Scorer**: Word similarity on `<title>` tag is **100%** $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+- **Comparator**: Confirmed identical across records.
+
+#### 9. `postal_code` & `tagline`
+- **Field Scorer**: Both empty or matching in old and new $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+
+#### 10. `social_links`
+- **Field Scorer**: LinkedIn URL added a tracking query parameter (`?lipi=...`) $\rightarrow$ `status: "MODIFIED"`, **Score: 5**.
+- **Comparator**: Normalizes domain variations (`x.com` vs `twitter.com`) and ignores tracking parameters.
+
+#### 11. `catalog_routes`
+- **Field Scorer**: New crawl discovered 3 collection routes where DB had empty array `[]` $\rightarrow$ `status: "MODIFIED"`, **Score: 10**.
+- **Comparator**: Applies **Coverage Guard** — caps at `[LOG_ONLY]` because old DB baseline links were unclassified.
+
+---
+
+### Tier 2: Content Page Bodies
+
+#### 12. `home_content` (Homepage Body Text)
+- **Field Scorer**: Runs Jaccard similarity across the full 2,775-character homepage text.
+  - Result: **100% similarity!**
+  - `status: "UNCHANGED"`, **Score: 0**.
+- **Comparator**: The critical anchor of the system: because `home_content` is 100% identical, all metadata description shifts are proven to be cosmetic.
+
+#### 13. `about_page` & `contact_page`
+- **Field Scorer**: Evaluates body text of `/about` and `/contact`.
+  - Both match with **100% similarity** $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+- **Comparator**: Confirms company story and contact details have not shifted.
+
+#### 14. `privacy_page` & `terms_page`
+- **Field Scorer**: Null on both sides $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+
+---
+
+### Tier 3: Technical & Infrastructure Fields
+
+#### 15. `response_code` (HTTP Status)
+- **Operation**: Compares HTTP status. Both return `200` $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+
+#### 16. `host_ip` & `ip_country`
+- **Operation**: Old had Direct IP `172.66.3.8` (UK); new has Cloudflare Anycast IP `162.159.143.12` (USA).
+  - Flags `status: "MODIFIED"` (Score: 0) to notify of Cloudflare CDN edge routing shift.
+
+#### 17. `web_server` & `domain_status`
+- **Operation**: Server is `"jsoup"` and domain status is `"Valid"` on both sides $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+
+#### 18. `load_time_ms`
+- **Operation**: 131 ms vs 113 ms $\rightarrow$ normal network variance.
+
+---
+
+### Tier 4: Auxiliary Identity Signals
+
+#### 19. `name_from_copyright`
+- **Operation**: Old had `null`; live crawl extracted `"White Studio"`.
+  - Scorer flags `status: "ADDED"`.
+  - Comparator uses this to prove the company name is still `"White Studio"`.
+
+#### 20. `name_from_title`
+- **Operation**: Extracted segment `"White Studio Bridal"`.
+  - Flags `status: "MODIFIED"`.
+
+#### 21. `language`
+- **Operation**: `"en"` on both sides $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+
+---
+
+### Tier 5: Navigation & Link Pools
+
+#### 22. `home_links`
+- **Operation**: Compares all 20 internal and external links found on the homepage.
+  - All 20 URLs match $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+
+#### 23. `contact_links` & `about_links`
+- **Operation**: All target URLs match (`/contact`, `/about`) $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+
+#### 24. `other_links`
+- **Operation**: Header and footer link shift (`status: "MODIFIED"`).
+
+---
+
+## 5. Complete Summary for `whitestudiolondon.com`
+
+```text
+TOTAL CHANGE SCORE:      60 / 100 [HIGH CHANGE]
+BUSINESS VERDICT:        Meaningful changes detected
+SUMMARY:                 Changed: description, social links, catalog routes | Not found in crawl: company name, phone, address, registration number
+BASELINE QUALITY:        LOW (Issues: baseline_pages_missing, baseline_catalog_unclassified, baseline_different_pipeline)
 ```
-
-1. **Independent Evaluation (Business Scoring)**:
-   - Evaluates the field **strictly against itself** without cross-checking other fields.
-   - Calculates a direct mathematical score (0 to 100 total company score).
-   - If a field is identical, it returns **`UNCHANGED` with 0 score**.
-
-2. **Dependent Evaluation (Comparator Corroboration)**:
-   - Cross-checks whether the change is corroborated by other parts of the website (e.g. page text, catalog routes, contact links).
-   - Filters out scraping noise, baseline coverage gaps, and pipeline differences.
-   - Assigns priority tiers (`alert`, `log_only`, `unchanged`).
-
----
-
-## 2. Detailed Breakdown: How Every Field is Evaluated
-
----
-
-### Field 1: `company_name`
-
-#### How It Works:
-- **Independent Scorer**:
-  - Compares `old.companyName` against `new.companyName`.
-  - If identical $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
-  - If different name found $\rightarrow$ `status: "MODIFIED"`, **Score: 25** (Major Rebrand).
-  - If old existed but missing in live crawl $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 10**.
-  - If newly discovered $\rightarrow$ `status: "ADDED"`, **Score: 5**.
-
-- **Comparator**:
-  - Cross-checks against secondary name signals: `nameFromTitle`, `clearbitName`, and `nameFromCopyright`.
-  - If the primary `companyName` is missing from the crawl header but `nameFromCopyright` still says `"White Studio"`, it identifies that the brand has **not** rebranded, but simply that the header JSON didn't populate the field. It marks this as `log_only` or `not_found` rather than triggering a false rebrand alert.
-
-#### Real Example (`whitestudiolondon.com`):
-- **Old (DB)**: `"White Studio"`
-- **New (Crawl)**: `null` (crawler didn't extract header name)
-- **Independent Scorer**: `[NOT_FOUND_IN_CRAWL]` | **Score: 10** | *"Company name 'White Studio' was not found in the live crawl."*
-- **Comparator**: `[NOT_FOUND]` | *Not located in extracted crawl header; copyright still matches.*
-
----
-
-### Field 2: `title`
-
-#### How It Works:
-- **Independent Scorer**:
-  - Compares old `<title>` vs new `<title>` using word-token overlap (Jaccard similarity).
-  - Overlap $\ge 75\%$ $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
-  - Overlap $< 75\%$ $\rightarrow$ `status: "MODIFIED"`, **Score: 10**.
-  - Missing in crawl $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 5**.
-
-- **Comparator**:
-  - Checks if the brand token in the title changed (e.g. `"Acme Inc"` vs `"Beta Corp"`).
-  - Normalizes brand taglines to prevent false alerts when only marketing slogans change.
-
-#### Real Example (`whitestudiolondon.com`):
-- **Old (DB)**: `"Wedding dress | White Studio Bridal | United Kingdom"`
-- **New (Crawl)**: `"Wedding dress | White Studio Bridal | United Kingdom"`
-- **Independent Scorer**: `[UNCHANGED]` | **Score: 0** | Similarity: 100% | *"Title matches."*
-- **Comparator**: `[UNCHANGED]` | *Verified identical across both records.*
-
----
-
-### Field 3: `tagline`
-
-#### How It Works:
-- **Independent Scorer**:
-  - Compares `old.tagline` vs `new.tagline`.
-  - Both null or matching $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
-  - Changed $\rightarrow$ `status: "MODIFIED"`, **Score: 5**.
-  - Missing in crawl $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 5**.
-
-- **Comparator**:
-  - Checks if the tagline was moved to the title or home content heading.
-
-#### Real Example (`whitestudiolondon.com`):
-- **Old (DB)**: `"Where Bridal Dreams Take Shape"`
-- **New (Crawl)**: Extracted from homeContent banner.
-- **Independent Scorer**: `[UNCHANGED]` | **Score: 0**.
-- **Comparator**: `[UNCHANGED]`.
-
----
-
-### Field 4: `description`
-
-#### How It Works:
-- **Independent Scorer**:
-  - Calculates mathematical word similarity between old and new descriptions:
-    - $\ge 85\%$ similarity $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
-    - $45\% - 85\%$ similarity $\rightarrow$ `status: "MINOR_UPDATE"`, **Score: 5**.
-    - $< 45\%$ similarity $\rightarrow$ `status: "MAJOR_CHANGE"`, **Score: 20**.
-    - Missing in crawl $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 10**.
-
-- **Comparator**:
-  - **Non-Circular Corroboration**: Checks if the description rewrite is corroborated by a real shift in business (e.g., changes in `homeContent` themes or newly added catalog routes).
-  - If `homeContent` is 100% identical, the comparator knows the business did not change and assigns `tier: "log_only"` with reason `baseline_stale_meta`.
-
-#### Real Example (`whitestudiolondon.com`):
-- **Old (DB)**: *"At White Studio London, we are dedicated to redefining bridal fashion..."* (662 chars)
-- **New (Crawl)**: *"White Studio Bridal, your destination for affordable wedding dresses..."* (353 chars)
-- **Independent Scorer**: `[MAJOR_CHANGE]` | **Score: 20** | Similarity: 19% | *"Description was substantially rewritten (19% similarity)."*
-- **Comparator**: `[LOG_ONLY]` | *Jaccard 0.20 (homeContent unchanged in DB baseline).*
-
----
-
-### Field 5: `phone`
-
-#### How It Works:
-- **Independent Scorer**:
-  - Normalizes phone numbers (stripping spaces, brackets, `+`, country code `44`/`1`, and leading `0`).
-  - Matching numbers $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
-  - Different phone number $\rightarrow$ `status: "MODIFIED"`, **Score: 15**.
-  - Phone missing in crawl $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 5**.
-
-- **Comparator**:
-  - **Contextual Extraction**: Requires phone numbers on pages to have phone context (`tel:` link, `call:`, `phone:`, or `+` prefix).
-  - **Registration Number Filter**: Rejects numbers matching the UK/EU company registration number (preventing company numbers from being misidentified as phone numbers).
-  - **Corroboration**: Requires phone numbers to appear in 2+ sources before triggering a high-level alert.
-
-#### Real Example (`whitestudiolondon.com`):
-- **Old (DB)**: `"020 8368 1500"`
-- **New (Crawl)**: `null` (not in top-level JSON header, embedded in page text)
-- **Independent Scorer**: `[NOT_FOUND_IN_CRAWL]` | **Score: 5** | *"Phone '020 8368 1500' not found in live crawl."*
-- **Comparator**: `[NOT_FOUND]` | *Not located in extracted crawl page contacts header.*
-
----
-
-### Field 6: `email`
-
-#### How It Works:
-- **Independent Scorer**:
-  - Compares trimmed, lowercase email strings (`old.email` vs `new.email`).
-  - Matches $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
-  - Different email address $\rightarrow$ `status: "MODIFIED"`, **Score: 15**.
-  - Missing in crawl $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 5**.
-
-- **Comparator**:
-  - Distinguishes between generic emails (`info@`, `contact@`) and named personal emails (`john@`). Replacing a generic email with another generic email triggers `log_only`, whereas a new non-generic email triggers higher review.
-
-#### Real Example (`whitestudiolondon.com`):
-- **Old (DB)**: `"info@whitestudiolondon.com"`
-- **New (Crawl)**: `"info@whitestudiolondon.com"`
-- **Independent Scorer**: `[UNCHANGED]` | **Score: 0** | *"Email address matches."*
-- **Comparator**: `[UNCHANGED]` | *Field verified unchanged across records and page text.*
-
----
-
-### Field 7: `address` & `postal_code`
-
-#### How It Works:
-- **Independent Scorer**:
-  - Evaluates address word overlap and normalized postal codes.
-  - Matches $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
-  - Different address $\rightarrow$ `status: "MODIFIED"`, **Score: 15** (Office Relocation).
-  - Missing in crawl $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 5**.
-
-- **Comparator**:
-  - Corroborates address changes with Google Maps links (`maps.google.com`) and contact page postcodes.
-  - If a company moves to a new city/postcode corroborated by maps links $\rightarrow$ `alert: office_relocated`.
-
-#### Real Example (`whitestudiolondon.com`):
-- **Old (DB)**: `"Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE"`
-- **New (Crawl)**: `null` in header (embedded in footer text)
-- **Independent Scorer**: `[NOT_FOUND_IN_CRAWL]` | **Score: 5** | *"Address not found in live crawl."*
-- **Comparator**: `[NOT_FOUND]` | *Not located in header contacts.*
-
----
-
-### Field 8: `registration_number`
-
-#### How It Works:
-- **Independent Scorer**:
-  - Compares official company registration numbers (UK Companies House / EU CRN).
-  - Matches $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
-  - Different registration number $\rightarrow$ `status: "MODIFIED"`, **Score: 25** (Hard Legal Event).
-  - Missing in crawl $\rightarrow$ `status: "NOT_FOUND_IN_CRAWL"`, **Score: 5**.
-
-- **Comparator**:
-  - Scans contact and about pages for 8-digit company numbers (`reg: 08742433`).
-  - Matches with top-level `old.registration_number`. If found in page text, marks it unchanged.
-
-#### Real Example (`whitestudiolondon.com`):
-- **Old (DB)**: `"08742433"`
-- **New (Crawl)**: `null` in top-level header.
-- **Independent Scorer**: `[NOT_FOUND_IN_CRAWL]` | **Score: 5**.
-- **Comparator**: `[NOT_FOUND]`.
-
----
-
-### Field 9: `website` / URL Redirection
-
-#### How It Works:
-- **Independent Scorer**:
-  - Extracts the registered domain/host from both URLs (e.g. `whitestudiolondon.com`).
-  - Same domain/subdomain $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
-  - External domain redirect $\rightarrow$ `status: "REDIRECTED"`, **Score: 20**.
-
-- **Comparator**:
-  - Evaluates HTTP response codes (`301`, `302`, `308`).
-  - Distinguishes between internal canonical redirects (e.g. `http://` to `https://www.`) which are safe, versus external acquisition redirects to a different registrable domain.
-
-#### Real Example (`whitestudiolondon.com`):
-- **Old (DB)**: `https://www.whitestudiolondon.com`
-- **New (Crawl)**: `https://www.whitestudiolondon.com/`
-- **Independent Scorer**: `[UNCHANGED]` | **Score: 0** | *"Domain / host matches."*
-- **Comparator**: `[UNCHANGED]` | *Field verified unchanged across records and page text.*
-
----
-
-### Field 10: `social_links`
-
-#### How It Works:
-- **Independent Scorer**:
-  - Checks profiles on 6 platforms: `linkedin`, `twitter`, `facebook`, `instagram`, `youtube`, `github`.
-  - All handles match or remain steady $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
-  - Handle changed or added $\rightarrow$ `status: "MODIFIED"`, **Score: 5**.
-
-- **Comparator**:
-  - Normalizes domain variations (e.g. `twitter.com/handle` vs `x.com/handle` are recognized as identical).
-  - Filters out generic sharing buttons (`linkedin.com/share` or `facebook.com/sharer`).
-
-#### Real Example (`whitestudiolondon.com`):
-- **Old (DB)**: `linkedin: ...white-studio-9a68a9288`
-- **New (Crawl)**: `linkedin: ...white-studio-9a68a9288?lipi=...` (tracking query parameter added)
-- **Independent Scorer**: `[MODIFIED]` | **Score: 5** | *"Social profile handle changed for: linkedin."*
-- **Comparator**: `[LOG_ONLY]`.
-
----
-
-### Field 11: `catalog_routes`
-
-#### How It Works:
-- **Independent Scorer**:
-  - Combines `productLinks`, `serviceLinks`, and `ecommerceLinks`.
-  - Same commercial routes $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
-  - Routes added or removed $\rightarrow$ `status: "MODIFIED"`, **Score: 10**.
-
-- **Comparator**:
-  - **Coverage Guard**: If the live crawl crawled 50 links while the old DB only had 10 links, route additions are downgraded to `log_only` (`coverage_difference`) because the pages existed before but were simply unclassified in the old DB.
-
-#### Real Example (`whitestudiolondon.com`):
-- **Old (DB)**: Empty classified arrays `[]`
-- **New (Crawl)**: 3 routes discovered (`/collections/white-studio`, etc.)
-- **Independent Scorer**: `[MODIFIED]` | **Score: 10** | *"Catalog routes updated (3 new routes discovered, 0 removed)."*
-- **Comparator**: `[LOG_ONLY]` | *Coverage guard applied.*
-
----
-
-## 3. Summary Scoring Matrix
-
-| Field | Weight | If Identical | If Changed | If Missing in Crawl |
-| :--- | :---: | :---: | :---: | :---: |
-| **`company_name`** | **25 pts** | **0 pts** (`UNCHANGED`) | **25 pts** (`MODIFIED`) | **10 pts** (`NOT_FOUND`) |
-| **`description`** | **20 pts** | **0 pts** (`UNCHANGED`) | **5–20 pts** (`MAJOR_CHANGE`) | **10 pts** (`NOT_FOUND`) |
-| **`phone`** | **15 pts** | **0 pts** (`UNCHANGED`) | **15 pts** (`MODIFIED`) | **5 pts** (`NOT_FOUND`) |
-| **`email`** | **15 pts** | **0 pts** (`UNCHANGED`) | **15 pts** (`MODIFIED`) | **5 pts** (`NOT_FOUND`) |
-| **`address`** | **15 pts** | **0 pts** (`UNCHANGED`) | **15 pts** (`MODIFIED`) | **5 pts** (`NOT_FOUND`) |
-| **`registration_number`** | **25 pts** | **0 pts** (`UNCHANGED`) | **25 pts** (`MODIFIED`) | **5 pts** (`NOT_FOUND`) |
-| **`title`** | **10 pts** | **0 pts** (`UNCHANGED`) | **10 pts** (`MODIFIED`) | **5 pts** (`NOT_FOUND`) |
-| **`website`** | **20 pts** | **0 pts** (`UNCHANGED`) | **20 pts** (`REDIRECTED`) | **0 pts** (`UNCHANGED`) |
-| **`tagline`** | **5 pts** | **0 pts** (`UNCHANGED`) | **5 pts** (`MODIFIED`) | **5 pts** (`NOT_FOUND`) |
-| **`postal_code`** | **10 pts** | **0 pts** (`UNCHANGED`) | **10 pts** (`MODIFIED`) | **5 pts** (`NOT_FOUND`) |
-| **`social_links`** | **5 pts** | **0 pts** (`UNCHANGED`) | **5 pts** (`MODIFIED`) | **0 pts** (`UNCHANGED`) |
-| **`catalog_routes`** | **10 pts** | **0 pts** (`UNCHANGED`) | **10 pts** (`MODIFIED`) | **0 pts** (`UNCHANGED`) |
-
-- **Total Company Score**: Sum of field scores (clamped to max 100).
-- **Unchanged Fields**: Always returned as-is with original values, `status: "UNCHANGED"`, and `score: 0`.
-

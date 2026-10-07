@@ -385,6 +385,100 @@ function scoreUrl(oldUrl, newUrl) {
 }
 
 /**
+ * Evaluates text page bodies (homeContent, contactPage, aboutPage, privacyPage, termsPage)
+ */
+function scorePageContent(oldContent, newContent, label) {
+  const oldText = cleanStr(oldContent);
+  const newText = cleanStr(newContent);
+  if (!oldText && !newText) {
+    return { status: 'UNCHANGED', score: 0, similarity: '100%', description: `No ${label} recorded.` };
+  }
+  if (!oldText && newText) {
+    return { status: 'ADDED', score: 0, similarity: '0%', description: `${label} newly crawled (${newText.length} chars).` };
+  }
+  if (oldText && !newText) {
+    return { status: 'NOT_FOUND_IN_CRAWL', score: 0, similarity: '0%', description: `${label} missing in live crawl.` };
+  }
+
+  const sim = calculateSimilarity(oldText, newText);
+  const pct = Math.round(sim * 100);
+  if (sim >= 0.85) {
+    return { status: 'UNCHANGED', score: 0, similarity: `${pct}%`, description: `${label} body content matches (${pct}% similarity).` };
+  }
+  if (sim >= 0.40) {
+    return { status: 'MINOR_UPDATE', score: 0, similarity: `${pct}%`, description: `${label} updated with minor changes (${pct}% similarity).` };
+  }
+  return { status: 'MAJOR_CHANGE', score: 0, similarity: `${pct}%`, description: `${label} substantially rewritten (${pct}% similarity).` };
+}
+
+/**
+ * Evaluates technical & network infrastructure metrics (responseCode, hostIp, ipCountry, webServer, loadTimeMs, domainStatus)
+ */
+function scoreTechnicalField(oldVal, newVal, label) {
+  const o = cleanStr(oldVal);
+  const n = cleanStr(newVal);
+  if (!o && !n) return { status: 'UNCHANGED', score: 0, description: `No ${label} recorded.` };
+  if (o.toLowerCase() === n.toLowerCase()) return { status: 'UNCHANGED', score: 0, description: `${label} matches ("${n}").` };
+  return { status: 'MODIFIED', score: 0, description: `${label} shifted from "${o}" to "${n}".` };
+}
+
+/**
+ * Evaluates auxiliary identity sources (nameFromTitle, nameFromCopyright, clearbitName, imageUrl, language)
+ */
+function scoreAuxiliaryIdentity(oldVal, newVal, label) {
+  const o = cleanStr(oldVal);
+  const n = cleanStr(newVal);
+  if (!o && !n) return { status: 'UNCHANGED', score: 0, description: `No ${label} in old or new record.` };
+  if (!o && n) return { status: 'ADDED', score: 0, description: `${label} discovered: "${n}".` };
+  if (o && !n) return { status: 'NOT_FOUND_IN_CRAWL', score: 0, description: `${label} ("${o}") not extracted in live crawl.` };
+  if (o.toLowerCase() === n.toLowerCase()) return { status: 'UNCHANGED', score: 0, description: `${label} matches ("${n}").` };
+  return { status: 'MODIFIED', score: 0, description: `${label} changed from "${o}" to "${n}".` };
+}
+
+/**
+ * Evaluates raw link collections (homeLinks, contactLinks, aboutLinks, otherLinks)
+ */
+function scoreLinkPool(oldLinks, newLinks, label) {
+  const parseLinks = (val) => {
+    if (!val) return [];
+    if (Array.isArray(val)) return val;
+    if (typeof val === 'string') {
+      const trimmed = val.trim();
+      if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+        return trimmed.slice(1, -1).split(',').map((u) => u.trim()).filter(Boolean);
+      }
+      return trimmed.split(/[|\s,]+/).filter((u) => u.startsWith('http'));
+    }
+    if (typeof val === 'object') return Object.values(val).filter((u) => typeof u === 'string' && u.startsWith('http'));
+    return [];
+  };
+
+  const oldArr = parseLinks(oldLinks);
+  const newArr = parseLinks(newLinks);
+
+  if (oldArr.length === 0 && newArr.length === 0) {
+    return { status: 'UNCHANGED', score: 0, description: `No ${label} links listed.` };
+  }
+
+  const oldSet = new Set(oldArr.map((u) => u.toLowerCase().replace(/\/$/, '')));
+  const newSet = new Set(newArr.map((u) => u.toLowerCase().replace(/\/$/, '')));
+
+  let added = 0;
+  for (const u of newSet) if (!oldSet.has(u)) added++;
+  let removed = 0;
+  for (const u of oldSet) if (!newSet.has(u)) removed++;
+
+  if (added === 0 && removed === 0) {
+    return { status: 'UNCHANGED', score: 0, description: `All ${oldSet.size} ${label} links match.` };
+  }
+  return {
+    status: 'MODIFIED',
+    score: 0,
+    description: `${label} links updated (${added} new links, ${removed} removed).`,
+  };
+}
+
+/**
  * Main Direct Field Scorer
  * Takes the old record and new record (from crawler data[0] or DB profile)
  * and returns a clear, transparent scored report for ALL fields.
@@ -437,6 +531,7 @@ function scoreCompanyChanges(oldRecord = {}, newRecord = {}) {
 
   // Compute field scores directly for ALL fields
   const fields = {
+    // --- 1. Core Profile Fields (Contributing to business change score) ---
     company_name: {
       old: oldCompany,
       new: newCompany,
@@ -496,6 +591,114 @@ function scoreCompanyChanges(oldRecord = {}, newRecord = {}) {
       old: oldCatalog,
       new: newCatalog,
       ...scoreCatalogRoutes(oldCatalog, newCatalog),
+    },
+
+    // --- 2. Page Content Bodies ---
+    home_content: {
+      old: oldRecord.homeContent || null,
+      new: newRecord.homeContent || null,
+      ...scorePageContent(oldRecord.homeContent, newRecord.homeContent, 'Homepage'),
+    },
+    about_page: {
+      old: oldRecord.aboutPage || null,
+      new: newRecord.aboutPage || null,
+      ...scorePageContent(oldRecord.aboutPage, newRecord.aboutPage, 'About Page'),
+    },
+    contact_page: {
+      old: oldRecord.contactPage || null,
+      new: newRecord.contactPage || null,
+      ...scorePageContent(oldRecord.contactPage, newRecord.contactPage, 'Contact Page'),
+    },
+    privacy_page: {
+      old: oldRecord.privacyPage || null,
+      new: newRecord.privacyPage || null,
+      ...scorePageContent(oldRecord.privacyPage, newRecord.privacyPage, 'Privacy Page'),
+    },
+    terms_page: {
+      old: oldRecord.termsPage || null,
+      new: newRecord.termsPage || null,
+      ...scorePageContent(oldRecord.termsPage, newRecord.termsPage, 'Terms Page'),
+    },
+
+    // --- 3. Technical & Network Infrastructure ---
+    response_code: {
+      old: oldRecord.responseCode || null,
+      new: newRecord.responseCode || null,
+      ...scoreTechnicalField(oldRecord.responseCode, newRecord.responseCode, 'HTTP Status'),
+    },
+    host_ip: {
+      old: oldRecord.hostIp || null,
+      new: newRecord.hostIp || null,
+      ...scoreTechnicalField(oldRecord.hostIp, newRecord.hostIp, 'Host IP'),
+    },
+    ip_country: {
+      old: oldRecord.ipCountry || null,
+      new: newRecord.ipCountry || null,
+      ...scoreTechnicalField(oldRecord.ipCountry, newRecord.ipCountry, 'Hosting Country'),
+    },
+    web_server: {
+      old: oldRecord.webServer || null,
+      new: newRecord.webServer || null,
+      ...scoreTechnicalField(oldRecord.webServer, newRecord.webServer, 'Web Server'),
+    },
+    domain_status: {
+      old: oldRecord.domainStatus || null,
+      new: newRecord.domainStatus || null,
+      ...scoreTechnicalField(oldRecord.domainStatus, newRecord.domainStatus, 'Domain Status'),
+    },
+    load_time_ms: {
+      old: oldRecord.loadTimeMs || null,
+      new: newRecord.loadTimeMs || null,
+      ...scoreTechnicalField(oldRecord.loadTimeMs, newRecord.loadTimeMs, 'Load Time'),
+    },
+
+    // --- 4. Auxiliary Identity Signals ---
+    name_from_title: {
+      old: oldRecord.nameFromTitle || null,
+      new: newRecord.nameFromTitle || null,
+      ...scoreAuxiliaryIdentity(oldRecord.nameFromTitle, newRecord.nameFromTitle, 'Title Brand'),
+    },
+    name_from_copyright: {
+      old: oldRecord.nameFromCopyright || null,
+      new: newRecord.nameFromCopyright || null,
+      ...scoreAuxiliaryIdentity(oldRecord.nameFromCopyright, newRecord.nameFromCopyright, 'Copyright Brand'),
+    },
+    clearbit_name: {
+      old: oldRecord.clearbitName || null,
+      new: newRecord.clearbitName || null,
+      ...scoreAuxiliaryIdentity(oldRecord.clearbitName, newRecord.clearbitName, 'Clearbit Brand'),
+    },
+    image_url: {
+      old: oldRecord.imageUrl || null,
+      new: newRecord.imageUrl || null,
+      ...scoreAuxiliaryIdentity(oldRecord.imageUrl, newRecord.imageUrl, 'Logo Image'),
+    },
+    language: {
+      old: oldRecord.language || null,
+      new: newRecord.language || null,
+      ...scoreAuxiliaryIdentity(oldRecord.language, newRecord.language, 'Site Language'),
+    },
+
+    // --- 5. Link Pools & Navigation ---
+    other_links: {
+      old: oldRecord.otherLinks || null,
+      new: newRecord.otherLinks || null,
+      ...scoreLinkPool(oldRecord.otherLinks, newRecord.otherLinks, 'Header/Footer Links'),
+    },
+    home_links: {
+      old: oldRecord.homeLinks || null,
+      new: newRecord.homeLinks || null,
+      ...scoreLinkPool(oldRecord.homeLinks, newRecord.homeLinks, 'Homepage Links'),
+    },
+    contact_links: {
+      old: oldRecord.contactLinks || oldRecord.contactLinksAll || null,
+      new: newRecord.contactLinks || newRecord.contactLinksAll || null,
+      ...scoreLinkPool(oldRecord.contactLinks || oldRecord.contactLinksAll, newRecord.contactLinks || newRecord.contactLinksAll, 'Contact Links'),
+    },
+    about_links: {
+      old: oldRecord.aboutLinks || oldRecord.aboutLinksAll || null,
+      new: newRecord.aboutLinks || newRecord.aboutLinksAll || null,
+      ...scoreLinkPool(oldRecord.aboutLinks || oldRecord.aboutLinksAll, newRecord.aboutLinks || newRecord.aboutLinksAll, 'About Links'),
     },
   };
 

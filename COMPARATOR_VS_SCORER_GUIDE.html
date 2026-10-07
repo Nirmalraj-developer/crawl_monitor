@@ -753,6 +753,126 @@
           <td><span class="badge modified">Score: 10</span></td>
           <td><span class="badge comparator">LOG_ONLY</span></td>
         </tr>
+        <!-- TIER 2: CONTENT BODIES -->
+        <tr style="background: rgba(30, 41, 59, 0.7); font-weight: 600;">
+          <td colspan="6" style="color: var(--accent-blue);">TIER 2: CONTENT PAGE BODIES (Tracked for text preservation & corroboration)</td>
+        </tr>
+        <tr>
+          <td><strong>home_content</strong></td>
+          <td>0 pts</td>
+          <td>2,775 chars text</td>
+          <td>2,775 chars text</td>
+          <td><span class="badge unchanged">UNCHANGED</span> (100% Sim)</td>
+          <td><span class="badge unchanged">UNCHANGED</span> (Critical Anchor)</td>
+        </tr>
+        <tr>
+          <td><strong>about_page</strong></td>
+          <td>0 pts</td>
+          <td>1,124 chars text</td>
+          <td>1,124 chars text</td>
+          <td><span class="badge unchanged">UNCHANGED</span> (100% Sim)</td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
+        <tr>
+          <td><strong>contact_page</strong></td>
+          <td>0 pts</td>
+          <td>809 chars text</td>
+          <td>809 chars text</td>
+          <td><span class="badge unchanged">UNCHANGED</span> (100% Sim)</td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
+        <!-- TIER 3: TECHNICAL INFRASTRUCTURE -->
+        <tr style="background: rgba(30, 41, 59, 0.7); font-weight: 600;">
+          <td colspan="6" style="color: var(--accent-emerald);">TIER 3: TECHNICAL & NETWORK INFRASTRUCTURE (Network Health)</td>
+        </tr>
+        <tr>
+          <td><strong>response_code</strong></td>
+          <td>0 pts</td>
+          <td>"200"</td>
+          <td>"200"</td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
+        <tr>
+          <td><strong>host_ip</strong></td>
+          <td>0 pts</td>
+          <td>"172.66.3.8"</td>
+          <td>"172.66.3.8"</td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
+        <tr>
+          <td><strong>ip_country</strong></td>
+          <td>0 pts</td>
+          <td>"United Kingdom"</td>
+          <td>"United States of America"</td>
+          <td><span class="badge modified">MODIFIED</span> (CDN shift)</td>
+          <td><span class="badge comparator">LOG_ONLY</span></td>
+        </tr>
+        <tr>
+          <td><strong>web_server</strong></td>
+          <td>0 pts</td>
+          <td>"jsoup"</td>
+          <td>"jsoup"</td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
+        <!-- TIER 4: AUXILIARY IDENTITY SIGNALS -->
+        <tr style="background: rgba(30, 41, 59, 0.7); font-weight: 600;">
+          <td colspan="6" style="color: var(--accent-purple);">TIER 4: AUXILIARY IDENTITY SIGNALS (Brand Fallbacks)</td>
+        </tr>
+        <tr>
+          <td><strong>name_from_copyright</strong></td>
+          <td>0 pts</td>
+          <td>null</td>
+          <td>"White Studio"</td>
+          <td><span class="badge modified">ADDED</span></td>
+          <td><span class="badge comparator">LOG_ONLY</span> (Proves Brand Intact)</td>
+        </tr>
+        <tr>
+          <td><strong>name_from_title</strong></td>
+          <td>0 pts</td>
+          <td>"Wedding dress | White Studio..."</td>
+          <td>"White Studio Bridal"</td>
+          <td><span class="badge modified">MODIFIED</span></td>
+          <td><span class="badge comparator">LOG_ONLY</span></td>
+        </tr>
+        <tr>
+          <td><strong>image_url</strong></td>
+          <td>0 pts</td>
+          <td>wixstatic logo URL</td>
+          <td>wixstatic logo URL</td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
+        <!-- TIER 5: LINK POOLS -->
+        <tr style="background: rgba(30, 41, 59, 0.7); font-weight: 600;">
+          <td colspan="6" style="color: var(--accent-amber);">TIER 5: LINK POOLS & NAVIGATION</td>
+        </tr>
+        <tr>
+          <td><strong>home_links</strong></td>
+          <td>0 pts</td>
+          <td>20 URLs array</td>
+          <td>20 URLs array</td>
+          <td><span class="badge unchanged">UNCHANGED</span> (20/20 Match)</td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
+        <tr>
+          <td><strong>contact_links</strong></td>
+          <td>0 pts</td>
+          <td>["https://.../contact"]</td>
+          <td>["https://.../contact"]</td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
+        <tr>
+          <td><strong>about_links</strong></td>
+          <td>0 pts</td>
+          <td>["https://.../about"]</td>
+          <td>["https://.../about"]</td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+          <td><span class="badge unchanged">UNCHANGED</span></td>
+        </tr>
         <tr style="background: rgba(15, 23, 42, 0.9); font-weight: bold;">
           <td colspan="4" style="text-align: right; text-transform: uppercase;">Total Change Score:</td>
           <td><span style="font-size: 1.1rem; color: #fb7185;">60 / 100</span></td>
@@ -764,3 +884,4 @@
 
 </body>
 </html>
+
