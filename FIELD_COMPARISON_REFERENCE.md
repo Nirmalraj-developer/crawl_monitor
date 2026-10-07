@@ -171,14 +171,44 @@ Using **`whitestudiolondon.com`** as our live reference:
 ### Tier 5: Navigation & Link Pools
 
 #### 22. `home_links`
-- **Operation**: Compares all 20 internal and external links found on the homepage.
-  - All 20 URLs match $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+- **What it Evaluates**: The full set of internal and external URLs found on the homepage.
+- **Old (DB)**: Array of 20 URLs (`[".../all-dresses", ".../contact", ".../about", ...]`).
+- **New (Crawl)**: Array of 20 URLs (exact same 20 URLs).
+- **Field Scorer Operation**: Parses URLs from arrays or bracket strings, strips trailing slashes, and checks set equality. All 20 match $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+- **Comparator Operation**: Computes **Link Coverage Ratio**:
+  $$\text{Coverage Ratio} = \frac{\text{New Links (20)}}{\text{Old Links (20)}} = 1.0$$
+  A ratio of 1.0 proves the live crawl achieved symmetrical link discovery. Marks `[UNCHANGED]`.
+- **All Cases**:
+  - Exact match $\rightarrow$ `UNCHANGED` (0 pts)
+  - New links discovered or links dropped $\rightarrow$ `MODIFIED` (0 pts penalty)
 
-#### 23. `contact_links` & `about_links`
-- **Operation**: All target URLs match (`/contact`, `/about`) $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+#### 23. `contact_links`
+- **What it Evaluates**: Links pointing specifically to `/contact` or contact form routes.
+- **Old (DB)**: `["https://www.whitestudiolondon.com/contact"]`.
+- **New (Crawl)**: `["https://www.whitestudiolondon.com/contact"]`.
+- **Field Scorer Operation**: Set comparison on contact URL targets. Exact match $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+- **Comparator Operation**: Verifies that the primary customer contact route has not been removed or migrated. Marks `[UNCHANGED]`.
+- **All Cases**:
+  - Match $\rightarrow$ `UNCHANGED` (0 pts)
+  - Contact route changed $\rightarrow$ `MODIFIED` (0 pts)
+  - Missing in crawl $\rightarrow$ `NOT_FOUND_IN_CRAWL` (0 pts)
 
-#### 24. `other_links`
-- **Operation**: Header and footer link shift (`status: "MODIFIED"`).
+#### 24. `about_links`
+- **What it Evaluates**: Links pointing to `/about` or company story routes.
+- **Old (DB)**: `["https://www.whitestudiolondon.com/about"]`.
+- **New (Crawl)**: `["https://www.whitestudiolondon.com/about"]`.
+- **Field Scorer Operation**: Set comparison on about URL targets. Exact match $\rightarrow$ `status: "UNCHANGED"`, **Score: 0**.
+- **Comparator Operation**: Confirms company history / about page link is preserved. Marks `[UNCHANGED]`.
+- **All Cases**:
+  - Match $\rightarrow$ `UNCHANGED` (0 pts)
+  - Route changed $\rightarrow$ `MODIFIED` (0 pts)
+
+#### 25. `other_links`
+- **What it Evaluates**: The structured navigation map containing `{ about, contactUs, privacy, terms }`.
+- **Old (DB)**: `{ about: ".../about", contactUs: ".../contact", privacy: null, terms: null }`.
+- **New (Crawl)**: Sub-keys moved to arrays (`status: "MODIFIED"`).
+- **Field Scorer Operation**: Key-value difference detected $\rightarrow$ `status: "MODIFIED"`, **Score: 0**.
+- **Comparator Operation**: Recognizes that URLs were merely rearranged between JSON keys; caps at `[LOG_ONLY]`.
 
 ---
 

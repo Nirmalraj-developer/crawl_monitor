@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comparator vs Scorer: Complete Functional Guide</title>
+  <title>Complete 32-Field Operational Guide: Comparator vs Scorer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #0f172a;
+      --bg-primary: #0a0f1d;
+      --bg-secondary: #0f172a;
       --bg-card: #1e293b;
       --bg-card-hover: #24344d;
       --border-color: #334155;
@@ -22,12 +23,7 @@
       --code-bg: #090d16;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg-primary);
@@ -35,123 +31,102 @@
       line-height: 1.6;
       padding: 40px 20px;
     }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
+    .container { max-width: 1280px; margin: 0 auto; }
+    
     header {
       text-align: center;
-      margin-bottom: 50px;
+      margin-bottom: 40px;
       padding-bottom: 30px;
       border-bottom: 1px solid var(--border-color);
     }
-
     header h1 {
-      font-size: 2.75rem;
+      font-size: 2.8rem;
       font-weight: 800;
       background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 12px;
     }
-
     header p {
       font-size: 1.15rem;
       color: var(--text-muted);
-      max-width: 800px;
+      max-width: 850px;
       margin: 0 auto;
     }
 
-    .concept-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 50px;
-    }
-
-    .concept-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 28px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .concept-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-    }
-
-    .concept-card.scorer::before {
-      background: linear-gradient(90deg, #38bdf8, #3b82f6);
-    }
-
-    .concept-card.comparator::before {
-      background: linear-gradient(90deg, #c084fc, #a855f7);
-    }
-
-    .concept-card h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 12px;
+    .nav-tabs {
       display: flex;
-      align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 35px;
+      position: sticky;
+      top: 15px;
+      z-index: 100;
+      background: rgba(10, 15, 29, 0.95);
+      padding: 12px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+    }
+    .nav-btn {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      background: var(--accent-blue);
+      color: #000;
+      border-color: var(--accent-blue);
     }
 
     .badge {
       display: inline-block;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       text-transform: uppercase;
       padding: 4px 10px;
       border-radius: 20px;
       letter-spacing: 0.5px;
     }
-
     .badge.scorer { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
     .badge.comparator { background: rgba(192, 132, 252, 0.15); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.3); }
-    .badge.unchanged { background: rgba(52, 211, 153, 0.15); color: #34d399; }
-    .badge.modified { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
-    .badge.not-found { background: rgba(251, 113, 133, 0.15); color: #fb7185; }
+    .badge.unchanged { background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+    .badge.modified { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
+    .badge.not-found { background: rgba(251, 113, 133, 0.15); color: #fb7185; border: 1px solid rgba(251, 113, 133, 0.3); }
 
-    .field-section {
-      margin-bottom: 40px;
-    }
-
-    .section-title {
-      font-size: 1.75rem;
+    .category-title {
+      font-size: 1.6rem;
       font-weight: 700;
-      margin-bottom: 25px;
+      margin: 40px 0 20px 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border-color);
+      color: #f1f5f9;
       display: flex;
       align-items: center;
       gap: 12px;
-      color: #e2e8f0;
     }
 
     .field-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
+      border-radius: 14px;
       margin-bottom: 24px;
       overflow: hidden;
       transition: all 0.2s ease;
     }
-
-    .field-card:hover {
-      border-color: #475569;
-    }
+    .field-card:hover { border-color: #475569; }
 
     .field-header {
-      padding: 20px 24px;
-      background: rgba(15, 23, 42, 0.6);
+      padding: 18px 24px;
+      background: rgba(15, 23, 42, 0.7);
       border-bottom: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
@@ -159,162 +134,121 @@
       flex-wrap: wrap;
       gap: 12px;
     }
-
+    .field-title-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .field-num {
+      background: var(--bg-secondary);
+      color: var(--accent-blue);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+    }
     .field-name {
       font-family: 'Fira Code', monospace;
-      font-size: 1.25rem;
+      font-size: 1.18rem;
       font-weight: 600;
       color: #38bdf8;
     }
-
-    .field-body {
-      padding: 24px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
+    .field-weight {
+      color: var(--text-muted);
+      font-size: 0.85rem;
     }
 
+    .example-bar {
+      background: #0d1322;
+      padding: 12px 24px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      border-bottom: 1px solid var(--border-color);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .example-col span { color: #64748b; font-size: 0.75rem; text-transform: uppercase; display: block; }
+    .example-col strong { color: #e2e8f0; font-weight: 500; word-break: break-all; }
+
+    .field-body {
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
     @media (max-width: 900px) {
-      .concept-grid, .field-body {
-        grid-template-columns: 1fr;
-      }
+      .field-body, .example-bar { grid-template-columns: 1fr; }
     }
 
     .op-box {
       background: rgba(15, 23, 42, 0.4);
-      border: 1px solid rgba(51, 65, 85, 0.6);
-      border-radius: 12px;
-      padding: 18px;
+      border: 1px solid rgba(51, 65, 85, 0.5);
+      border-radius: 10px;
+      padding: 16px;
     }
-
     .op-box h4 {
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-
     .op-box.scorer h4 { color: #38bdf8; }
     .op-box.comparator h4 { color: #c084fc; }
 
-    .step-list {
-      list-style: none;
-    }
-
+    .step-list { list-style: none; }
     .step-list li {
       position: relative;
-      padding-left: 24px;
-      margin-bottom: 10px;
-      font-size: 0.92rem;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
       color: #cbd5e1;
     }
-
     .step-list li::before {
       content: '→';
       position: absolute;
       left: 0;
-      color: var(--accent-blue);
       font-weight: bold;
     }
+    .op-box.scorer .step-list li::before { color: var(--accent-blue); }
+    .op-box.comparator .step-list li::before { color: var(--accent-purple); }
 
-    .op-box.comparator .step-list li::before {
-      color: var(--accent-purple);
+    .case-table {
+      width: 100%;
+      margin-top: 10px;
+      font-size: 0.8rem;
+      border-collapse: collapse;
+      background: #090d16;
+      border-radius: 6px;
+      overflow: hidden;
     }
-
-    .example-box {
-      margin-top: 16px;
-      background: var(--code-bg);
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.85rem;
+    .case-table th, .case-table td {
+      padding: 6px 10px;
       border: 1px solid #1e293b;
+      text-align: left;
     }
-
-    .example-title {
-      color: #64748b;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .example-val {
-      color: #e2e8f0;
-      margin-bottom: 4px;
-      word-break: break-all;
-    }
-
-    .example-val span {
-      color: #94a3b8;
-    }
+    .case-table th { background: #0f172a; color: #94a3b8; }
 
     .result-pill {
       margin-top: 12px;
       padding: 8px 12px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 500;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
-
     .result-pill.scorer {
       background: rgba(56, 189, 248, 0.1);
       border: 1px solid rgba(56, 189, 248, 0.25);
       color: #bae6fd;
     }
-
     .result-pill.comparator {
       background: rgba(192, 132, 252, 0.1);
       border: 1px solid rgba(192, 132, 252, 0.25);
       color: #e9d5ff;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      background: var(--bg-card);
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-    }
-
-    th, td {
-      padding: 14px 18px;
-      text-align: left;
-      font-size: 0.92rem;
-    }
-
-    th {
-      background: rgba(15, 23, 42, 0.8);
-      color: #94a3b8;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    td {
-      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    .callout {
-      background: rgba(59, 130, 246, 0.1);
-      border-left: 4px solid #3b82f6;
-      padding: 16px 20px;
-      border-radius: 0 8px 8px 0;
-      margin-bottom: 30px;
-      font-size: 0.95rem;
-      color: #cbd5e1;
     }
   </style>
 </head>
@@ -322,566 +256,1045 @@
 
   <div class="container">
     <header>
-      <h1>Comparator vs Field Scorer</h1>
-      <p>A complete operational explanation of how both engines evaluate each company field, step by step, using <strong>whitestudiolondon.com</strong> as a live reference.</p>
+      <h1>Operational Reference: All 32 Fields</h1>
+      <p>Independent Mathematical Scorer vs Dependent Forensic Comparator. Detailed step-by-step logic, all case rules, and real data from <strong>whitestudiolondon.com</strong>.</p>
     </header>
 
-    <div class="callout">
-      <strong>Core Purpose:</strong> The <strong>Field Scorer</strong> provides a clean, independent 0–100 mathematical business score for every field. The <strong>Comparator</strong> performs deep technical checks, corroborating signals across multiple pages to reject scraping artifacts and noise. Both run together to output a single unified verdict.
+    <div class="nav-tabs">
+      <a href="#cat-core" class="nav-btn">Tier 1: Core Business (12)</a>
+      <a href="#cat-content" class="nav-btn">Tier 2: Page Bodies (5)</a>
+      <a href="#cat-tech" class="nav-btn">Tier 3: Technical & Infrastructure (6)</a>
+      <a href="#cat-identity" class="nav-btn">Tier 4: Auxiliary Identity (5)</a>
+      <a href="#cat-links" class="nav-btn">Tier 5: Link Pools (4)</a>
     </div>
 
-    <!-- High-level Concept Grid -->
-    <div class="concept-grid">
-      <div class="concept-card scorer">
-        <h2>
-          <span>Field Scorer</span>
-          <span class="badge scorer">Independent Math</span>
-        </h2>
-        <p style="color: var(--text-muted); margin-bottom: 16px;">
-          <strong>What it is:</strong> A pure 1-to-1 evaluator. It takes the previous DB baseline value and compares it solely to the crawled value of the same field.
-        </p>
-        <ul class="step-list">
-          <li><strong>No cross-field noise:</strong> Never checks secondary fields or outside tags.</li>
-          <li><strong>Deterministic Points:</strong> Assigns scores (0 to 25 pts) based on exact string match, Levenshtein/Jaccard similarity, or absence.</li>
-          <li><strong>Unchanged Guarantee:</strong> If a field is identical, it always yields 0 pts with status <code>UNCHANGED</code>.</li>
-        </ul>
-      </div>
+    <!-- ===================================================================== -->
+    <!-- TIER 1: CORE BUSINESS PROFILE FIELDS -->
+    <!-- ===================================================================== -->
+    <h2 id="cat-core" class="category-title">Tier 1: Core Business Profile Fields (Drives 0–100 Score)</h2>
 
-      <div class="concept-card comparator">
-        <h2>
-          <span>Comparator Engine</span>
-          <span class="badge comparator">Deep Corroboration</span>
-        </h2>
-        <p style="color: var(--text-muted); margin-bottom: 16px;">
-          <strong>What it is:</strong> A forensic validator. It checks whether a detected field difference is real, corroborated by other pages, or just scraping noise.
-        </p>
-        <ul class="step-list">
-          <li><strong>Cross-field validation:</strong> Validates brand from title, copyright, and Clearbit.</li>
-          <li><strong>Noise Guards:</strong> Caps uncorroborated rewrites at <code>log_only</code> if the underlying page content didn't change.</li>
-          <li><strong>Baseline Quality Detection:</strong> Flags when the DB baseline was missing pages or links.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- FIELD BY FIELD DETAILED BREAKDOWN -->
-    <div class="field-section">
-      <h2 class="section-title">Field-by-Field Operational Breakdown</h2>
-
-      <!-- 1. COMPANY NAME -->
-      <div class="field-card">
-        <div class="field-header">
-          <div>
-            <span class="field-name">company_name</span>
-            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Max Weight: 25 pts)</span>
-          </div>
-          <div>
-            <span class="badge not-found">NOT_FOUND_IN_CRAWL</span>
-            <span class="badge scorer" style="margin-left: 6px;">Score: 10 / 25</span>
-          </div>
+    <!-- 1. company_name -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#1</span>
+          <span class="field-name">company_name</span>
+          <span class="field-weight">(Max Weight: 25 pts)</span>
         </div>
-        <div class="field-body">
-          <div class="op-box scorer">
-            <h4>Field Scorer Operation</h4>
-            <ul class="step-list">
-              <li>Reads <code>old.companyName</code> ("White Studio") and <code>new.companyName</code> (null).</li>
-              <li>Checks if both are non-empty. Since <code>new.companyName</code> is null, direct match fails.</li>
-              <li>Detects that the company name was previously known but missing in the live crawl.</li>
-              <li>Assigns <strong>10 points</strong> change penalty with status <code>NOT_FOUND_IN_CRAWL</code>.</li>
-            </ul>
-            <div class="result-pill scorer">
-              <span>Independent Verdict:</span>
-              <strong>Company name not found in live crawl header (+10 pts)</strong>
-            </div>
-          </div>
-
-          <div class="op-box comparator">
-            <h4>Comparator Operation</h4>
-            <ul class="step-list">
-              <li>Inspects fallback signals: <code>nameFromCopyright</code>, <code>nameFromTitle</code>, <code>clearbitName</code>.</li>
-              <li>Discovers <code>nameFromCopyright: "White Studio"</code> in the crawl footer.</li>
-              <li>Determines that the company did <strong>NOT</strong> rebrand (it's still White Studio), but the crawler's heuristic merely failed to set the top-level name header.</li>
-              <li>Labels it <code>[NOT_FOUND]</code> and suppresses high-priority rebrand alert.</li>
-            </ul>
-            <div class="result-pill comparator">
-              <span>Dependent Verdict:</span>
-              <strong>[NOT_FOUND] Rebrand alert avoided (footer copyright matches)</strong>
-            </div>
-          </div>
+        <div>
+          <span class="badge not-found">NOT_FOUND_IN_CRAWL</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 10 / 25</span>
         </div>
       </div>
-
-      <!-- 2. DESCRIPTION -->
-      <div class="field-card">
-        <div class="field-header">
-          <div>
-            <span class="field-name">description</span>
-            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Max Weight: 20 pts)</span>
-          </div>
-          <div>
-            <span class="badge modified">MAJOR_CHANGE</span>
-            <span class="badge scorer" style="margin-left: 6px;">Score: 20 / 20</span>
-          </div>
-        </div>
-        <div class="field-body">
-          <div class="op-box scorer">
-            <h4>Field Scorer Operation</h4>
-            <ul class="step-list">
-              <li>Tokenizes old description (662 chars) and new description (353 chars) into unique words.</li>
-              <li>Calculates Jaccard word-overlap similarity: (Intersection / Union) = <strong>19% similarity</strong>.</li>
-              <li>Applies threshold: similarity &lt; 45% triggers <code>MAJOR_CHANGE</code>.</li>
-              <li>Assigns max weight: <strong>20 points</strong>.</li>
-            </ul>
-            <div class="result-pill scorer">
-              <span>Independent Verdict:</span>
-              <strong>Substantially rewritten (19% similarity) (+20 pts)</strong>
-            </div>
-          </div>
-
-          <div class="op-box comparator">
-            <h4>Comparator Operation</h4>
-            <ul class="step-list">
-              <li>Applies <strong>Non-Circular Corroboration Rule</strong>: a description change is only trusted if corroborated by a thematic change in <code>homeContent</code> or commercial links.</li>
-              <li>Compares <code>homeContent</code>: detects the homepage body text is <strong>100% identical</strong>.</li>
-              <li>Concludes the change is purely meta-tag restyling, not a company pivot.</li>
-              <li>Downgrades priority tier to <code>[LOG_ONLY]</code> (reason: <code>baseline_stale_meta</code>).</li>
-            </ul>
-            <div class="result-pill comparator">
-              <span>Dependent Verdict:</span>
-              <strong>[LOG_ONLY] Uncorroborated by homepage body</strong>
-            </div>
-          </div>
-        </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"White Studio"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>null (empty in crawl header)</strong></div>
       </div>
-
-      <!-- 3. PHONE -->
-      <div class="field-card">
-        <div class="field-header">
-          <div>
-            <span class="field-name">phone</span>
-            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Max Weight: 15 pts)</span>
-          </div>
-          <div>
-            <span class="badge not-found">NOT_FOUND_IN_CRAWL</span>
-            <span class="badge scorer" style="margin-left: 6px;">Score: 5 / 15</span>
-          </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Takes <code>old.companyName</code> and compares 1-to-1 against <code>new.companyName</code>.</li>
+            <li>Checks if old existed and new is null $\rightarrow$ flags <code>NOT_FOUND_IN_CRAWL</code>.</li>
+            <li>Applies fixed penalty: <strong>10 points</strong>.</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Formula / Condition</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Identical</td><td>old === new</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>Modified / Rebrand</td><td>old !== new && both populated</td><td><code>MODIFIED</code> (25 pts)</td></tr>
+            <tr><td>Missing in crawl</td><td>old populated && new is null</td><td><code>NOT_FOUND_IN_CRAWL</code> (10 pts)</td></tr>
+            <tr><td>Newly added</td><td>old is null && new populated</td><td><code>ADDED</code> (5 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: Company name "White Studio" not found in live crawl header (+10 pts)</div>
         </div>
-        <div class="field-body">
-          <div class="op-box scorer">
-            <h4>Field Scorer Operation</h4>
-            <ul class="step-list">
-              <li>Normalizes old phone <code>"020 8368 1500"</code> to raw digits <code>2083681500</code>.</li>
-              <li>Checks new crawl header: returns null.</li>
-              <li>Flags that existing baseline phone was not extracted in live crawl.</li>
-              <li>Assigns <strong>5 points</strong> penalty with status <code>NOT_FOUND_IN_CRAWL</code>.</li>
-            </ul>
-            <div class="result-pill scorer">
-              <span>Independent Verdict:</span>
-              <strong>Phone "020 8368 1500" not found in live header (+5 pts)</strong>
-            </div>
-          </div>
 
-          <div class="op-box comparator">
-            <h4>Comparator Operation</h4>
-            <ul class="step-list">
-              <li>Contextual regex scan: searches crawl page HTML for <code>tel:</code> links or nearby labels ("phone", "call", "t:").</li>
-              <li>Checks registration number guard: rejects any number matching UK legal company ID <code>08742433</code>.</li>
-              <li>Requires 2+ independent sources to confirm a phone alteration before alerting.</li>
-              <li>Labels header status <code>[NOT_FOUND]</code>.</li>
-            </ul>
-            <div class="result-pill comparator">
-              <span>Dependent Verdict:</span>
-              <strong>[NOT_FOUND] Missing from structured contact endpoints</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. EMAIL -->
-      <div class="field-card">
-        <div class="field-header">
-          <div>
-            <span class="field-name">email</span>
-            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Max Weight: 15 pts)</span>
-          </div>
-          <div>
-            <span class="badge unchanged">UNCHANGED</span>
-            <span class="badge scorer" style="margin-left: 6px;">Score: 0 / 15</span>
-          </div>
-        </div>
-        <div class="field-body">
-          <div class="op-box scorer">
-            <h4>Field Scorer Operation</h4>
-            <ul class="step-list">
-              <li>Cleans and lowercases: <code>"info@whitestudiolondon.com"</code> on both sides.</li>
-              <li>Checks string equality: Exact match!</li>
-              <li>Status: <code>UNCHANGED</code>, assigns <strong>0 points</strong>.</li>
-            </ul>
-            <div class="result-pill scorer">
-              <span>Independent Verdict:</span>
-              <strong>Email address matches perfectly (0 pts)</strong>
-            </div>
-          </div>
-
-          <div class="op-box comparator">
-            <h4>Comparator Operation</h4>
-            <ul class="step-list">
-              <li>Classifies email type: identified as a generic domain-matched address (<code>info@</code>).</li>
-              <li>Verifies domain alignment: domain matches <code>whitestudiolondon.com</code>.</li>
-              <li>Marks as confirmed unchanged across both database and crawl snapshots.</li>
-            </ul>
-            <div class="result-pill comparator">
-              <span>Dependent Verdict:</span>
-              <strong>[UNCHANGED] Confirmed identical across records</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. ADDRESS & REGISTRATION -->
-      <div class="field-card">
-        <div class="field-header">
-          <div>
-            <span class="field-name">address & registration_number</span>
-            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Weights: 15 & 25 pts)</span>
-          </div>
-          <div>
-            <span class="badge not-found">NOT_FOUND_IN_CRAWL</span>
-            <span class="badge scorer" style="margin-left: 6px;">Score: 5 + 5 pts</span>
-          </div>
-        </div>
-        <div class="field-body">
-          <div class="op-box scorer">
-            <h4>Field Scorer Operation</h4>
-            <ul class="step-list">
-              <li>Old DB address: <code>"Unit D3 Friarsgate, Park Royal London, NW10 7SE"</code>.</li>
-              <li>Old DB registration number: <code>"08742433"</code>.</li>
-              <li>New crawl header returns null for both fields.</li>
-              <li>Assigns <strong>5 pts</strong> each with status <code>NOT_FOUND_IN_CRAWL</code>.</li>
-            </ul>
-            <div class="result-pill scorer">
-              <span>Independent Verdict:</span>
-              <strong>Fields missing in live crawl header (+10 pts)</strong>
-            </div>
-          </div>
-
-          <div class="op-box comparator">
-            <h4>Comparator Operation</h4>
-            <ul class="step-list">
-              <li>Full text regex scan of contact and about page bodies for 8-digit company numbers.</li>
-              <li>Relocation check: verifies whether Google Maps links (<code>maps.google.com</code>) changed.</li>
-              <li>Since no new address was found to contradict the old one, marks as <code>[NOT_FOUND]</code> without raising a relocation alarm.</li>
-            </ul>
-            <div class="result-pill comparator">
-              <span>Dependent Verdict:</span>
-              <strong>[NOT_FOUND] No conflicting relocation detected</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 6. WEBSITE & TITLE -->
-      <div class="field-card">
-        <div class="field-header">
-          <div>
-            <span class="field-name">website & title</span>
-            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Weights: 20 & 10 pts)</span>
-          </div>
-          <div>
-            <span class="badge unchanged">UNCHANGED</span>
-            <span class="badge scorer" style="margin-left: 6px;">Score: 0 + 0 pts</span>
-          </div>
-        </div>
-        <div class="field-body">
-          <div class="op-box scorer">
-            <h4>Field Scorer Operation</h4>
-            <ul class="step-list">
-              <li>Website: extracts hostnames <code>whitestudiolondon.com</code> from both URLs. Exact match $\rightarrow$ <strong>0 pts</strong>.</li>
-              <li>Title: compares full title string: <code>"Wedding dress | White Studio Bridal | United Kingdom"</code>. Exact match $\rightarrow$ <strong>0 pts</strong>.</li>
-            </ul>
-            <div class="result-pill scorer">
-              <span>Independent Verdict:</span>
-              <strong>Website host and page title match completely (0 pts)</strong>
-            </div>
-          </div>
-
-          <div class="op-box comparator">
-            <h4>Comparator Operation</h4>
-            <ul class="step-list">
-              <li>Inspects HTTP response status (<code>200 OK</code>).</li>
-              <li>Verifies domain canonicalization (https vs non-www): safe apex mapping.</li>
-              <li>Marks both fields verified unchanged.</li>
-            </ul>
-            <div class="result-pill comparator">
-              <span>Dependent Verdict:</span>
-              <strong>[UNCHANGED] Verified canonical domain & title</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 7. SOCIAL LINKS & CATALOG -->
-      <div class="field-card">
-        <div class="field-header">
-          <div>
-            <span class="field-name">social_links & catalog_routes</span>
-            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">(Weights: 5 & 10 pts)</span>
-          </div>
-          <div>
-            <span class="badge modified">MODIFIED</span>
-            <span class="badge scorer" style="margin-left: 6px;">Score: 5 + 10 pts</span>
-          </div>
-        </div>
-        <div class="field-body">
-          <div class="op-box scorer">
-            <h4>Field Scorer Operation</h4>
-            <ul class="step-list">
-              <li>Social: LinkedIn handle had a tracking query parameter added (<code>?lipi=...</code>) $\rightarrow$ <strong>5 pts</strong>.</li>
-              <li>Catalog: Live crawl discovered 3 collection routes (<code>/collections/white-studio</code>) where DB array was empty $\rightarrow$ <strong>10 pts</strong>.</li>
-            </ul>
-            <div class="result-pill scorer">
-              <span>Independent Verdict:</span>
-              <strong>LinkedIn URL adjusted & catalog routes discovered (+15 pts)</strong>
-            </div>
-          </div>
-
-          <div class="op-box comparator">
-            <h4>Comparator Operation</h4>
-            <ul class="step-list">
-              <li>Applies <strong>Coverage Guard</strong>: recognizes that old DB had an unclassified catalog array due to pipeline differences.</li>
-              <li>Caps catalog change at <code>[LOG_ONLY]</code> (reason: <code>baseline_catalog_unclassified</code>).</li>
-            </ul>
-            <div class="result-pill comparator">
-              <span>Dependent Verdict:</span>
-              <strong>[LOG_ONLY] Suppressed as baseline coverage difference</strong>
-            </div>
-          </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Cross-checks fallback brand signals: <code>nameFromCopyright</code>, <code>nameFromTitle</code>, <code>clearbitName</code>.</li>
+            <li>Finds footer copyright: <code>"© 2023 by White Studio"</code> in the live crawl.</li>
+            <li>Determines company did <strong>not</strong> rebrand, but the header extractor simply returned null.</li>
+            <li>Assigns <code>tier: "not_found"</code> and suppresses high-priority rebrand alert.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [NOT_FOUND] True rebrand ruled out (footer copyright matches)</div>
         </div>
       </div>
     </div>
 
-    <!-- SUMMARY TABLE -->
-    <h2 class="section-title">Final Scoring Matrix & Unified Output</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Field</th>
-          <th>Weight</th>
-          <th>Old Value (DB Baseline)</th>
-          <th>New Value (Live Crawl)</th>
-          <th>Independent Score</th>
-          <th>Comparator Tier</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>company_name</strong></td>
-          <td>25 pts</td>
-          <td>"White Studio"</td>
-          <td>null</td>
-          <td><span class="badge not-found">Score: 10</span> (Missing in header)</td>
-          <td><span class="badge comparator">NOT_FOUND</span> (Copyright matches)</td>
-        </tr>
-        <tr>
-          <td><strong>description</strong></td>
-          <td>20 pts</td>
-          <td>"At White Studio London..." (662 ch)</td>
-          <td>"White Studio Bridal..." (353 ch)</td>
-          <td><span class="badge modified">Score: 20</span> (19% similarity)</td>
-          <td><span class="badge comparator">LOG_ONLY</span> (homeContent identical)</td>
-        </tr>
-        <tr>
-          <td><strong>phone</strong></td>
-          <td>15 pts</td>
-          <td>"020 8368 1500"</td>
-          <td>null</td>
-          <td><span class="badge not-found">Score: 5</span> (Missing in header)</td>
-          <td><span class="badge comparator">NOT_FOUND</span></td>
-        </tr>
-        <tr>
-          <td><strong>email</strong></td>
-          <td>15 pts</td>
-          <td>"info@whitestudiolondon.com"</td>
-          <td>"info@whitestudiolondon.com"</td>
-          <td><span class="badge unchanged">Score: 0</span> (Exact match)</td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <tr>
-          <td><strong>address</strong></td>
-          <td>15 pts</td>
-          <td>"Unit D3 Friarsgate..."</td>
-          <td>null</td>
-          <td><span class="badge not-found">Score: 5</span></td>
-          <td><span class="badge comparator">NOT_FOUND</span></td>
-        </tr>
-        <tr>
-          <td><strong>registration_number</strong></td>
-          <td>25 pts</td>
-          <td>"08742433"</td>
-          <td>null</td>
-          <td><span class="badge not-found">Score: 5</span></td>
-          <td><span class="badge comparator">NOT_FOUND</span></td>
-        </tr>
-        <tr>
-          <td><strong>title</strong></td>
-          <td>10 pts</td>
-          <td>"Wedding dress | White Studio..."</td>
-          <td>"Wedding dress | White Studio..."</td>
-          <td><span class="badge unchanged">Score: 0</span></td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <tr>
-          <td><strong>website</strong></td>
-          <td>20 pts</td>
-          <td>https://www.whitestudiolondon.com</td>
-          <td>https://www.whitestudiolondon.com/</td>
-          <td><span class="badge unchanged">Score: 0</span></td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <tr>
-          <td><strong>social_links</strong></td>
-          <td>5 pts</td>
-          <td>LinkedIn URL clean</td>
-          <td>LinkedIn URL with query param</td>
-          <td><span class="badge modified">Score: 5</span></td>
-          <td><span class="badge comparator">LOG_ONLY</span></td>
-        </tr>
-        <tr>
-          <td><strong>catalog_routes</strong></td>
-          <td>10 pts</td>
-          <td>[] (Unclassified in DB)</td>
-          <td>3 routes discovered</td>
-          <td><span class="badge modified">Score: 10</span></td>
-          <td><span class="badge comparator">LOG_ONLY</span></td>
-        </tr>
-        <!-- TIER 2: CONTENT BODIES -->
-        <tr style="background: rgba(30, 41, 59, 0.7); font-weight: 600;">
-          <td colspan="6" style="color: var(--accent-blue);">TIER 2: CONTENT PAGE BODIES (Tracked for text preservation & corroboration)</td>
-        </tr>
-        <tr>
-          <td><strong>home_content</strong></td>
-          <td>0 pts</td>
-          <td>2,775 chars text</td>
-          <td>2,775 chars text</td>
-          <td><span class="badge unchanged">UNCHANGED</span> (100% Sim)</td>
-          <td><span class="badge unchanged">UNCHANGED</span> (Critical Anchor)</td>
-        </tr>
-        <tr>
-          <td><strong>about_page</strong></td>
-          <td>0 pts</td>
-          <td>1,124 chars text</td>
-          <td>1,124 chars text</td>
-          <td><span class="badge unchanged">UNCHANGED</span> (100% Sim)</td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <tr>
-          <td><strong>contact_page</strong></td>
-          <td>0 pts</td>
-          <td>809 chars text</td>
-          <td>809 chars text</td>
-          <td><span class="badge unchanged">UNCHANGED</span> (100% Sim)</td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <!-- TIER 3: TECHNICAL INFRASTRUCTURE -->
-        <tr style="background: rgba(30, 41, 59, 0.7); font-weight: 600;">
-          <td colspan="6" style="color: var(--accent-emerald);">TIER 3: TECHNICAL & NETWORK INFRASTRUCTURE (Network Health)</td>
-        </tr>
-        <tr>
-          <td><strong>response_code</strong></td>
-          <td>0 pts</td>
-          <td>"200"</td>
-          <td>"200"</td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <tr>
-          <td><strong>host_ip</strong></td>
-          <td>0 pts</td>
-          <td>"172.66.3.8"</td>
-          <td>"172.66.3.8"</td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <tr>
-          <td><strong>ip_country</strong></td>
-          <td>0 pts</td>
-          <td>"United Kingdom"</td>
-          <td>"United States of America"</td>
-          <td><span class="badge modified">MODIFIED</span> (CDN shift)</td>
-          <td><span class="badge comparator">LOG_ONLY</span></td>
-        </tr>
-        <tr>
-          <td><strong>web_server</strong></td>
-          <td>0 pts</td>
-          <td>"jsoup"</td>
-          <td>"jsoup"</td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <!-- TIER 4: AUXILIARY IDENTITY SIGNALS -->
-        <tr style="background: rgba(30, 41, 59, 0.7); font-weight: 600;">
-          <td colspan="6" style="color: var(--accent-purple);">TIER 4: AUXILIARY IDENTITY SIGNALS (Brand Fallbacks)</td>
-        </tr>
-        <tr>
-          <td><strong>name_from_copyright</strong></td>
-          <td>0 pts</td>
-          <td>null</td>
-          <td>"White Studio"</td>
-          <td><span class="badge modified">ADDED</span></td>
-          <td><span class="badge comparator">LOG_ONLY</span> (Proves Brand Intact)</td>
-        </tr>
-        <tr>
-          <td><strong>name_from_title</strong></td>
-          <td>0 pts</td>
-          <td>"Wedding dress | White Studio..."</td>
-          <td>"White Studio Bridal"</td>
-          <td><span class="badge modified">MODIFIED</span></td>
-          <td><span class="badge comparator">LOG_ONLY</span></td>
-        </tr>
-        <tr>
-          <td><strong>image_url</strong></td>
-          <td>0 pts</td>
-          <td>wixstatic logo URL</td>
-          <td>wixstatic logo URL</td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <!-- TIER 5: LINK POOLS -->
-        <tr style="background: rgba(30, 41, 59, 0.7); font-weight: 600;">
-          <td colspan="6" style="color: var(--accent-amber);">TIER 5: LINK POOLS & NAVIGATION</td>
-        </tr>
-        <tr>
-          <td><strong>home_links</strong></td>
-          <td>0 pts</td>
-          <td>20 URLs array</td>
-          <td>20 URLs array</td>
-          <td><span class="badge unchanged">UNCHANGED</span> (20/20 Match)</td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <tr>
-          <td><strong>contact_links</strong></td>
-          <td>0 pts</td>
-          <td>["https://.../contact"]</td>
-          <td>["https://.../contact"]</td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <tr>
-          <td><strong>about_links</strong></td>
-          <td>0 pts</td>
-          <td>["https://.../about"]</td>
-          <td>["https://.../about"]</td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-          <td><span class="badge unchanged">UNCHANGED</span></td>
-        </tr>
-        <tr style="background: rgba(15, 23, 42, 0.9); font-weight: bold;">
-          <td colspan="4" style="text-align: right; text-transform: uppercase;">Total Change Score:</td>
-          <td><span style="font-size: 1.1rem; color: #fb7185;">60 / 100</span></td>
-          <td><span class="badge comparator">HIGH CHANGE</span></td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- 2. title -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#2</span>
+          <span class="field-name">title</span>
+          <span class="field-weight">(Max Weight: 10 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 / 10</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"Wedding dress | White Studio Bridal | United Kingdom"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>"Wedding dress | White Studio Bridal | United Kingdom"</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Tokenizes &lt;title&gt; text and runs Jaccard word-overlap similarity.</li>
+            <li>Intersection / Union = 100% similarity ($\ge 75\%$).</li>
+            <li>Assigns <code>UNCHANGED</code> with <strong>0 points</strong>.</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Formula / Condition</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Identical / Similar</td><td>Similarity &ge; 75%</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>Modified</td><td>Similarity &lt; 75%</td><td><code>MODIFIED</code> (10 pts)</td></tr>
+            <tr><td>Missing in crawl</td><td>old populated && new null</td><td><code>NOT_FOUND_IN_CRAWL</code> (5 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: Title matches (100% similarity) (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Splits title on separators (`|`, `-`, `,`) to isolate brand vs keywords.</li>
+            <li>Verifies brand token "White Studio" is preserved. Marks verified unchanged.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Title brand segment identical across records</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. tagline -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#3</span>
+          <span class="field-name">tagline</span>
+          <span class="field-weight">(Max Weight: 5 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 / 5</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"Where Bridal Dreams Take Shape"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>"Where Bridal Dreams Take Shape" (home banner)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Compares trimmed, lowercase tagline strings.</li>
+            <li>Strings match $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Formula / Condition</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Match / Both Empty</td><td>old === new</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>Modified</td><td>old !== new</td><td><code>MODIFIED</code> (5 pts)</td></tr>
+            <tr><td>Missing in crawl</td><td>old populated && new null</td><td><code>NOT_FOUND_IN_CRAWL</code> (5 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: Tagline matches (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Checks if tagline migrated to title or H1 heading. Confirmed identical.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Consistent brand tagline</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. description -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#4</span>
+          <span class="field-name">description</span>
+          <span class="field-weight">(Max Weight: 20 pts)</span>
+        </div>
+        <div>
+          <span class="badge modified">MAJOR_CHANGE</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 20 / 20</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"At White Studio London, we are dedicated to redefining bridal fashion..." (662 ch)</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>"White Studio Bridal, your destination for affordable wedding dresses..." (353 ch)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Runs Jaccard token overlap between old and new descriptions: <strong>19% similarity</strong>.</li>
+            <li>Since similarity &lt; 45% $\rightarrow$ triggers <code>MAJOR_CHANGE</code> (20 pts).</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Similarity Threshold</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Unchanged</td><td>&ge; 85% overlap</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>Minor update</td><td>45% – 84% overlap</td><td><code>MINOR_UPDATE</code> (5 pts)</td></tr>
+            <tr><td>Major rewrite</td><td>&lt; 45% overlap</td><td><code>MAJOR_CHANGE</code> (20 pts)</td></tr>
+            <tr><td>Missing in crawl</td><td>old populated && new null</td><td><code>NOT_FOUND_IN_CRAWL</code> (10 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: Description substantially rewritten (19% similarity) (+20 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Non-circular corroboration check: checks <code>homeContent</code> body text.</li>
+            <li>Homepage body text is <strong>100% identical</strong>. The business did not pivot.</li>
+            <li>Caps priority tier at <code>[LOG_ONLY]</code> (reason: <code>baseline_stale_meta</code>).</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [LOG_ONLY] Jaccard 0.20 (homeContent unchanged)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. phone -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#5</span>
+          <span class="field-name">phone</span>
+          <span class="field-weight">(Max Weight: 15 pts)</span>
+        </div>
+        <div>
+          <span class="badge not-found">NOT_FOUND_IN_CRAWL</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 5 / 15</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"020 8368 1500"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>null (embedded in footer text, null in header)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Normalizes digits (`2083681500`). New header is null $\rightarrow$ <code>NOT_FOUND_IN_CRAWL</code> (5 pts).</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Formula / Condition</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Match</td><td>cleanPhone(old) === cleanPhone(new)</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>Modified</td><td>different phone digits</td><td><code>MODIFIED</code> (15 pts)</td></tr>
+            <tr><td>Missing in crawl</td><td>old populated && new null</td><td><code>NOT_FOUND_IN_CRAWL</code> (5 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: Phone "020 8368 1500" not found in live crawl (+5 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Context check: searches page text for `tel:` links; rejects company registration number.</li>
+            <li>Labels <code>tier: "not_found"</code>.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [NOT_FOUND] Missing from structured contact endpoints</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. email -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#6</span>
+          <span class="field-name">email</span>
+          <span class="field-weight">(Max Weight: 15 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 / 15</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"info@whitestudiolondon.com"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>"info@whitestudiolondon.com"</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Trims and lowercases both strings. Exact match $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Formula / Condition</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Match</td><td>old.toLowerCase() === new.toLowerCase()</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>Modified</td><td>different email address</td><td><code>MODIFIED</code> (15 pts)</td></tr>
+            <tr><td>Missing in crawl</td><td>old populated && new null</td><td><code>NOT_FOUND_IN_CRAWL</code> (5 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: Email address matches (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Classifies as generic role email matching domain. Confirmed identical.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Field verified unchanged across records</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. address -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#7</span>
+          <span class="field-name">address</span>
+          <span class="field-weight">(Max Weight: 15 pts)</span>
+        </div>
+        <div>
+          <span class="badge not-found">NOT_FOUND_IN_CRAWL</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 5 / 15</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>null (embedded in footer text, null in header)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Word-overlap tokenization. New header is null $\rightarrow$ <code>NOT_FOUND_IN_CRAWL</code> (5 pts).</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Condition</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Match</td><td>Token overlap &ge; 70%</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>Relocation</td><td>Different address tokens</td><td><code>MODIFIED</code> (15 pts)</td></tr>
+            <tr><td>Missing in crawl</td><td>old populated && new null</td><td><code>NOT_FOUND_IN_CRAWL</code> (5 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: Address not found in live crawl header (+5 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Checks Google Maps links (`maps.google.com`) and contact page footer. No relocation detected.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [NOT_FOUND] No conflicting office relocation found</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. postal_code -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#8</span>
+          <span class="field-name">postal_code</span>
+          <span class="field-weight">(Max Weight: 10 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 / 10</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>null (embedded in address string)</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>null</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Both empty in top-level column $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Condition</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Match / Both Empty</td><td>old === new</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>Changed postcode</td><td>alphanumeric postcode mismatch</td><td><code>MODIFIED</code> (10 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: No separate postal code recorded (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Extracts UK postcode `NW10 7SE` from page body text. Confirmed identical.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Consistent UK postcode pattern</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. registration_number -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#9</span>
+          <span class="field-name">registration_number</span>
+          <span class="field-weight">(Max Weight: 25 pts)</span>
+        </div>
+        <div>
+          <span class="badge not-found">NOT_FOUND_IN_CRAWL</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 5 / 25</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"08742433"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>null (not in structured header)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Old had registration number; new header is null $\rightarrow$ <code>NOT_FOUND_IN_CRAWL</code> (5 pts).</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Condition</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Match</td><td>Digits match exactly</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>Legal CRN Change</td><td>Different company number</td><td><code>MODIFIED</code> (25 pts)</td></tr>
+            <tr><td>Missing in crawl</td><td>old populated && new null</td><td><code>NOT_FOUND_IN_CRAWL</code> (5 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: Registration number "08742433" not found in live crawl (+5 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Scans contact and about page bodies for 8-digit numbers. No conflicting legal entity found.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [NOT_FOUND] No conflicting legal entity registered</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. website -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#10</span>
+          <span class="field-name">website</span>
+          <span class="field-weight">(Max Weight: 20 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 / 20</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"https://www.whitestudiolondon.com"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>"https://www.whitestudiolondon.com/"</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Extracts hostname: <code>whitestudiolondon.com</code> matches on both sides $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Condition</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Match</td><td>Same registered domain/host</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>External Redirect</td><td>Redirected to different registrable domain</td><td><code>REDIRECTED</code> (20 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: Domain / host matches (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Inspects HTTP redirect status (200 OK). Canonical apex-to-www mapping is verified.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Verified canonical domain</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. social_links -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#11</span>
+          <span class="field-name">social_links</span>
+          <span class="field-weight">(Max Weight: 5 pts)</span>
+        </div>
+        <div>
+          <span class="badge modified">MODIFIED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 5 / 5</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>LinkedIn URL clean without parameters</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>LinkedIn URL with tracking parameter (?lipi=...)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Compares URLs across 6 platforms. Detects URL string variation on LinkedIn $\rightarrow$ <code>MODIFIED</code> (5 pts).</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Condition</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Steady</td><td>All 6 platforms match</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>Handle changed</td><td>Different social profile URL</td><td><code>MODIFIED</code> (5 pts)</td></tr>
+            <tr><td>New profile added</td><td>Newly discovered social profile</td><td><code>ADDED</code> (5 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: Social profile handle changed for: linkedin (+5 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Normalizes domain aliases (`x.com` vs `twitter.com`) and ignores query tracking parameters.</li>
+            <li>Caps at <code>[LOG_ONLY]</code> because the actual handle `white-studio-9a68a9288` is identical.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [LOG_ONLY] Social handle identical; query params stripped</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. catalog_routes -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#12</span>
+          <span class="field-name">catalog_routes</span>
+          <span class="field-weight">(Max Weight: 10 pts)</span>
+        </div>
+        <div>
+          <span class="badge modified">MODIFIED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 10 / 10</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>[] (empty arrays in DB)</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>3 routes discovered (/collections/white-studio, ...)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Compares combined `productLinks`, `serviceLinks`, `ecommerceLinks`.</li>
+            <li>Detects 3 new routes added $\rightarrow$ <code>MODIFIED</code> (10 pts).</li>
+          </ul>
+          <table class="case-table">
+            <tr><th>Case</th><th>Condition</th><th>Resulting Status & Score</th></tr>
+            <tr><td>Match</td><td>Same set of catalog routes</td><td><code>UNCHANGED</code> (0 pts)</td></tr>
+            <tr><td>Route Shift</td><td>New commercial routes discovered</td><td><code>MODIFIED</code> (10 pts)</td></tr>
+          </table>
+          <div class="result-pill scorer">Verdict: Catalog routes updated (3 new routes discovered) (+10 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Applies <strong>Coverage Guard</strong>: identifies that old DB had unclassified links due to pipeline gap.</li>
+            <li>Caps at <code>[LOG_ONLY]</code> (reason: <code>baseline_catalog_unclassified</code>).</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [LOG_ONLY] Coverage difference suppressed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TIER 2: CONTENT PAGE BODIES -->
+    <!-- ===================================================================== -->
+    <h2 id="cat-content" class="category-title">Tier 2: Content Page Bodies (Text Preservation & Anti-Hallucination)</h2>
+
+    <!-- 13. home_content -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#13</span>
+          <span class="field-name">home_content</span>
+          <span class="field-weight">(Weight: 0 pts - Anchor Metric)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Similarity: 100%</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>2,775 chars text ("Wedding dress | White Studio Bridal...")</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>2,775 chars text (100% character-for-character match)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Runs full Jaccard tokenization over the entire homepage body text.</li>
+            <li>Calculates <strong>100% similarity</strong> $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: Homepage body content matches (100% similarity) (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Serves as the <strong>Ground Truth Anchor</strong>: because homepage body is 100% unchanged, all AI-generated description rewrite claims are rejected as cosmetic.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Ground truth anchor verifies company identity</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14. about_page -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#14</span>
+          <span class="field-name">about_page</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Similarity: 100%</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>1,124 chars text ("About Us | White Studio... Established in 2023...")</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>1,124 chars text (100% match)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Evaluates word overlap across `/about` page body $\rightarrow$ <strong>100% similarity</strong> $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: About Page body content matches (100% similarity) (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Verifies company founding year (2023), history, and leadership narrative remain identical.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Corporate story verified unchanged</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15. contact_page -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#15</span>
+          <span class="field-name">contact_page</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Similarity: 100%</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>809 chars text ("Contact us... Unit D3 Friarsgate... 020 8368 1500...")</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>809 chars text (100% match)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Evaluates word overlap across `/contact` page body $\rightarrow$ <strong>100% similarity</strong> $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: Contact Page body content matches (100% similarity) (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Proves that address `NW10 7SE` and phone `020 8368 1500` are still present on the website live.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Live contact details intact on page body</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 16. privacy_page & 17. terms_page -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#16 - #17</span>
+          <span class="field-name">privacy_page & terms_page</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 pts</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>null (not populated)</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>null (not populated)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Both null $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: No Privacy / Terms Page recorded (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Identifies baseline gap `baseline_pages_missing` as part of baseline quality audit.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Pipeline coverage matches</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TIER 3: TECHNICAL & NETWORK INFRASTRUCTURE -->
+    <!-- ===================================================================== -->
+    <h2 id="cat-tech" class="category-title">Tier 3: Technical & Network Infrastructure (Operational Health)</h2>
+
+    <!-- 18. response_code -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#18</span>
+          <span class="field-name">response_code</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 pts</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"200"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>"200"</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Both return HTTP 200 $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: HTTP Status matches ("200") (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Classifies site availability. If code were 403 or 500, would trigger `inconclusive`.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Valid HTTP 200 OK</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 19. host_ip -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#19</span>
+          <span class="field-name">host_ip</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 pts</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"172.66.3.8"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>"172.66.3.8"</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>IP string comparison matches $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: Host IP matches ("172.66.3.8") (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Recognizes Cloudflare IP block; logs stability.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Edge IP stable</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 20. ip_country -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#20</span>
+          <span class="field-name">ip_country</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge modified">MODIFIED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 pts</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"United Kingdom"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>"United States of America" (Cloudflare Anycast)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Detects string change $\rightarrow$ <code>MODIFIED</code> (0 pts penalty).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: Hosting Country shifted (UK -> USA CDN) (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li><strong>Hard Rule</strong>: NEVER uses `ipCountry` as company location (it's server hosting location).</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [LOG_ONLY] Server routing shift ignored for company location</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 21. web_server, 22. domain_status, 23. load_time_ms -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#21 - #23</span>
+          <span class="field-name">web_server, domain_status & load_time_ms</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 pts</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"jsoup" | "Valid" | 131 ms</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>"jsoup" | "Valid" | 249 ms</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Tracks server software and health $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: Web Server & Domain Status match ("Valid") (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Verifies website is active and not parked or expired.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Active live domain confirmed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TIER 4: AUXILIARY IDENTITY SIGNALS -->
+    <!-- ===================================================================== -->
+    <h2 id="cat-identity" class="category-title">Tier 4: Auxiliary Identity Signals (Brand Fallbacks)</h2>
+
+    <!-- 24. name_from_copyright -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#24</span>
+          <span class="field-name">name_from_copyright</span>
+          <span class="field-weight">(Weight: 0 pts - Fallback Signal)</span>
+        </div>
+        <div>
+          <span class="badge modified">ADDED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 pts</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>null</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>"White Studio"</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Old was null; new found $\rightarrow$ <code>ADDED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: Copyright Brand discovered: "White Studio" (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Used to prove the true brand name is still `"White Studio"`, preventing a false rebrand alert.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [LOG_ONLY] Proves brand is active and intact</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 25. name_from_title -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#25</span>
+          <span class="field-name">name_from_title</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge modified">MODIFIED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 pts</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"Wedding dress | White Studio Bridal | United Kingdom"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>"White Studio Bridal" (heuristic segment)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Detects title segment heuristic difference $\rightarrow$ <code>MODIFIED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: Title Brand shifted to "White Studio Bridal" (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Recognizes that "White Studio Bridal" shares the brand token "White Studio". No brand drift.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [LOG_ONLY] Token overlap confirms same brand</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 26. clearbit_name, 27. image_url, 28. language -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#26 - #28</span>
+          <span class="field-name">clearbit_name, image_url & language</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 pts</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>"White Studio" | wixstatic logo | "en"</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>null | wixstatic logo | "en"</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Language and logo match completely $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: Logo Image & Language ("en") match (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Confirms consistent language and logo asset CDN.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Brand assets steady</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TIER 5: LINK POOLS & NAVIGATION -->
+    <!-- ===================================================================== -->
+    <h2 id="cat-links" class="category-title">Tier 5: Navigation & Link Pools (Discovery & Coverage Guard)</h2>
+
+    <!-- 29. home_links -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#29</span>
+          <span class="field-name">home_links</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Match: 20 / 20</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>20 URLs ([".../all-dresses", ".../contact", ".../about", ...])</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>20 URLs (exact same 20 URLs)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Parses bracket string and arrays into unique URL sets.</li>
+            <li>All 20 links match $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: All 20 Homepage Links match (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Computes link coverage ratio: 20 old vs 20 new = <strong>Ratio: 1.0</strong> (Perfect coverage symmetry).</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Coverage ratio 1.0 confirms healthy crawl</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 30. contact_links & 31. about_links -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#30 - #31</span>
+          <span class="field-name">contact_links & about_links</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge unchanged">UNCHANGED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 pts</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>["https://www.whitestudiolondon.com/contact"] & [".../about"]</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>["https://www.whitestudiolondon.com/contact"] & [".../about"]</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Links point to exact same paths $\rightarrow$ <code>UNCHANGED</code> (0 pts).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: Contact & About Links match (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Validates that primary contact routes have not migrated or broken.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [UNCHANGED] Primary navigation intact</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 32. other_links -->
+    <div class="field-card">
+      <div class="field-header">
+        <div class="field-title-area">
+          <span class="field-num">#32</span>
+          <span class="field-name">other_links</span>
+          <span class="field-weight">(Weight: 0 pts)</span>
+        </div>
+        <div>
+          <span class="badge modified">MODIFIED</span>
+          <span class="badge scorer" style="margin-left: 6px;">Score: 0 pts</span>
+        </div>
+      </div>
+      <div class="example-bar">
+        <div class="example-col"><span>Old DB Baseline:</span><strong>{ about: ".../about", contactUs: ".../contact", privacy: null, terms: null }</strong></div>
+        <div class="example-col"><span>New Live Crawl:</span><strong>{ about: null, contactUs: null } (sub-keys shifted to arrays)</strong></div>
+      </div>
+      <div class="field-body">
+        <div class="op-box scorer">
+          <h4>Field Scorer Operation</h4>
+          <ul class="step-list">
+            <li>Detects object sub-key shift $\rightarrow$ <code>MODIFIED</code> (0 pts penalty).</li>
+          </ul>
+          <div class="result-pill scorer">Verdict: Header/Footer Links links updated (2 removed) (0 pts)</div>
+        </div>
+        <div class="op-box comparator">
+          <h4>Comparator Operation</h4>
+          <ul class="step-list">
+            <li>Recognizes that URLs merely moved from `otherLinks` object to `contactLinks` array.</li>
+            <li>Caps at <code>[LOG_ONLY]</code>.</li>
+          </ul>
+          <div class="result-pill comparator">Verdict: [LOG_ONLY] Cosmetic JSON structure shift</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </body>
 </html>
-
