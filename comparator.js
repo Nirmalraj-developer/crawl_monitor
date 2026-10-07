@@ -2562,13 +2562,8 @@ function getDbBaselineFixture() {
 function runSelfTest() {
   console.log('--- Running SelfTest Mutation Suite (16 cases) ---\n');
 
-  // Load infynd baseline as testing canvas
-  let baseJson = null;
-  const oldPath = path.resolve(process.cwd(), 'data', 'old', 'infynd.com.json');
-  if (fs.existsSync(oldPath)) {
-    baseJson = JSON.parse(fs.readFileSync(oldPath, 'utf8'));
-  } else {
-    baseJson = {
+  // Built-in deterministic testing canvas
+  const baseJson = {
   "domain": "infynd.com",
   "saved_at": "2026-10-01T08:37:03.461Z",
   "crawl_data": {
@@ -2677,7 +2672,6 @@ function runSelfTest() {
     ]
   }
 };
-  }
 
   function clone(obj) {
     return JSON.parse(JSON.stringify(obj));

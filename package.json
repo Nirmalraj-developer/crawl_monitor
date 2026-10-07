@@ -4,6 +4,7 @@
   "description": "Company website crawl and change detection pipeline",
   "main": "comparator.js",
   "scripts": {
+    "start": "node index.js",
     "test": "node comparator.js --selftest"
   },
   "dependencies": {
