@@ -11,14 +11,19 @@
  * - overlap percentage
  */
 
+const { removeStopwords, eng } = require('stopword');
+
 function extractTokenSet(text) {
   if (!text || typeof text !== 'string') return new Set();
-  const words = text
+  const rawWords = text
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, ' ')
     .split(/\s+/)
     .filter(w => w.length > 1);
-  return new Set(words);
+
+  // Filter out stop words so Jaccard measures genuine content vocabulary overlap
+  const contentWords = removeStopwords(rawWords, eng);
+  return new Set(contentWords);
 }
 
 function computeJaccardSimilarity(oldText, newText) {
