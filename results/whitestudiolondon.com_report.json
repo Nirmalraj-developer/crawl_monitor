@@ -1,0 +1,701 @@
+{
+  "domain": "whitestudiolondon.com",
+  "compared_at": "2026-10-07T07:31:59.310Z",
+  "total_change_score": 60,
+  "change_level": "HIGH",
+  "has_meaningful_change": true,
+  "summary": "Changed: description, social links, catalog routes, ip country, load time_ms, name from_title, other links | Not found in crawl: company name, phone, address, registration number, clearbit name",
+  "fields": {
+    "company_name": {
+      "old": "White Studio",
+      "new": null,
+      "status": "NOT_FOUND_IN_CRAWL",
+      "score": 10,
+      "similarity": null,
+      "independent": {
+        "score": 10,
+        "status": "NOT_FOUND_IN_CRAWL",
+        "verdict": "Company name \"White Studio\" was not found in the live crawl."
+      },
+      "dependent": {
+        "tier": "not_found",
+        "corroborated": false,
+        "confidence": 0.7,
+        "evidence": "Not located in extracted crawl page contacts or body.",
+        "needs_confirmation": false
+      }
+    },
+    "title": {
+      "old": "Wedding dress | White Studio Bridal | United Kingdom",
+      "new": "Wedding dress | White Studio Bridal | United Kingdom",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": "100%",
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "Title matches."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "tagline": {
+      "old": null,
+      "new": null,
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "No tagline in old or new record."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "description": {
+      "old": "At White Studio London, we are dedicated to redefining bridal fashion with modern, chic, and affordable wedding dresses. With 28 years of experience in garment making, we proudly serve as a sister brand of White Rose Bridal. Our collection features high-quality gowns that embody elegance and style without the designer price tag. White Studio London caters to the trendy, modern bride seeking chic and structured wedding dresses at accessible prices. Every gown is crafted with love in our in-house factory, allowing us to maintain the highest standards of craftsmanship. We specialize in curve-size wedding gowns, ensuring every bride can find her perfect fit.",
+      "new": "White Studio Bridal, your destination for affordable wedding dresses. Explore our exquisite wedding gowns, each meticulously crafted with passion and dedication, as we honour the legacy of White Rose Bridal tradition. Find 'the one' that perfectly celebrates your love story at White Studio Bridal – where includes options for plus size wedding dresses.",
+      "status": "MAJOR_CHANGE",
+      "score": 20,
+      "similarity": "19%",
+      "independent": {
+        "score": 20,
+        "status": "MAJOR_CHANGE",
+        "verdict": "Description was substantially rewritten (19% similarity)."
+      },
+      "dependent": {
+        "tier": "log_only",
+        "corroborated": false,
+        "confidence": 0.6,
+        "evidence": "Jaccard 0.20",
+        "needs_confirmation": false
+      }
+    },
+    "phone": {
+      "old": "020 8368 1500",
+      "new": null,
+      "status": "NOT_FOUND_IN_CRAWL",
+      "score": 5,
+      "similarity": null,
+      "independent": {
+        "score": 5,
+        "status": "NOT_FOUND_IN_CRAWL",
+        "verdict": "Phone \"020 8368 1500\" not found in live crawl."
+      },
+      "dependent": {
+        "tier": "not_found",
+        "corroborated": false,
+        "confidence": 0.7,
+        "evidence": "Not located in extracted crawl page contacts or body.",
+        "needs_confirmation": false
+      }
+    },
+    "email": {
+      "old": "info@whitestudiolondon.com",
+      "new": "info@whitestudiolondon.com",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "Email address matches."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "address": {
+      "old": "Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE",
+      "new": null,
+      "status": "NOT_FOUND_IN_CRAWL",
+      "score": 5,
+      "similarity": null,
+      "independent": {
+        "score": 5,
+        "status": "NOT_FOUND_IN_CRAWL",
+        "verdict": "Address \"Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE\" not found in live crawl."
+      },
+      "dependent": {
+        "tier": "not_found",
+        "corroborated": false,
+        "confidence": 0.7,
+        "evidence": "Not located in extracted crawl page contacts or body.",
+        "needs_confirmation": false
+      }
+    },
+    "postal_code": {
+      "old": null,
+      "new": null,
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "No postal code in old or new record."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "registration_number": {
+      "old": "08742433",
+      "new": null,
+      "status": "NOT_FOUND_IN_CRAWL",
+      "score": 5,
+      "similarity": null,
+      "independent": {
+        "score": 5,
+        "status": "NOT_FOUND_IN_CRAWL",
+        "verdict": "Registration number \"08742433\" not found in live crawl."
+      },
+      "dependent": {
+        "tier": "not_found",
+        "corroborated": false,
+        "confidence": 0.7,
+        "evidence": "Not located in extracted crawl page contacts or body.",
+        "needs_confirmation": false
+      }
+    },
+    "website": {
+      "old": "https://www.whitestudiolondon.com",
+      "new": "https://www.whitestudiolondon.com/",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "Domain / host matches."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "social_links": {
+      "old": {
+        "linkedin": "https://www.linkedin.com/in/white-studio-9a68a9288",
+        "facebook": null,
+        "twitter": null,
+        "instagram": "https://www.instagram.com/whitestudiolondon/profilecard/?igsh=MWx4Ym53M2R5emRobQ==",
+        "youtube": null,
+        "github": null
+      },
+      "new": {
+        "facebook": "",
+        "instagram": "https://www.instagram.com/whitestudiolondon/profilecard/?igsh=MWx4Ym53M2R5emRobQ==",
+        "linkedin": "https://www.linkedin.com/in/white-studio-9a68a9288?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B2hfe6sxITXGRTLKX82jJIw%3D%3D",
+        "twitter": "",
+        "youtube": "",
+        "pinterest": "",
+        "vimeo": "",
+        "googlePlus": "",
+        "slideshare": "",
+        "privacy": "",
+        "terms": ""
+      },
+      "status": "MODIFIED",
+      "score": 5,
+      "similarity": null,
+      "independent": {
+        "score": 5,
+        "status": "MODIFIED",
+        "verdict": "Social profile handle changed for: linkedin."
+      },
+      "dependent": {
+        "tier": "log_only",
+        "corroborated": false,
+        "confidence": 0.5,
+        "evidence": "Social profile handle changed for: linkedin.",
+        "needs_confirmation": false
+      }
+    },
+    "catalog_routes": {
+      "old": [],
+      "new": [
+        "https://www.whitestudiolondon.com/shop",
+        "https://www.whitestudiolondon.com/shop-5",
+        "https://www.whitestudiolondon.com/shop-1"
+      ],
+      "status": "MODIFIED",
+      "score": 10,
+      "similarity": null,
+      "independent": {
+        "score": 10,
+        "status": "MODIFIED",
+        "verdict": "Catalog routes updated (3 new routes discovered, 0 removed)."
+      },
+      "dependent": {
+        "tier": "log_only",
+        "corroborated": false,
+        "confidence": 0.5,
+        "evidence": "Catalog routes updated (3 new routes discovered, 0 removed).",
+        "needs_confirmation": false
+      }
+    },
+    "home_content": {
+      "old": "Wedding dress | White Studio Bridal | United Kingdom top of page HOME Collections White Studio White Studio Curve White Studio Signature About Us #WS Brides Find Stockists Events Become a stockist Contact Us Size Chart More Use tab to navigate through the menu items. Other Labels: White Rose Millie May View Now Welcome to White Studio Where Bridal Dreams Take Shape At White Studio London, we are dedicated to redefining bridal fashion with modern, chic, and affordable wedding dresses. With 28 years of experience in garment making, we proudly serve as a sister brand of White Rose Bridal. Our collection features high-quality gowns that embody elegance and style without the designer price tag. White Studio London caters to the trendy, modern bride seeking chic and structured wedding dresses at accessible prices. Every gown is crafted with love in our in-house factory, allowing us to maintain the highest standards of craftsmanship. We specialize in curve-size wedding gowns, ensuring every bride can find her perfect fit. Your bridal gown should be as unique and special as you are, and our curve-size collection offers exquisite styles that celebrate your beauty. With fresh, on-trend designs and customization options, we strive to make luxury bridalwear attainable for every bride. Find a Boutique Discover your perfect gown at a boutique near you. Find elegance, grace, and your dream dress with our exclusive locations. Find Now White Studio White Studio Signature White Studio Curve Our dresses are designed with every type of bride in mind, from classic and timeless to modern and unique. We have carefully curated our collection to ensure that every bride finds the dress of her dreams. Browse Collection Introducing White Studio Signature, our newest collection designed for the fashion-forward bride who seeks modern elegance and distinctive style. This collection blends high-end designer elements with contemporary trends, offering bold silhouettes, intricate details, and cutting-edge fabrics. White Studio Signature is for the bride who wants her gown to be a statement piece, reflecting her individuality and sophisticated taste. Each dress is a work of art, carefully crafted to embody the perfect balance of innovation and timeless beauty. Browse Collection Your bridal gown should be as unique and special as you, now plus size brides can look no further than our unique designer plus size wedding dress collection. Browse Collection Our Social Vibes White Studio About Us Our Collections FAQ Contact Us Become A Stockist Find A Stockist White Studio | Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE Size Chart WS Brides Events 020 8368 1500 info@whitestudiolondon.com © 2023 by White Studio. All rights reserved. bottom of page",
+      "new": "Wedding dress | White Studio Bridal | United Kingdom top of page HOME Collections White Studio White Studio Curve White Studio Signature About Us #WS Brides Find Stockists Events Become a stockist Contact Us Size Chart More Use tab to navigate through the menu items. Other Labels: White Rose Millie May View Now Welcome to White Studio Where Bridal Dreams Take Shape At White Studio London, we are dedicated to redefining bridal fashion with modern, chic, and affordable wedding dresses. With 28 years of experience in garment making, we proudly serve as a sister brand of White Rose Bridal. Our collection features high-quality gowns that embody elegance and style without the designer price tag. White Studio London caters to the trendy, modern bride seeking chic and structured wedding dresses at accessible prices. Every gown is crafted with love in our in-house factory, allowing us to maintain the highest standards of craftsmanship. We specialize in curve-size wedding gowns, ensuring every bride can find her perfect fit. Your bridal gown should be as unique and special as you are, and our curve-size collection offers exquisite styles that celebrate your beauty. With fresh, on-trend designs and customization options, we strive to make luxury bridalwear attainable for every bride. Find a Boutique Discover your perfect gown at a boutique near you. Find elegance, grace, and your dream dress with our exclusive locations. Find Now White Studio White Studio Signature White Studio Curve Our dresses are designed with every type of bride in mind, from classic and timeless to modern and unique. We have carefully curated our collection to ensure that every bride finds the dress of her dreams. Browse Collection Introducing White Studio Signature, our newest collection designed for the fashion-forward bride who seeks modern elegance and distinctive style. This collection blends high-end designer elements with contemporary trends, offering bold silhouettes, intricate details, and cutting-edge fabrics. White Studio Signature is for the bride who wants her gown to be a statement piece, reflecting her individuality and sophisticated taste. Each dress is a work of art, carefully crafted to embody the perfect balance of innovation and timeless beauty. Browse Collection Your bridal gown should be as unique and special as you, now plus size brides can look no further than our unique designer plus size wedding dress collection. Browse Collection Our Social Vibes White Studio About Us Our Collections FAQ Contact Us Become A Stockist Find A Stockist White Studio | Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE Size Chart WS Brides Events 020 8368 1500 info@whitestudiolondon.com © 2023 by White Studio. All rights reserved. bottom of page",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": "100%",
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "Homepage body content matches (100% similarity)."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "about_page": {
+      "old": "About Us | White Studio top of page HOME Collections White Studio White Studio Curve White Studio Signature About Us #WS Brides Find Stockists Events Become a stockist Contact Us Size Chart More Use tab to navigate through the menu items. Other Labels: White Rose Millie May Our Story Established in 2023, our journey began with a vision to expand the bridal experience. Showcasing our beautiful collection at the Harrogate Bridal Week in September, we proudly introduced our commitment to exquisite designs at accessible prices. As part of our White Rose Bridal family of brands, we uphold our dedication to crafting high-quality wedding dresses while curating our most affordable collection. Ensuring every bride discovers their dream gown without compromise, we believe luxury should be within everyone`s reach. Explore Now White Studio About Us Our Collections FAQ Contact Us Become A Stockist Find A Stockist White Studio | Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE Size Chart WS Brides Events 020 8368 1500 info@whitestudiolondon.com © 2023 by White Studio. All rights reserved. bottom of page",
+      "new": "About Us | White Studio top of page HOME Collections White Studio White Studio Curve White Studio Signature About Us #WS Brides Find Stockists Events Become a stockist Contact Us Size Chart More Use tab to navigate through the menu items. Other Labels: White Rose Millie May Our Story Established in 2023, our journey began with a vision to expand the bridal experience. Showcasing our beautiful collection at the Harrogate Bridal Week in September, we proudly introduced our commitment to exquisite designs at accessible prices. As part of our White Rose Bridal family of brands, we uphold our dedication to crafting high-quality wedding dresses while curating our most affordable collection. Ensuring every bride discovers their dream gown without compromise, we believe luxury should be within everyone`s reach. Explore Now White Studio About Us Our Collections FAQ Contact Us Become A Stockist Find A Stockist White Studio | Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE Size Chart WS Brides Events 020 8368 1500 info@whitestudiolondon.com © 2023 by White Studio. All rights reserved. bottom of page",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": "100%",
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "About Page body content matches (100% similarity)."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "contact_page": {
+      "old": "Contact Us | White Studio top of page HOME Collections White Studio White Studio Curve White Studio Signature About Us #WS Brides Find Stockists Events Become a stockist Contact Us Size Chart More Use tab to navigate through the menu items. Other Labels: White Rose Millie May Contact us You can send us a message through live chat now! Or, for any query please fill in the below. Enter Your First Name Enter Your Email Enter Your Last Name Enter Your Phone Enter Your Message Here Submit Thanks for submitting! White Studio About Us Our Collections FAQ Contact Us Become A Stockist Find A Stockist White Studio | Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE Size Chart WS Brides Events 020 8368 1500 info@whitestudiolondon.com © 2023 by White Studio. All rights reserved. bottom of page",
+      "new": "Contact Us | White Studio top of page HOME Collections White Studio White Studio Curve White Studio Signature About Us #WS Brides Find Stockists Events Become a stockist Contact Us Size Chart More Use tab to navigate through the menu items. Other Labels: White Rose Millie May Contact us You can send us a message through live chat now! Or, for any query please fill in the below. Enter Your First Name Enter Your Email Enter Your Last Name Enter Your Phone Enter Your Message Here Submit Thanks for submitting! White Studio About Us Our Collections FAQ Contact Us Become A Stockist Find A Stockist White Studio | Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE Size Chart WS Brides Events 020 8368 1500 info@whitestudiolondon.com © 2023 by White Studio. All rights reserved. bottom of page",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": "100%",
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "Contact Page body content matches (100% similarity)."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "privacy_page": {
+      "old": null,
+      "new": null,
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": "100%",
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "No Privacy Page recorded."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "terms_page": {
+      "old": null,
+      "new": null,
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": "100%",
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "No Terms Page recorded."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "response_code": {
+      "old": "200",
+      "new": "200",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "HTTP Status matches (\"200\")."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "host_ip": {
+      "old": "172.66.3.8",
+      "new": "172.66.3.8",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "Host IP matches (\"172.66.3.8\")."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "ip_country": {
+      "old": "United Kingdom",
+      "new": "United States of America",
+      "status": "MODIFIED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "MODIFIED",
+        "verdict": "Hosting Country shifted from \"United Kingdom\" to \"United States of America\"."
+      },
+      "dependent": {
+        "tier": "log_only",
+        "corroborated": false,
+        "confidence": 0.5,
+        "evidence": "Hosting Country shifted from \"United Kingdom\" to \"United States of America\".",
+        "needs_confirmation": false
+      }
+    },
+    "web_server": {
+      "old": "jsoup",
+      "new": "jsoup",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "Web Server matches (\"jsoup\")."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "domain_status": {
+      "old": "Valid",
+      "new": "Valid",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "Domain Status matches (\"Valid\")."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "load_time_ms": {
+      "old": 131,
+      "new": 249,
+      "status": "MODIFIED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "MODIFIED",
+        "verdict": "Load Time shifted from \"131\" to \"249\"."
+      },
+      "dependent": {
+        "tier": "log_only",
+        "corroborated": false,
+        "confidence": 0.5,
+        "evidence": "Load Time shifted from \"131\" to \"249\".",
+        "needs_confirmation": false
+      }
+    },
+    "name_from_title": {
+      "old": "Wedding dress | White Studio Bridal | United Kingdom",
+      "new": "White Studio Bridal",
+      "status": "MODIFIED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "MODIFIED",
+        "verdict": "Title Brand changed from \"Wedding dress | White Studio Bridal | United Kingdom\" to \"White Studio Bridal\"."
+      },
+      "dependent": {
+        "tier": "log_only",
+        "corroborated": false,
+        "confidence": 0.5,
+        "evidence": "Title Brand changed from \"Wedding dress | White Studio Bridal | United Kingdom\" to \"White Studio Bridal\".",
+        "needs_confirmation": false
+      }
+    },
+    "name_from_copyright": {
+      "old": null,
+      "new": "White Studio",
+      "status": "ADDED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "ADDED",
+        "verdict": "Copyright Brand discovered: \"White Studio\"."
+      },
+      "dependent": {
+        "tier": "log_only",
+        "corroborated": false,
+        "confidence": 0.5,
+        "evidence": "Copyright Brand discovered: \"White Studio\".",
+        "needs_confirmation": false
+      }
+    },
+    "clearbit_name": {
+      "old": "White Studio",
+      "new": null,
+      "status": "NOT_FOUND_IN_CRAWL",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "NOT_FOUND_IN_CRAWL",
+        "verdict": "Clearbit Brand (\"White Studio\") not extracted in live crawl."
+      },
+      "dependent": {
+        "tier": "not_found",
+        "corroborated": false,
+        "confidence": 0.7,
+        "evidence": "Not located in extracted crawl page contacts or body.",
+        "needs_confirmation": false
+      }
+    },
+    "image_url": {
+      "old": "https://static.wixstatic.com/media/826fbf_2622912c615940d59deb2778ca519341%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/826fbf_2622912c615940d59deb2778ca519341%7Emv2.jpg",
+      "new": "https://static.wixstatic.com/media/826fbf_2622912c615940d59deb2778ca519341%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/826fbf_2622912c615940d59deb2778ca519341%7Emv2.jpg",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "Logo Image matches (\"https://static.wixstatic.com/media/826fbf_2622912c615940d59deb2778ca519341%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/826fbf_2622912c615940d59deb2778ca519341%7Emv2.jpg\")."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "language": {
+      "old": "en",
+      "new": "en",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "Site Language matches (\"en\")."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "other_links": {
+      "old": {
+        "about": "https://www.whitestudiolondon.com/about",
+        "contactUs": "https://www.whitestudiolondon.com/contact",
+        "privacy": null,
+        "terms": null
+      },
+      "new": {
+        "contactUs": null,
+        "team": null,
+        "blog": null,
+        "career": null
+      },
+      "status": "MODIFIED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "MODIFIED",
+        "verdict": "Header/Footer Links links updated (0 new links, 2 removed)."
+      },
+      "dependent": {
+        "tier": "log_only",
+        "corroborated": false,
+        "confidence": 0.5,
+        "evidence": "Header/Footer Links links updated (0 new links, 2 removed).",
+        "needs_confirmation": false
+      }
+    },
+    "home_links": {
+      "old": "[https://www.whitestudiolondon.com/all-dresses, https://www.whitestudiolondon.com/contact, https://www.google.com/search?q=white+rose+bridal&sca_esv=592247150&rlz=1C1CHBF_en-GBGB772GB772&sxsrf=AM9HkKkd8qmx4TKGC3PzHDCkjXIZKhhGRQ%3A1703063255116&ei=166CZezYBoq7i-gP4fmBQA&oq=white+rose&gs_lp=Egxnd3Mtd2l6LXNlcnAiCndoaXRlIHJvc2UqAggAMgoQIxiABBiKBRgnMhQQLhiABBiKBRiRAhjHARivARiOBTIIEAAYgAQYsQMyCBAAGIAEGLEDMhEQLhiABBiKBRiRAhjHARivATIREC4YgwEYrwEYxwEYsQMYgAQyBRAAGIAEMggQABiABBixAzIOEC4YgAQYxwEYrwEYjgUyCxAAGIAEGLEDGIMBSPBAUPsSWOEucAJ4AZABAZgBnQGgAfQIqgEDNy40uAEDyAEA-AEBwgIKEAAYRxjWBBiwA8ICCxAAGIAEGIoFGJECwgIREC4YgAQYigUYkQIYxwEY0QPCAhAQABiABBiKBRhDGLEDGIMBwgILEC4YgAQYsQMYgwHCAhEQLhiABBixAxiDARjHARjRA8ICBBAjGCfCAgoQABiABBiKBRhDwgIOEAAYgAQYigUYkQIYsQPCAgoQLhiABBiKBRhDwgIQEC4YgAQYigUYQxjHARivAcICERAuGIAEGLEDGIMBGMcBGK8BwgIjEC4YgAQYigUYkQIYxwEYrwEYjgUYlwUY3AQY3gQY4ATYAQHiAwQYACBBiAYBkAYIugYGCAEQARgU&sclient=gws-wiz-serp#, https://www.whitestudiolondon.com/event, https://www.whitestudiolondon.com/become-a-stockist, https://milliemaybridal.co.uk/, https://www.tiktok.com/@whitestudiolondon?is_from_webapp=1&sender_device=pc, https://pin.it/5ZbZa5xTI, https://whiterosebridal.com/, https://www.whitestudiolondon.com/wrb-brides, https://www.whitestudiolondon.com/size-chart, https://www.whitestudiolondon.com/about, https://www.whitestudiolondon.com/shop, https://www.whitestudiolondon.com, https://www.instagram.com/whitestudiolondon/profilecard/?igsh=MWx4Ym53M2R5emRobQ==, https://www.linkedin.com/in/white-studio-9a68a9288?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B2hfe6sxITXGRTLKX82jJIw%3D%3D, https://www.whitestudiolondon.com/shop-5, https://www.whitestudiolondon.com/shop-1, https://www.whitestudiolondon.com/find-stockists, https://www.whitestudiolondon.com/faq]",
+      "new": "[https://www.whitestudiolondon.com/all-dresses, https://www.whitestudiolondon.com/contact, https://www.google.com/search?q=white+rose+bridal&sca_esv=592247150&rlz=1C1CHBF_en-GBGB772GB772&sxsrf=AM9HkKkd8qmx4TKGC3PzHDCkjXIZKhhGRQ%3A1703063255116&ei=166CZezYBoq7i-gP4fmBQA&oq=white+rose&gs_lp=Egxnd3Mtd2l6LXNlcnAiCndoaXRlIHJvc2UqAggAMgoQIxiABBiKBRgnMhQQLhiABBiKBRiRAhjHARivARiOBTIIEAAYgAQYsQMyCBAAGIAEGLEDMhEQLhiABBiKBRiRAhjHARivATIREC4YgwEYrwEYxwEYsQMYgAQyBRAAGIAEMggQABiABBixAzIOEC4YgAQYxwEYrwEYjgUyCxAAGIAEGLEDGIMBSPBAUPsSWOEucAJ4AZABAZgBnQGgAfQIqgEDNy40uAEDyAEA-AEBwgIKEAAYRxjWBBiwA8ICCxAAGIAEGIoFGJECwgIREC4YgAQYigUYkQIYxwEY0QPCAhAQABiABBiKBRhDGLEDGIMBwgILEC4YgAQYsQMYgwHCAhEQLhiABBixAxiDARjHARjRA8ICBBAjGCfCAgoQABiABBiKBRhDwgIOEAAYgAQYigUYkQIYsQPCAgoQLhiABBiKBRhDwgIQEC4YgAQYigUYQxjHARivAcICERAuGIAEGLEDGIMBGMcBGK8BwgIjEC4YgAQYigUYkQIYxwEYrwEYjgUYlwUY3AQY3gQY4ATYAQHiAwQYACBBiAYBkAYIugYGCAEQARgU&sclient=gws-wiz-serp#, https://www.whitestudiolondon.com/event, https://www.whitestudiolondon.com/become-a-stockist, https://milliemaybridal.co.uk/, https://www.tiktok.com/@whitestudiolondon?is_from_webapp=1&sender_device=pc, https://pin.it/5ZbZa5xTI, https://whiterosebridal.com/, https://www.whitestudiolondon.com/wrb-brides, https://www.whitestudiolondon.com/size-chart, https://www.whitestudiolondon.com/about, https://www.whitestudiolondon.com/shop, https://www.whitestudiolondon.com, https://www.instagram.com/whitestudiolondon/profilecard/?igsh=MWx4Ym53M2R5emRobQ==, https://www.linkedin.com/in/white-studio-9a68a9288?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B2hfe6sxITXGRTLKX82jJIw%3D%3D, https://www.whitestudiolondon.com/shop-5, https://www.whitestudiolondon.com/shop-1, https://www.whitestudiolondon.com/find-stockists, https://www.whitestudiolondon.com/faq]",
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "All 20 Homepage Links links match."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "contact_links": {
+      "old": [
+        "https://www.whitestudiolondon.com/contact"
+      ],
+      "new": [
+        "https://www.whitestudiolondon.com/contact"
+      ],
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "All 1 Contact Links links match."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    },
+    "about_links": {
+      "old": [
+        "https://www.whitestudiolondon.com/about"
+      ],
+      "new": [
+        "https://www.whitestudiolondon.com/about"
+      ],
+      "status": "UNCHANGED",
+      "score": 0,
+      "similarity": null,
+      "independent": {
+        "score": 0,
+        "status": "UNCHANGED",
+        "verdict": "All 1 About Links links match."
+      },
+      "dependent": {
+        "tier": "unchanged",
+        "corroborated": true,
+        "confidence": 1,
+        "evidence": "Field verified unchanged across records and page text.",
+        "needs_confirmation": false
+      }
+    }
+  },
+  "technical_diagnostics": {
+    "status": "ok",
+    "has_pending_confirmation": false,
+    "baseline_quality": {
+      "level": "low",
+      "issues": [
+        "baseline_pages_missing",
+        "baseline_catalog_unclassified",
+        "baseline_different_pipeline"
+      ]
+    },
+    "coverage": {
+      "old_links": 20,
+      "new_links": 20,
+      "ratio": 1
+    },
+    "baseline_gaps": [],
+    "http_response_code": "200",
+    "host_ip": "172.66.3.8",
+    "load_time_ms": 249,
+    "home_content_length": 2775
+  },
+  "db_baseline_profile": {
+    "found_in_db": true,
+    "company_name": "White Studio",
+    "title": "Wedding dress | White Studio Bridal | United Kingdom",
+    "phone": "020 8368 1500",
+    "email": "info@whitestudiolondon.com",
+    "address": "Unit D3 Friarsgate, 4-7 Whitby Avenue, Park Royal London, NW10 7SE",
+    "postal_code": null,
+    "website": "https://www.whitestudiolondon.com",
+    "has_content": true,
+    "has_contact_page": true,
+    "has_privacy_page": false
+  },
+  "live_crawl_summary": {
+    "url": "https://www.whitestudiolondon.com/",
+    "title": "Wedding dress | White Studio Bridal | United Kingdom",
+    "company_name": null,
+    "phone": null,
+    "email": "info@whitestudiolondon.com"
+  }
+}
