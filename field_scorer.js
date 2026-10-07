@@ -402,8 +402,98 @@ function scoreCompanyChanges(oldRecord = {}, newRecord = {}) {
   };
 }
 
+/**
+ * Unifies independent field scoring with dependent comparator corroboration
+ * so every field has both perspectives side-by-side in a single unified object.
+ */
+function unifyFieldEvaluations(fieldScoring, comparisonResult = {}) {
+  const compChanges = comparisonResult.changes || [];
+  const compUnchanged = new Set(comparisonResult.unchanged_fields || []);
+  const compNotFound = new Set(comparisonResult.not_found_fields || []);
+
+  const findCompChange = (fieldName) => {
+    return compChanges.find((c) => {
+      if (c.field === fieldName) return true;
+      if (fieldName === 'company_name' && (c.field === 'brand_rebrand' || c.field === 'nameFromTitle' || c.field === 'companyName')) return true;
+      if (fieldName === 'website' && c.field === 'domain_redirect') return true;
+      if (fieldName === 'address' && c.field === 'office_relocated') return true;
+      return false;
+    });
+  };
+
+  const unifiedFields = {};
+  for (const [key, indep] of Object.entries(fieldScoring.fields)) {
+    const change = findCompChange(key);
+    let dependentEval;
+
+    if (change) {
+      dependentEval = {
+        tier: change.tier || 'log_only',
+        corroborated: change.tier === 'alert' || (change.confidence && change.confidence >= 0.8),
+        confidence: change.confidence || 0.5,
+        evidence: change.evidence || change.description || 'Change detected in crawl pool',
+        needs_confirmation: Boolean(change.needs_confirmation),
+      };
+    } else if (compUnchanged.has(key) || indep.status === 'UNCHANGED') {
+      dependentEval = {
+        tier: 'unchanged',
+        corroborated: true,
+        confidence: 1.0,
+        evidence: 'Field verified unchanged across records and page text.',
+        needs_confirmation: false,
+      };
+    } else if (compNotFound.has(key) || indep.status === 'NOT_FOUND_IN_CRAWL') {
+      dependentEval = {
+        tier: 'not_found',
+        corroborated: false,
+        confidence: 0.7,
+        evidence: 'Not located in extracted crawl page contacts or body.',
+        needs_confirmation: false,
+      };
+    } else {
+      dependentEval = {
+        tier: 'log_only',
+        corroborated: false,
+        confidence: 0.5,
+        evidence: indep.description,
+        needs_confirmation: false,
+      };
+    }
+
+    unifiedFields[key] = {
+      old: indep.old,
+      new: indep.new,
+      status: indep.status,
+      score: indep.score,
+      similarity: indep.similarity || null,
+      independent: {
+        score: indep.score,
+        status: indep.status,
+        verdict: indep.description,
+      },
+      dependent: dependentEval,
+    };
+  }
+
+  return {
+    total_change_score: fieldScoring.total_change_score,
+    change_level: fieldScoring.change_level,
+    has_meaningful_change: fieldScoring.has_meaningful_change,
+    summary: fieldScoring.summary,
+    fields: unifiedFields,
+    technical_diagnostics: {
+      status: comparisonResult.status || 'ok',
+      has_pending_confirmation: Boolean(comparisonResult.has_pending_confirmation),
+      baseline_quality: comparisonResult.baseline_quality || null,
+      coverage: comparisonResult.coverage || null,
+      baseline_gaps: comparisonResult.baseline_gaps || [],
+    },
+  };
+}
+
 module.exports = {
   scoreCompanyChanges,
+  unifyFieldEvaluations,
   scoreCompanyName,
   scoreDescription,
   scorePhone,

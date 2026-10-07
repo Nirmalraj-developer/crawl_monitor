@@ -17,7 +17,7 @@ const path = require('path');
 const { Client } = require('pg');
 const { crawlDomain, cleanDomain } = require('./crawler_service');
 const { compareCrawls } = require('./comparator');
-const { scoreCompanyChanges } = require('./field_scorer');
+const { scoreCompanyChanges, unifyFieldEvaluations } = require('./field_scorer');
 
 // Load environment variables from .env
 function loadEnv() {
@@ -312,17 +312,25 @@ async function processDomain(domain, dbClient = null) {
   console.log(`[Comparator] Comparing DB baseline against live crawl...`);
   const comparisonResult = compareCrawls(dbBaselineJson, liveCrawlJson);
 
-  // Step 5: Assemble Company Report
+  // Step 5: Unify Independent Field Scoring and Dependent Comparator Diagnostics
+  const unified = unifyFieldEvaluations(fieldScoring, comparisonResult);
+
+  // Step 6: Assemble Comprehensive Unified Company Report
   const companyReport = {
     domain: targetDomain,
     compared_at: comparisonResult.compared_at,
-    // --- Direct Field Scoring Summary ---
-    total_change_score: fieldScoring.total_change_score,
-    change_level: fieldScoring.change_level,
-    has_meaningful_change: fieldScoring.has_meaningful_change,
-    summary: fieldScoring.summary,
-    field_scores: fieldScoring.fields,
-    // --- Detailed Diagnostics & Baseline Metrics ---
+    total_change_score: unified.total_change_score,
+    change_level: unified.change_level,
+    has_meaningful_change: unified.has_meaningful_change,
+    summary: unified.summary,
+    fields: unified.fields,
+    technical_diagnostics: {
+      ...unified.technical_diagnostics,
+      http_response_code: liveRec.responseCode || null,
+      host_ip: liveRec.hostIp || null,
+      load_time_ms: liveRec.loadTimeMs || null,
+      home_content_length: (liveRec.homeContent || '').length,
+    },
     db_baseline_profile: dbProfileSummary || { found_in_db: false },
     live_crawl_summary: {
       url: liveRec.url || null,
@@ -330,42 +338,35 @@ async function processDomain(domain, dbClient = null) {
       company_name: liveRec.companyName || liveRec.name || null,
       phone: liveRec.phone || null,
       email: liveRec.email || null,
-      response_code: liveRec.responseCode || null,
-      home_content_length: (liveRec.homeContent || '').length,
-    },
-    baseline_quality: comparisonResult.baseline_quality,
-    coverage: comparisonResult.coverage,
-    comparator_details: {
-      status: comparisonResult.status,
-      has_pending_confirmation: comparisonResult.has_pending_confirmation,
-      changes: comparisonResult.changes,
-      baseline_gaps: comparisonResult.baseline_gaps || [],
-      noise_detected: comparisonResult.noise_detected || [],
-      unchanged_fields: comparisonResult.unchanged_fields || [],
-      not_found_fields: comparisonResult.not_found_fields || [],
     },
   };
 
-  // Step 6: Save Individual Report JSON
+  // Step 7: Save Individual Report JSON
   const reportPath = path.resolve(process.cwd(), 'results', `${targetDomain}_report.json`);
   atomicWriteJson(reportPath, companyReport);
 
-  // Print neat, clear field score summary
-  console.log('\n======================================================');
-  console.log(` FIELD-BY-FIELD CHANGE REPORT: ${targetDomain}`);
-  console.log('======================================================');
-  console.log(`TOTAL CHANGE SCORE:      ${fieldScoring.total_change_score} / 100 [${fieldScoring.change_level} CHANGE]`);
-  console.log(`MEANINGFUL CHANGE:       ${fieldScoring.has_meaningful_change ? 'YES' : 'NO'}`);
-  console.log(`SUMMARY:                 ${fieldScoring.summary}\n`);
-  console.log('--- Individual Field Scores ---');
-  for (const [fieldName, info] of Object.entries(fieldScoring.fields)) {
-    const statusTag = `[${info.status}]`.padEnd(23);
-    const scoreTag = `(Score: ${String(info.score).padStart(2)})`;
-    const simTag = info.similarity ? ` [Sim: ${info.similarity}]` : '';
-    console.log(`  • ${fieldName.padEnd(14)}: ${statusTag} ${scoreTag}${simTag} - ${info.description}`);
+  // Step 8: Print Unified Terminal Summary (Both Independent & Dependent)
+  console.log('\n========================================================================================');
+  console.log(` UNIFIED COMPANY CHANGE REPORT: ${targetDomain}`);
+  console.log('========================================================================================');
+  console.log(`TOTAL CHANGE SCORE:      ${companyReport.total_change_score} / 100 [${companyReport.change_level} CHANGE]`);
+  console.log(`BUSINESS VERDICT:        ${companyReport.has_meaningful_change ? 'Meaningful changes detected' : 'No critical changes'}`);
+  console.log(`SUMMARY:                 ${companyReport.summary}`);
+  if (companyReport.technical_diagnostics.baseline_quality) {
+    console.log(`BASELINE QUALITY:        ${companyReport.technical_diagnostics.baseline_quality.level.toUpperCase()} (Issues: ${companyReport.technical_diagnostics.baseline_quality.issues.join(', ') || 'None'})`);
   }
-  console.log('------------------------------------------------------');
-  console.log(`Report JSON Saved: results/${targetDomain}_report.json`);
+  console.log('----------------------------------------------------------------------------------------');
+  console.log(' FIELD-BY-FIELD ANALYSIS (Independent Score & Dependent Comparator):');
+  console.log('----------------------------------------------------------------------------------------');
+  for (const [fieldName, info] of Object.entries(companyReport.fields)) {
+    const scoreStr = `Score: ${String(info.score).padStart(2)}`.padEnd(11);
+    const statusStr = `[${info.status}]`.padEnd(22);
+    console.log(` • ${fieldName.padEnd(14)} | ${scoreStr} | ${statusStr}`);
+    console.log(`   - Independent: ${info.independent.verdict}`);
+    console.log(`   - Dependent:   [${info.dependent.tier.toUpperCase()}] ${info.dependent.evidence}`);
+  }
+  console.log('========================================================================================');
+  console.log(`Report JSON Saved: results/${targetDomain}_report.json\n`);
 
   return companyReport;
 }
